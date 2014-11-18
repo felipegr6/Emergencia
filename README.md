@@ -1,5 +1,6 @@
-Emergencia
+Rescue App - Emergência
 ==========
 
-Rescue App
-Aplicativo Android para localizar os hospitais mais prÃ³ximos de vocÃª.
+Aplicativo Android para localizar os hospitais mais próximos de você.
+
+Em fase de desenvolvimento.
