@@ -1,31 +1,30 @@
 package br.com.fgr.emergencia.ui;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
-	ImageButton emergencia;
-	Button meusHospitais;
+	private DrawerLayout mDrawerLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setActionBarIcon(R.drawable.cruz);
 
-		emergencia = (ImageButton) findViewById(R.id.btnEmergencia);
-		meusHospitais = (Button) findViewById(R.id.btnMeusHospitais);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
-		chamarEmergencia(emergencia);
-		cadastrarHospitais(meusHospitais);
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.add(R.id.main_fragment_container, new PrincipalFragment());
+		ft.commit();
 
 	}
 
@@ -42,50 +41,20 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		if (id == R.id.action_settings)
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			mDrawerLayout.openDrawer(Gravity.START);
 			return true;
+		}
 
 		return super.onOptionsItemSelected(item);
 
 	}
 
-	protected void chamarEmergencia(ImageButton btn) {
+	@Override
+	protected int getLayoutResource() {
 
-		btn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent i = new Intent(MainActivity.this,
-						LocalizacaoActivity.class);
-
-				startActivityForResult(i, 1);
-
-			}
-
-		});
-
-	}
-
-	protected void cadastrarHospitais(Button btn) {
-
-		btn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent i = new Intent(MainActivity.this,
-						FormularioActivity.class);
-
-				startActivityForResult(i, 2);
-
-			}
-		});
+		return R.layout.activity_main;
 
 	}
 

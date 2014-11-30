@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="br.com.fgr.emergencia.ui.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
@@ -29,16 +29,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="br.com.fgr.emergencia.ui.LocalizacaoActivity"
+            android:name=".LocalizacaoActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_localizacao"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
-            android:name="br.com.fgr.emergencia.ui.FormularioActivity"
+            android:name=".FormularioActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_formulario"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
     </application>
 

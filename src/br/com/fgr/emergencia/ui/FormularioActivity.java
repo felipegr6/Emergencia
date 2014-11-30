@@ -1,17 +1,17 @@
 package br.com.fgr.emergencia.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class FormularioActivity extends Activity {
+public class FormularioActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_formulario);
+
+		setActionBarIcon(R.drawable.ic_action_back);
 
 	}
 
@@ -37,6 +37,13 @@ public class FormularioActivity extends Activity {
 			return true;
 
 		return super.onOptionsItemSelected(item);
+
+	}
+
+	@Override
+	protected int getLayoutResource() {
+
+		return R.layout.activity_formulario;
 
 	}
 
