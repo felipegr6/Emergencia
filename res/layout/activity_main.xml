@@ -3,12 +3,14 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="br.com.fgr.emergencia.ui.MainActivity" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/vermelho_rescuee" >
+        android:background="@color/vermelho_rescuee"
+        android:fitsSystemWindows="true" >
 
         <android.support.v7.widget.Toolbar
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,14 +22,18 @@
             android:id="@+id/main_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="25dp" >
-        </FrameLayout>
-    </RelativeLayout>
+            android:layout_margin="25dp" />
 
-    <ListView
-        android:layout_width="260dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/black_translucent" />
+        <ListView
+            android:fitsSystemWindows="true"
+            android:id="@+id/nav_lista"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:layout_gravity="start"
+            android:background="@color/black_translucent"
+            android:choiceMode="singleChoice"
+            android:dividerHeight="0dp" />
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

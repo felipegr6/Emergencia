@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="authority">br.com.fgr.emergencia.contentprovider</string>
     <string name="app_name">rescu.ee</string>
+    <string name="icone_description">Rescuee</string>
     <string name="action_settings">Configurações</string>
     <string name="btnEmergencia">Emergência!</string>
     <string name="title_activity_localizacao">Localizando PS</string>
@@ -14,18 +16,17 @@
     <string name="mensagemfreemium">Funcionalidade não habilitada.</string>
     <string name="title_activity_formulario">Meus Hospitais</string>
     <string name="title_activity_recuperar_informacoes">Coletando Informações</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_principal_fragment">PrincipalFragment</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
+    <string name="drawer_open">Abrir</string>
+    <string name="drawer_close">Fechar</string>
 
     <string-array name="lista_nav_drawer">
-        <item>Primeiro</item>
-        <item>Segundo</item>
-        <item>Terceiro</item>
-        <item>Quarto</item>
+        <item>Meu Cadastro</item>
+        <item>Meus Hospitais</item>
+        <item>Sair</item>
     </string-array>
 
     <string name="title_activity_localizacao_fragment">LocalizacaoFragment</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>
