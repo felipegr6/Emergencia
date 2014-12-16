@@ -1,6 +1,0 @@
-C:\Users\felipe.rocha\Documents\Emergencia1\app\build\intermediates\classes\debug
-C:\Users\felipe.rocha\Documents\Emergencia1\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-020fabbd5ab3674fedd783d3c0f0a5111c120b82.jar
-C:\Users\felipe.rocha\Documents\Emergencia1\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-dca3db2b7c81c75e3c307d7aea3a9658b919857d.jar
-C:\Users\felipe.rocha\Documents\Emergencia1\app\build\intermediates\pre-dexed\debug\gson-2.3-dc3371d497dc53c35778eb049063922296a694fb.jar
-C:\Users\felipe.rocha\Documents\Emergencia1\app\build\intermediates\pre-dexed\debug\classes-bd023225aa37a1478408d27d57f4b255b5afa7c6.jar
-C:\Users\felipe.rocha\Documents\Emergencia1\app\build\intermediates\pre-dexed\debug\classes-38af93150224728d7119c13f375c4d95fe853374.jar
