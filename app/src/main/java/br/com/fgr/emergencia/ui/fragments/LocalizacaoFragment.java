@@ -4,39 +4,36 @@ import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import br.com.fgr.emergencia.bd.BDHospitalHelper;
+import br.com.fgr.emergencia.bd.HospitalProvider;
 import br.com.fgr.emergencia.modelos.Coordenada;
 import br.com.fgr.emergencia.modelos.Hospital;
 import br.com.fgr.emergencia.modelos.json.Elementos;
@@ -51,8 +48,10 @@ public class LocalizacaoFragment extends ListFragment implements
     private final String TAG = this.getClass().getSimpleName();
     protected GoogleApiClient mGoogleApiClient;
     private List<Hospital> hospitais;
-    private LocationManager serviceLocation;
-    private String provider;
+
+    private ProgressDialog dialogInternet;
+    private RequestQueue mRequestQueue;
+    private StringRequest mStringRequest;
 
     public LocalizacaoFragment() {
 
@@ -74,35 +73,8 @@ public class LocalizacaoFragment extends ListFragment implements
 
         buildGoogleApiClient();
 
-        serviceLocation = (LocationManager) getActivity().getSystemService(
-                Context.LOCATION_SERVICE);
-
-        provider = LocationManager.GPS_PROVIDER;
-
-        boolean enabled = serviceLocation.isProviderEnabled(provider);
-
-		/*
-         * Verifica se o GPS está habilitado no dispositivo.
-		 */
-        if (!enabled) {
-
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-
-            startActivity(intent);
-
-        }
-
-        Log.i(TAG, provider);
-
-        List<Coordenada> coordenadas = new ArrayList<>();
-
-        coordenadas.add(new Coordenada(-23.5669748, -46.6421046));
-        coordenadas.add(new Coordenada(-23.569984, -46.6456397));
-        coordenadas.add(new Coordenada(-23.5562345, -46.6396883));
-
-        DownloadJson dJson = new DownloadJson(getActivity(), coordenadas);
-
-        dJson.execute();
+        new DownloadJson(getActivity()).execute();
+        // carregarInformacoes();
 
         return view;
 
@@ -191,14 +163,16 @@ public class LocalizacaoFragment extends ListFragment implements
     private class DownloadJson extends AsyncTask<Void, Void, Void> {
 
         private ProgressDialog dialogInternet;
-        private List<Coordenada> destinos;
         private Context context;
+        private RequestQueue mRequestQueue;
+        private StringRequest mStringRequest;
+        private ArrayAdapter<Hospital> adapter;
 
-        public DownloadJson(Context context, List<Coordenada> coordenadas) {
+        public DownloadJson(Context context) {
 
             this.dialogInternet = new ProgressDialog(context);
-            this.destinos = coordenadas;
             this.context = context;
+            this.mRequestQueue = Volley.newRequestQueue(context);
 
         }
 
@@ -219,116 +193,87 @@ public class LocalizacaoFragment extends ListFragment implements
         }
 
         @Override
-        protected void onPostExecute(Void result) {
-
-            ArrayAdapter<Hospital> adapter = new ArrayAdapter<>(
-                    context, R.layout.rowlayout, R.id.textItem, hospitais);
-
-            setListAdapter(adapter);
-
-            dialogInternet.dismiss();
-
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
 
-            String url = "";
-            String json = "";
+            String url;
 
             hospitais = new ArrayList<>();
 
-            hospitais.add(new Hospital("Hospital Beneficência Portuguesa",
-                    "2,5 km", "6 minutos", 341, destinos.get(0), 2));
-            hospitais.add(new Hospital("Hospital Santa Catarina", "2,3 km",
-                    "5 minutos", 284, destinos.get(1), 1.5));
-            hospitais.add(new Hospital("Hospital Pérola Byington", "2,6 km",
-                    "6 minutos", 370, destinos.get(2), 0.5));
+            Cursor cursor = context.getContentResolver().query(HospitalProvider.CONTENT_URI, BDHospitalHelper.PROJECAO, null, null, null);
+
+            while (cursor.moveToNext()) {
+
+                Hospital hospital = new Hospital();
+                Coordenada localizacao = new Coordenada();
+
+                localizacao.setLat(cursor.getDouble(BDHospitalHelper.NUM_COLUNA_LATITUDE));
+                localizacao.setLgn(cursor.getDouble(BDHospitalHelper.NUM_COLUNA_LONGITUDE));
+
+                hospital.setNome(cursor.getString(BDHospitalHelper.NUM_COLUNA_NOME));
+                hospital.setLocalizacao(localizacao);
+
+                hospitais.add(hospital);
+
+            }
+
+            cursor.close();
 
             while (LAT_USUARIO == 0.0 && LGN_USUARIO == 0.0) {
 
             }
 
-            try {
+            url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins="
+                    + LocalizacaoFragment.LAT_USUARIO
+                    + ","
+                    + LocalizacaoFragment.LGN_USUARIO
+                    + ""
+                    + "&destinations=";
 
-                url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins="
-                        + URLEncoder.encode(LocalizacaoFragment.LAT_USUARIO
-                        + ",", "UTF-8")
-                        + URLEncoder.encode(LocalizacaoFragment.LGN_USUARIO
-                        + "", "UTF-8")
-                        + "&destinations="
-                        + URLEncoder.encode(destinos.get(0).getLat() + ",",
-                        "UTF-8")
-                        + URLEncoder.encode(destinos.get(0).getLgn() + "|",
-                        "UTF-8")
-                        + URLEncoder.encode(destinos.get(1).getLat() + ",",
-                        "UTF-8")
-                        + URLEncoder.encode(destinos.get(1).getLgn() + "|",
-                        "UTF-8")
-                        + URLEncoder.encode(destinos.get(2).getLat() + ",",
-                        "UTF-8")
-                        + URLEncoder.encode(destinos.get(2).getLgn() + "",
-                        "UTF-8")
-                        + "&mode=driving&language=pt-BR&sensor=false";
+            for (Hospital h : hospitais) {
 
-            } catch (UnsupportedEncodingException e) {
-
-                e.printStackTrace();
+                url = url
+                        + h.getLocalizacao().getLat()
+                        + ","
+                        + h.getLocalizacao().getLgn()
+                        + "|";
 
             }
+
+            url = url + "&mode=driving&language=pt-BR&sensor=false";
 
             Log.i(TAG, url);
 
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httpget = new HttpGet(url);
+            mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
-            try {
+                @Override
+                public void onResponse(String response) {
 
-                HttpResponse response = httpclient.execute(httpget);
-                HttpEntity entity = response.getEntity();
+                    Log.w("response", response);
+                    converterJson(response);
+                    Collections.sort(hospitais);
 
-                if (entity != null) {
+                    adapter = new ArrayAdapter<>(context, R.layout.rowlayout, R.id.textItem, hospitais);
+                    setListAdapter(adapter);
 
-                    InputStream instream = entity.getContent();
-                    json = toString(instream);
-
-                    instream.close();
+                    dialogInternet.dismiss();
 
                 }
 
-            } catch (IOException ioE) {
+            }, new Response.ErrorListener() {
 
-                ioE.printStackTrace();
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-            }
+                    Log.e("Erro", error.getMessage());
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
 
-            Log.i(TAG, json);
+                }
 
-            converterJson(json);
+            });
 
-            if (hospitais.size() != 0) {
-
-                Collections.sort(hospitais);
-
-            }
+            mRequestQueue.add(mStringRequest);
 
             return null;
-
-        }
-
-        private String toString(InputStream is) throws IOException {
-
-            byte[] bytes = new byte[1024];
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            int lidos;
-
-            while ((lidos = is.read(bytes)) > 0) {
-
-                baos.write(bytes, 0, lidos);
-
-            }
-
-            return new String(baos.toByteArray());
 
         }
 
@@ -344,7 +289,7 @@ public class LocalizacaoFragment extends ListFragment implements
             if (respostas != null)
                 elementos = respostas.getLinhas().get(0).getElementos();
             else
-                elementos = new ArrayList<Elementos>();
+                elementos = new ArrayList<>();
 
             for (int k = 0; k < hospitais.size(); k++) {
 

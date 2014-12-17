@@ -10,6 +10,15 @@ android {
         targetSdkVersion 21
     }
 
+    signingConfigs {
+        release {
+            storeFile file("emergencia.jks")
+            storePassword "ab34ef78"
+            keyAlias "Emergencia"
+            keyPassword "ab34ef78"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,4 +32,5 @@ dependencies {
     compile 'com.google.code.gson:gson:+'
     compile 'com.android.support:appcompat-v7:+'
     compile 'com.google.android.gms:play-services:+'
+    compile 'com.mcxiaoke.volley:library:+'
 }
