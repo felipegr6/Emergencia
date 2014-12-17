@@ -1,12 +1,11 @@
 package br.com.fgr.emergencia.ui.fragments;
 
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -49,10 +49,6 @@ public class LocalizacaoFragment extends ListFragment implements
     protected GoogleApiClient mGoogleApiClient;
     private List<Hospital> hospitais;
 
-    private ProgressDialog dialogInternet;
-    private RequestQueue mRequestQueue;
-    private StringRequest mStringRequest;
-
     public LocalizacaoFragment() {
 
     }
@@ -74,7 +70,6 @@ public class LocalizacaoFragment extends ListFragment implements
         buildGoogleApiClient();
 
         new DownloadJson(getActivity()).execute();
-        // carregarInformacoes();
 
         return view;
 
@@ -109,6 +104,18 @@ public class LocalizacaoFragment extends ListFragment implements
 
         Hospital hosp = (Hospital) getListAdapter().getItem(position);
 
+        CaminhoFragment mCaminhoFragment = CaminhoFragment.newInstance(LAT_USUARIO,
+                LGN_USUARIO,
+                hosp.getLocalizacao().getLat(),
+                hosp.getLocalizacao().getLgn());
+
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.loc_fragment_container, mCaminhoFragment);
+        fragmentTransaction.commit();
+
+        /*
+        Hospital hosp = (Hospital) getListAdapter().getItem(position);
+
         String urlCoord = "http://maps.google.com/maps?saddr=" + LAT_USUARIO
                 + "," + LGN_USUARIO + "&daddr="
                 + hosp.getLocalizacao().getLat() + ","
@@ -118,6 +125,7 @@ public class LocalizacaoFragment extends ListFragment implements
                 Uri.parse(urlCoord));
 
         startActivity(i);
+        */
 
     }
 
@@ -173,6 +181,8 @@ public class LocalizacaoFragment extends ListFragment implements
             this.dialogInternet = new ProgressDialog(context);
             this.context = context;
             this.mRequestQueue = Volley.newRequestQueue(context);
+
+            mRequestQueue.getCache().clear();
 
         }
 
@@ -249,6 +259,7 @@ public class LocalizacaoFragment extends ListFragment implements
                 public void onResponse(String response) {
 
                     Log.w("response", response);
+
                     converterJson(response);
                     Collections.sort(hospitais);
 
@@ -264,8 +275,12 @@ public class LocalizacaoFragment extends ListFragment implements
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Log.e("Erro", error.getMessage());
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                    if (error instanceof NetworkError)
+                        Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    dialogInternet.dismiss();
 
                 }
 

@@ -6,7 +6,7 @@
     <string name="icone_description">Rescuee</string>
     <string name="action_settings">Configurações</string>
     <string name="btnEmergencia">Emergência!</string>
-    <string name="title_activity_localizacao">Localizando PS</string>
+    <string name="title_activity_localizacao">Lista de Hospitais</string>
     <string name="latitude">Latitude: </string>
     <string name="longitude">Longitude: </string>
     <string name="unknow">Desconhecido</string>
@@ -21,6 +21,7 @@
     <string name="drawer_close">Fechar</string>
     <string name="titulo_dialog_hospitais">Recuperando Informações</string>
     <string name="descricao_dialog_hospitais">Esperando informações de GPS e dados.</string>
+    <string name="erro_sem_conexao">Sem conexão</string>
 
     <string-array name="lista_nav_drawer">
         <item>Meu Cadastro</item>
@@ -30,5 +31,6 @@
 
     <string name="title_activity_localizacao_fragment">LocalizacaoFragment</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -1714,7 +1714,7 @@ containing a value of this type.
         public static final int urgencia=0x7f020060;
     }
     public static final class id {
-        public static final int LinearLayout2=0x7f0a005b;
+        public static final int LinearLayout2=0x7f0a005c;
         public static final int action_bar=0x7f0a0045;
         public static final int action_bar_activity_content=0x7f0a0000;
         public static final int action_bar_container=0x7f0a0044;
@@ -1728,14 +1728,14 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0a0042;
         public static final int action_mode_bar_stub=0x7f0a0041;
         public static final int action_mode_close_button=0x7f0a0034;
-        public static final int action_settings=0x7f0a005e;
+        public static final int action_settings=0x7f0a005f;
         public static final int activity_chooser_view_content=0x7f0a0035;
         public static final int adjust_height=0x7f0a0016;
         public static final int adjust_width=0x7f0a0017;
         public static final int always=0x7f0a001b;
         public static final int beginning=0x7f0a0013;
         public static final int book_now=0x7f0a002b;
-        public static final int btnEmergencia=0x7f0a0059;
+        public static final int btnEmergencia=0x7f0a005a;
         public static final int buyButton=0x7f0a0028;
         public static final int buy_now=0x7f0a002c;
         public static final int buy_with_google=0x7f0a002d;
@@ -1759,7 +1759,7 @@ containing a value of this type.
         public static final int home=0x7f0a0004;
         public static final int homeAsUp=0x7f0a000d;
         public static final int hybrid=0x7f0a0018;
-        public static final int icItem=0x7f0a005c;
+        public static final int icItem=0x7f0a005d;
         public static final int icon=0x7f0a003a;
         public static final int ifRoom=0x7f0a001d;
         public static final int image=0x7f0a0037;
@@ -1767,6 +1767,7 @@ containing a value of this type.
         public static final int list_item=0x7f0a0039;
         public static final int loc_fragment_container=0x7f0a0055;
         public static final int main_fragment_container=0x7f0a0057;
+        public static final int map=0x7f0a0059;
         public static final int match_parent=0x7f0a002a;
         public static final int middle=0x7f0a0015;
         public static final int monochrome=0x7f0a0031;
@@ -1778,7 +1779,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f0a0005;
         public static final int progress_horizontal=0x7f0a0006;
         public static final int radio=0x7f0a003f;
-        public static final int row_lista_hospitais=0x7f0a005a;
+        public static final int row_lista_hospitais=0x7f0a005b;
         public static final int sandbox=0x7f0a0026;
         public static final int satellite=0x7f0a0019;
         public static final int search_badge=0x7f0a0049;
@@ -1801,7 +1802,7 @@ containing a value of this type.
         public static final int submit_area=0x7f0a0050;
         public static final int tabMode=0x7f0a000b;
         public static final int terrain=0x7f0a001a;
-        public static final int textItem=0x7f0a005d;
+        public static final int textItem=0x7f0a005e;
         public static final int textView=0x7f0a0054;
         public static final int title=0x7f0a003b;
         public static final int toolbar=0x7f0a0053;
@@ -1843,11 +1844,12 @@ containing a value of this type.
         public static final int activity_main=0x7f030019;
         public static final int activity_splash=0x7f03001a;
         public static final int drawer_list_item=0x7f03001b;
-        public static final int fragment_localizacao=0x7f03001c;
-        public static final int fragment_principal=0x7f03001d;
-        public static final int row_lista_hospitais=0x7f03001e;
-        public static final int rowlayout=0x7f03001f;
-        public static final int support_simple_spinner_dropdown_item=0x7f030020;
+        public static final int fragment_caminho=0x7f03001c;
+        public static final int fragment_localizacao=0x7f03001d;
+        public static final int fragment_principal=0x7f03001e;
+        public static final int row_lista_hospitais=0x7f03001f;
+        public static final int rowlayout=0x7f030020;
+        public static final int support_simple_spinner_dropdown_item=0x7f030021;
     }
     public static final class menu {
         public static final int formulario=0x7f0e0000;
@@ -1916,23 +1918,25 @@ containing a value of this type.
         public static final int distancia=0x7f0c0035;
         public static final int drawer_close=0x7f0c0036;
         public static final int drawer_open=0x7f0c0037;
-        public static final int hospital=0x7f0c0038;
-        public static final int icone_description=0x7f0c0039;
-        public static final int latitude=0x7f0c003a;
-        public static final int longitude=0x7f0c003b;
-        public static final int mensagemfreemium=0x7f0c003c;
-        public static final int meushospitais=0x7f0c003d;
-        public static final int store_picture_message=0x7f0c003e;
-        public static final int store_picture_title=0x7f0c003f;
-        public static final int title_activity_formulario=0x7f0c0040;
-        public static final int title_activity_localizacao=0x7f0c0041;
-        public static final int title_activity_localizacao_fragment=0x7f0c0042;
-        public static final int title_activity_principal_fragment=0x7f0c0043;
-        public static final int title_activity_recuperar_informacoes=0x7f0c0044;
-        public static final int title_activity_splash=0x7f0c0045;
-        public static final int titulo_dialog_hospitais=0x7f0c0046;
-        public static final int unknow=0x7f0c0047;
-        public static final int wallet_buy_button_place_holder=0x7f0c0048;
+        public static final int erro_sem_conexao=0x7f0c0038;
+        public static final int hello_blank_fragment=0x7f0c0039;
+        public static final int hospital=0x7f0c003a;
+        public static final int icone_description=0x7f0c003b;
+        public static final int latitude=0x7f0c003c;
+        public static final int longitude=0x7f0c003d;
+        public static final int mensagemfreemium=0x7f0c003e;
+        public static final int meushospitais=0x7f0c003f;
+        public static final int store_picture_message=0x7f0c0040;
+        public static final int store_picture_title=0x7f0c0041;
+        public static final int title_activity_formulario=0x7f0c0042;
+        public static final int title_activity_localizacao=0x7f0c0043;
+        public static final int title_activity_localizacao_fragment=0x7f0c0044;
+        public static final int title_activity_principal_fragment=0x7f0c0045;
+        public static final int title_activity_recuperar_informacoes=0x7f0c0046;
+        public static final int title_activity_splash=0x7f0c0047;
+        public static final int titulo_dialog_hospitais=0x7f0c0048;
+        public static final int unknow=0x7f0c0049;
+        public static final int wallet_buy_button_place_holder=0x7f0c004a;
     }
     public static final class style {
         /** 
