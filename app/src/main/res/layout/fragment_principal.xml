@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp"
-        android:padding="15dp"
         android:background="@color/botao_emergencia"
+        android:padding="15dp"
         android:src="@drawable/log_urg2" />
 
 </RelativeLayout>

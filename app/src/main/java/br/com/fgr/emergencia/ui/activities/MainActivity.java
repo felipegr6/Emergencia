@@ -4,11 +4,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import br.com.fgr.emergencia.bd.BDHospitalHelper;
-import br.com.fgr.emergencia.bd.HospitalProvider;
 import br.com.fgr.emergencia.ui.R;
 import br.com.fgr.emergencia.ui.fragments.PrincipalFragment;
 

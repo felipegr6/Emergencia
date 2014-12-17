@@ -2,18 +2,25 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Felipe\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3\5fc52c41ef0239d1093a1eb7c3697036183677ce\gson-2.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
-        <dex dex="C:\Users\Felipe\Documents\Emergencia\app\build\intermediates\pre-dexed\debug\gson-2.3-63e7c79e45069a6dba285e3638f9d2bcf4c17f7b.jar" />
-    </item>
-    <item
         jar="C:\Users\Felipe\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.2\support-annotations-21.0.2.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6">
         <dex dex="C:\Users\Felipe\Documents\Emergencia\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.2-c991d409495dc7430964eddb0d508cffc0a795a4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Felipe\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3.1\ecb6e1f8e4b0e84c4b886c2f14a1500caf309757\gson-2.3.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="C:\Users\Felipe\Documents\Emergencia\app\build\intermediates\pre-dexed\debug\gson-2.3.1-5cb3a6fdb8342eaa41a8e87af1254be3aa36e43a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Felipe\Documents\Emergencia\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.1.71\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da">
+        <dex dex="C:\Users\Felipe\Documents\Emergencia\app\build\intermediates\pre-dexed\debug\classes-b79d18ba8112b8a6634f94205c07cf0171327692.jar" />
     </item>
     <item
         jar="C:\Users\Felipe\Documents\Emergencia\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.2\classes.jar"

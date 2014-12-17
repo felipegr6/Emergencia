@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -17,8 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
@@ -43,12 +44,12 @@ import br.com.fgr.emergencia.modelos.json.JsonResponse;
 import br.com.fgr.emergencia.ui.R;
 
 public class LocalizacaoFragment extends ListFragment implements
-        LocationListener {
-
-    private final String TAG = this.getClass().getSimpleName();
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static double LAT_USUARIO = 0.0;
     public static double LGN_USUARIO = 0.0;
+    private final String TAG = this.getClass().getSimpleName();
+    protected GoogleApiClient mGoogleApiClient;
     private List<Hospital> hospitais;
     private LocationManager serviceLocation;
     private String provider;
@@ -71,6 +72,8 @@ public class LocalizacaoFragment extends ListFragment implements
         View view = inflater.inflate(R.layout.fragment_localizacao,
                 container, false);
 
+        buildGoogleApiClient();
+
         serviceLocation = (LocationManager) getActivity().getSystemService(
                 Context.LOCATION_SERVICE);
 
@@ -91,8 +94,6 @@ public class LocalizacaoFragment extends ListFragment implements
 
         Log.i(TAG, provider);
 
-        serviceLocation.requestLocationUpdates(provider, 5000, 10, this);
-
         List<Coordenada> coordenadas = new ArrayList<>();
 
         coordenadas.add(new Coordenada(-23.5669748, -46.6421046));
@@ -112,11 +113,10 @@ public class LocalizacaoFragment extends ListFragment implements
 
         super.onResume();
 
+        mGoogleApiClient.connect();
+
         LAT_USUARIO = 0.0;
         LGN_USUARIO = 0.0;
-
-        serviceLocation.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                5000, 10, this);
 
     }
 
@@ -125,7 +125,8 @@ public class LocalizacaoFragment extends ListFragment implements
 
         super.onPause();
 
-        serviceLocation.removeUpdates(this);
+        if (mGoogleApiClient.isConnected())
+            mGoogleApiClient.disconnect();
 
     }
 
@@ -149,36 +150,41 @@ public class LocalizacaoFragment extends ListFragment implements
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onConnected(Bundle bundle) {
 
-        LAT_USUARIO = location.getLatitude();
-        LGN_USUARIO = location.getLongitude();
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-        Log.i(TAG, LAT_USUARIO + "," + LGN_USUARIO);
+        if (mLastLocation != null) {
 
-        Toast.makeText(getActivity(), LAT_USUARIO + "," + LGN_USUARIO,
-                Toast.LENGTH_LONG).show();
+            LAT_USUARIO = mLastLocation.getLatitude();
+            LGN_USUARIO = mLastLocation.getLongitude();
 
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
 
     }
 
     @Override
-    public void onProviderEnabled(String provider) {
+    public void onConnectionSuspended(int i) {
 
-        Toast.makeText(getActivity(), "Enabled new provider " + provider,
-                Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "Connection suspended");
+        mGoogleApiClient.connect();
 
     }
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onConnectionFailed(ConnectionResult connectionResult) {
 
-        Toast.makeText(getActivity(), "Disabled provider " + provider,
-                Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
 
     }
 
@@ -222,8 +228,6 @@ public class LocalizacaoFragment extends ListFragment implements
 
             dialogInternet.dismiss();
 
-            serviceLocation.removeUpdates(LocalizacaoFragment.this);
-
         }
 
         @Override
@@ -232,7 +236,7 @@ public class LocalizacaoFragment extends ListFragment implements
             String url = "";
             String json = "";
 
-            hospitais = new ArrayList<Hospital>();
+            hospitais = new ArrayList<>();
 
             hospitais.add(new Hospital("Hospital Beneficência Portuguesa",
                     "2,5 km", "6 minutos", 341, destinos.get(0), 2));

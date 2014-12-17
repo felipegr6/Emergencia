@@ -20,25 +20,18 @@ public class BDHospitalHelper extends SQLiteOpenHelper {
     public static final String COLUNA_NOME = "nome";
     public static final String COLUNA_LATITUDE = "latitude";
     public static final String COLUNA_LONGITUDE = "longitude";
-
-    public static final int NUM_COLUNA_ID = 0;
-    public static final int NUM_COLUNA_NOME = 1;
-    public static final int NUM_COLUNA_LATITUDE = 2;
-    public static final int NUM_COLUNA_LONGITUDE = 3;
-
     private static final String CRIACAO_BD = "create table " + NOME_TABELA
             + " ( " + COLUNA_ID + " integer primary key autoincrement, "
             + COLUNA_NOME + " text not null, " + COLUNA_LATITUDE
             + " real not null, " + COLUNA_LONGITUDE + " real not null);";
-
     public static final String PROJECAO[] = new String[]{COLUNA_ID, COLUNA_NOME, COLUNA_LATITUDE, COLUNA_LONGITUDE};
-
+    public static final int NUM_COLUNA_ID = 0;
+    public static final int NUM_COLUNA_NOME = 1;
+    public static final int NUM_COLUNA_LATITUDE = 2;
+    public static final int NUM_COLUNA_LONGITUDE = 3;
     private static final int VERSAO_BD = 4;
-
-    private String caminhoBD;
-
     private final Context context;
-
+    private String caminhoBD;
     private SQLiteDatabase myDataBase;
 
     public BDHospitalHelper(Context context) {
@@ -153,7 +146,7 @@ public class BDHospitalHelper extends SQLiteOpenHelper {
     @Override
     public synchronized void close() {
 
-        if(myDataBase != null)
+        if (myDataBase != null)
             myDataBase.close();
 
         super.close();
