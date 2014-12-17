@@ -35,12 +35,6 @@ public class MainActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
 
-        Cursor c = getContentResolver().query(HospitalProvider.CONTENT_URI, BDHospitalHelper.PROJECAO, null, null, null);
-
-        while (c.moveToNext()) {
-            Log.w("Cursor", c.getString(BDHospitalHelper.NUM_COLUNA_NOME));
-        }
-
         mTitle = getTitle();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);

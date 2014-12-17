@@ -45,9 +45,10 @@ import br.com.fgr.emergencia.ui.R;
 public class LocalizacaoFragment extends ListFragment implements
         LocationListener {
 
+    private final String TAG = this.getClass().getSimpleName();
+
     public static double LAT_USUARIO = 0.0;
     public static double LGN_USUARIO = 0.0;
-    private final String TAG = this.getClass().getSimpleName();
     private List<Hospital> hospitais;
     private LocationManager serviceLocation;
     private String provider;

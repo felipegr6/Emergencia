@@ -4,6 +4,7 @@
     <color name="mycolorprimary">#c12e2b</color>
     <color name="mycolorprimarydark">#c12e2b</color>
     <color name="vermelho_rescuee">#c12e2b</color>
+    <color name="botao_emergencia">#8C0000</color>
     <color name="branco">#ffffff</color>
     <color name="windowBackgroundColor">#333333</color>
     <color name="black_translucent">#80000000</color>

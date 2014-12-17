@@ -1,6 +1,7 @@
 package br.com.fgr.emergencia.bd;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -32,11 +33,13 @@ public class BDHospitalHelper extends SQLiteOpenHelper {
 
     public static final String PROJECAO[] = new String[]{COLUNA_ID, COLUNA_NOME, COLUNA_LATITUDE, COLUNA_LONGITUDE};
 
-    private static final int VERSAO_BD = 3;
+    private static final int VERSAO_BD = 4;
 
     private String caminhoBD;
 
     private final Context context;
+
+    private SQLiteDatabase myDataBase;
 
     public BDHospitalHelper(Context context) {
 
@@ -70,7 +73,7 @@ public class BDHospitalHelper extends SQLiteOpenHelper {
 
     }
 
-    private void createDatabase() throws IOException {
+    public void createDatabase() throws IOException {
 
         boolean dbExist = checkDatabase();
 
@@ -136,6 +139,24 @@ public class BDHospitalHelper extends SQLiteOpenHelper {
         myOutput.flush();
         myOutput.close();
         myInput.close();
+
+    }
+
+    public void openDatabase() throws SQLException {
+
+        //Open the database
+        String myPath = caminhoBD + NOME_BD;
+        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+
+    }
+
+    @Override
+    public synchronized void close() {
+
+        if(myDataBase != null)
+            myDataBase.close();
+
+        super.close();
 
     }
 
