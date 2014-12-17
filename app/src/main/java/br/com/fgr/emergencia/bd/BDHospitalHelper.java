@@ -1,6 +1,7 @@
 package br.com.fgr.emergencia.bd;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -19,24 +20,19 @@ public class BDHospitalHelper extends SQLiteOpenHelper {
     public static final String COLUNA_NOME = "nome";
     public static final String COLUNA_LATITUDE = "latitude";
     public static final String COLUNA_LONGITUDE = "longitude";
-
-    public static final int NUM_COLUNA_ID = 0;
-    public static final int NUM_COLUNA_NOME = 1;
-    public static final int NUM_COLUNA_LATITUDE = 2;
-    public static final int NUM_COLUNA_LONGITUDE = 3;
-
     private static final String CRIACAO_BD = "create table " + NOME_TABELA
             + " ( " + COLUNA_ID + " integer primary key autoincrement, "
             + COLUNA_NOME + " text not null, " + COLUNA_LATITUDE
             + " real not null, " + COLUNA_LONGITUDE + " real not null);";
-
     public static final String PROJECAO[] = new String[]{COLUNA_ID, COLUNA_NOME, COLUNA_LATITUDE, COLUNA_LONGITUDE};
-
-    private static final int VERSAO_BD = 3;
-
-    private String caminhoBD;
-
+    public static final int NUM_COLUNA_ID = 0;
+    public static final int NUM_COLUNA_NOME = 1;
+    public static final int NUM_COLUNA_LATITUDE = 2;
+    public static final int NUM_COLUNA_LONGITUDE = 3;
+    private static final int VERSAO_BD = 4;
     private final Context context;
+    private String caminhoBD;
+    private SQLiteDatabase myDataBase;
 
     public BDHospitalHelper(Context context) {
 
@@ -70,7 +66,7 @@ public class BDHospitalHelper extends SQLiteOpenHelper {
 
     }
 
-    private void createDatabase() throws IOException {
+    public void createDatabase() throws IOException {
 
         boolean dbExist = checkDatabase();
 
@@ -136,6 +132,24 @@ public class BDHospitalHelper extends SQLiteOpenHelper {
         myOutput.flush();
         myOutput.close();
         myInput.close();
+
+    }
+
+    public void openDatabase() throws SQLException {
+
+        //Open the database
+        String myPath = caminhoBD + NOME_BD;
+        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+
+    }
+
+    @Override
+    public synchronized void close() {
+
+        if (myDataBase != null)
+            myDataBase.close();
+
+        super.close();
 
     }
 

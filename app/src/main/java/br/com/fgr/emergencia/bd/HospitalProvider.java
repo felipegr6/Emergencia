@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.io.IOException;
+
 public class HospitalProvider extends ContentProvider {
 
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
@@ -38,6 +40,14 @@ public class HospitalProvider extends ContentProvider {
     public boolean onCreate() {
 
         database = new BDHospitalHelper(getContext());
+
+        try {
+            database.createDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        database.openDatabase();
 
         return false;
 
