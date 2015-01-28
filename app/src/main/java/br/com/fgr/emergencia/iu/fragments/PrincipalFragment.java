@@ -1,4 +1,4 @@
-package br.com.fgr.emergencia.ui.fragments;
+package br.com.fgr.emergencia.iu.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import br.com.fgr.emergencia.ui.R;
-import br.com.fgr.emergencia.ui.activities.LocalizacaoActivity;
+import br.com.fgr.emergencia.R;
+import br.com.fgr.emergencia.iu.activities.LocalizacaoActivity;
 
 public class PrincipalFragment extends Fragment {
 

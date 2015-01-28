@@ -1,4 +1,4 @@
-package br.com.fgr.emergencia.ui.fragments;
+package br.com.fgr.emergencia.iu.fragments;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
@@ -32,13 +32,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.bd.BDHospitalHelper;
 import br.com.fgr.emergencia.bd.HospitalProvider;
 import br.com.fgr.emergencia.modelos.Coordenada;
 import br.com.fgr.emergencia.modelos.Hospital;
 import br.com.fgr.emergencia.modelos.json.Elementos;
 import br.com.fgr.emergencia.modelos.json.JsonResponse;
-import br.com.fgr.emergencia.ui.R;
 
 public class LocalizacaoFragment extends ListFragment implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {

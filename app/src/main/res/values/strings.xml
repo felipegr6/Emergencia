@@ -31,6 +31,6 @@
 
     <string name="title_activity_localizacao_fragment">LocalizacaoFragment</string>
     <string name="title_activity_splash">SplashActivity</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sender_id">547482222385</string>
 
 </resources>

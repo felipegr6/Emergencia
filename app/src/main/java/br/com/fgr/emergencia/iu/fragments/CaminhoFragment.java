@@ -1,4 +1,4 @@
-package br.com.fgr.emergencia.ui.fragments;
+package br.com.fgr.emergencia.iu.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import br.com.fgr.emergencia.ui.R;
+import br.com.fgr.emergencia.R;
 
 public class CaminhoFragment extends MapFragment {
 
@@ -72,11 +72,13 @@ public class CaminhoFragment extends MapFragment {
 
         super.onCreateView(inflater, container, savedInstanceState);
 
+        double latMedia = (mLatitudeOrigem + mLatitudeDestino) / 2;
+        double lgnMedia = (mLongitudeOrigem + mLongitudeDestino) / 2;
+
         View view = inflater.inflate(R.layout.fragment_caminho, container, false);
 
         iniciarMapa();
 
-        // create marker
         MarkerOptions origem = new MarkerOptions()
                 .position(new LatLng(mLatitudeOrigem, mLongitudeOrigem))
                 .title("Origem");
@@ -86,11 +88,14 @@ public class CaminhoFragment extends MapFragment {
                 .title("Destino")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(mLatitudeOrigem, mLongitudeOrigem)).zoom(12).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(latMedia, lgnMedia))
+                .zoom(13)
+                .build();
 
-        // adding marker
         googleMap.addMarker(origem);
         googleMap.addMarker(destino);
+
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         return view;

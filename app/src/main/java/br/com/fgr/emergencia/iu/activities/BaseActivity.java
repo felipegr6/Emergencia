@@ -1,10 +1,10 @@
-package br.com.fgr.emergencia.ui.activities;
+package br.com.fgr.emergencia.iu.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
-import br.com.fgr.emergencia.ui.R;
+import br.com.fgr.emergencia.R;
 
 public abstract class BaseActivity extends ActionBarActivity {
 

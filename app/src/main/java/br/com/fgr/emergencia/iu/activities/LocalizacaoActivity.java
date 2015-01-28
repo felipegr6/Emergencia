@@ -1,27 +1,32 @@
-package br.com.fgr.emergencia.ui.activities;
+package br.com.fgr.emergencia.iu.activities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import br.com.fgr.emergencia.ui.R;
+import br.com.fgr.emergencia.R;
+import br.com.fgr.emergencia.iu.fragments.LocalizacaoFragment;
 
-public class FormularioActivity extends BaseActivity {
+public class LocalizacaoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        setActionBarIcon(R.drawable.ic_action_back);
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.loc_fragment_container, new LocalizacaoFragment());
+        ft.commit();
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.formulario, menu);
+        getMenuInflater().inflate(R.menu.localizacao, menu);
 
         return true;
 
@@ -30,9 +35,6 @@ public class FormularioActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         if (id == R.id.action_settings)
@@ -45,7 +47,7 @@ public class FormularioActivity extends BaseActivity {
     @Override
     protected int getLayoutResource() {
 
-        return R.layout.activity_formulario;
+        return R.layout.activity_localizacao;
 
     }
 

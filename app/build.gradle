@@ -5,8 +5,8 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "br.com.fgr.emergencia.ui"
-        minSdkVersion 14
+        applicationId "br.com.fgr.emergencia"
+        minSdkVersion 15
         targetSdkVersion 21
     }
 
@@ -29,9 +29,9 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:+'
-    compile 'com.google.code.gson:gson:+'
-    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.google.android.gms:play-services:+'
-    compile 'com.mcxiaoke.volley:library:+'
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.google.android.gms:play-services:6.5.87'
+    compile 'com.mcxiaoke.volley:library:1.0.+'
 }

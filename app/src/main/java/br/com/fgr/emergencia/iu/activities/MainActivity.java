@@ -1,4 +1,4 @@
-package br.com.fgr.emergencia.ui.activities;
+package br.com.fgr.emergencia.iu.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -15,8 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import br.com.fgr.emergencia.ui.R;
-import br.com.fgr.emergencia.ui.fragments.PrincipalFragment;
+import br.com.fgr.emergencia.R;
+import br.com.fgr.emergencia.iu.fragments.PrincipalFragment;
 
 public class MainActivity extends BaseActivity {
 
