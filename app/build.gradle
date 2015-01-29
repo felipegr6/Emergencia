@@ -12,6 +12,10 @@ android {
 
     signingConfigs {
         config {
+            keyAlias 'Emergencia'
+            keyPassword 'ab34ef78'
+            storeFile file('emergencia.jks')
+            storePassword 'ab34ef78'
         }
     }
 
@@ -22,6 +26,7 @@ android {
         }
         debug {
             signingConfig signingConfigs.config
+            minifyEnabled false
         }
     }
 }

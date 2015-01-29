@@ -12,7 +12,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import java.io.IOException;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.Utils.Helper;
+import br.com.fgr.emergencia.utils.Helper;
 
 public class SplashActivity extends Activity {
 

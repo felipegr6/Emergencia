@@ -1,4 +1,4 @@
-package br.com.fgr.emergencia.Utils;
+package br.com.fgr.emergencia.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
