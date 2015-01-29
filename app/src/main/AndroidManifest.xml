@@ -43,30 +43,30 @@
             android:value="AIzaSyCbKzAd_MdPPoPly_B1MkbquvMHMOnsHds" />
 
         <activity
-            android:name=".iu.activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".iu.activities.LocalizacaoActivity"
+            android:name=".ui.activities.LocalizacaoActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_localizacao"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".iu.activities.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".iu.activities.FormularioActivity"
+            android:name=".ui.activities.FormularioActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_formulario"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".iu.activities.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".iu.activities.SplashActivity"
+            android:name=".ui.activities.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
@@ -78,21 +78,22 @@
         </activity>
 
         <provider
-            android:name="br.com.fgr.emergencia.bd.HospitalProvider"
+            android:name="br.com.fgr.emergencia.db.HospitalProvider"
             android:authorities="@string/authority"
             android:exported="false" />
 
         <receiver
-            android:name=".servicos.GcmBroadcastReceiver"
+            android:name=".services.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="br.com.fgr.emergencia.ui" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".servicos.GcmIntentService" />
+        <service android:name=".services.GcmIntentService" />
 
     </application>
 
