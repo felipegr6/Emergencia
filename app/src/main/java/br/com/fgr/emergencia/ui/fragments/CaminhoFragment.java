@@ -10,14 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.volley.Cache;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -27,12 +23,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.models.commons.JsonResponse;
 import br.com.fgr.emergencia.models.directions.DirectionResponse;
 
 public class CaminhoFragment extends MapFragment {
@@ -49,7 +48,6 @@ public class CaminhoFragment extends MapFragment {
     private GoogleMap googleMap;
 
     public CaminhoFragment() {
-        // Required empty public constructor
     }
 
     public static CaminhoFragment newInstance(double param1, double param2, double param3, double param4) {
@@ -85,8 +83,7 @@ public class CaminhoFragment extends MapFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
 
@@ -140,6 +137,8 @@ public class CaminhoFragment extends MapFragment {
 
         private RequestQueue mRequestQueue;
         private Cache cache;
+        private URL url;
+        private InputStream is;
 
         public DownloadJsonDistance(Context context) {
 
@@ -152,7 +151,9 @@ public class CaminhoFragment extends MapFragment {
         @Override
         protected Void doInBackground(Void... params) {
 
-            String url = "http://maps.googleapis.com/maps/api/directions/xml?origin="
+            StringBuffer stringBuffer = new StringBuffer();
+
+            String urlString = "http://maps.googleapis.com/maps/api/directions/json?origin="
                     + mLatitudeOrigem
                     + ","
                     + mLongitudeOrigem
@@ -160,9 +161,49 @@ public class CaminhoFragment extends MapFragment {
                     + mLatitudeDestino
                     + ","
                     + mLongitudeDestino
-                    + "&sensor=true";
+                    + "&sensor=false&units=metric&mode=driving";
 
-            Log.w(TAG, url);
+            Log.w(TAG, urlString);
+
+            HttpURLConnection urlConnection = null;
+
+            try {
+
+                url = new URL(urlString);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+                is = urlConnection.getInputStream();
+                urlConnection.connect();
+
+                InputStreamReader inputStream = new InputStreamReader(is);
+                BufferedReader bufferedReader = new BufferedReader(inputStream);
+
+                String line = null;
+
+                line = bufferedReader.readLine();
+
+                while (line != null) {
+
+                    Log.w("Result", line);
+
+                    stringBuffer.append(line);
+                    line = bufferedReader.readLine();
+
+                }
+
+                Log.w("Result", stringBuffer.toString());
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // DirectionResponse directionResponse = converterJson(stringBuffer.toString());
+
+            /*
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
@@ -170,6 +211,7 @@ public class CaminhoFragment extends MapFragment {
                 public void onResponse(String response) {
 
                     Log.w("ResponseCaminhoFragment", response);
+                    Log.w("Tamanho", response.toString().length() + "");
                     // JsonResponse jsonResponse = converterJson(response);
 
                 }
@@ -186,12 +228,13 @@ public class CaminhoFragment extends MapFragment {
             });
 
             mRequestQueue.add(stringRequest);
+            */
 
             return null;
 
         }
 
-        private JsonResponse converterJson(String jsonConteudo) {
+        private DirectionResponse converterJson(String jsonConteudo) {
 
             Gson conteudos = new Gson();
 
@@ -200,34 +243,6 @@ public class CaminhoFragment extends MapFragment {
 
             return respostas;
 
-        }
-
-    }
-
-    private class DirectionsFetcher extends AsyncTask<URL, Integer, String> {
-
-        private List<LatLng> latLngList;
-
-        public DirectionsFetcher() {
-            latLngList = new ArrayList<>();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(URL... params) {
-
-            // GenericUrl genericUrl = new GenericUrl("http://maps.googleapis.com/maps/api/directions/json");
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
         }
 
     }

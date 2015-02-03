@@ -95,6 +95,9 @@
 
         <service android:name=".services.GcmIntentService" />
 
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="ba90b4689d4bbea770bf29d7aa2687434014f50a" />
     </application>
 
 </manifest>

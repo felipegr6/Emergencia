@@ -263,8 +263,10 @@ public class LocalizacaoFragment extends ListFragment implements
 
                     if (error instanceof NetworkError)
                         Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
-                    else
+                    else {
+                        Log.e("LocalizacaoFragment", error.getMessage());
                         Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
 
                     dialogInternet.dismiss();
 

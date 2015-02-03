@@ -7,12 +7,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.utils.Helper;
+import io.fabric.sdk.android.Fabric;
 
 public class SplashActivity extends Activity {
 
@@ -23,6 +25,8 @@ public class SplashActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        Fabric.with(this, new Crashlytics());
 
         if (Helper.getRegistrationGCM(this).equals(""))
             new CadastroGCM(this).execute();
