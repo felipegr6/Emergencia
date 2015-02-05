@@ -27,6 +27,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -213,6 +217,17 @@ public class LocalizacaoFragment extends ListFragment implements
             }
 
             cursor.close();
+
+            ParseQuery<ParseObject> hospitaisParse = ParseQuery.getQuery("Hospital");
+            hospitaisParse.setLimit(10);
+            hospitaisParse.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    for (ParseObject p : parseObjects) {
+                        Log.w("Parser", p.toString());
+                    }
+                }
+            });
 
             while (LAT_USUARIO == 0.0 && LGN_USUARIO == 0.0) {
 
