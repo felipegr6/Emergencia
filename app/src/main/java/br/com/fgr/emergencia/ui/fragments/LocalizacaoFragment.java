@@ -4,7 +4,6 @@ import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -37,12 +37,11 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.db.BDHospitalHelper;
-import br.com.fgr.emergencia.db.HospitalProvider;
 import br.com.fgr.emergencia.models.distancematrix.DistanceMatrixResponse;
 import br.com.fgr.emergencia.models.distancematrix.Elementos;
 import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
+import br.com.fgr.emergencia.utils.Helper;
 
 public class LocalizacaoFragment extends ListFragment implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -195,7 +194,13 @@ public class LocalizacaoFragment extends ListFragment implements
         @Override
         protected Void doInBackground(Void... params) {
 
+            while (LAT_USUARIO == 0.0 && LGN_USUARIO == 0.0) {
+
+            }
+
             String url;
+
+            /*
 
             hospitais = new ArrayList<>();
 
@@ -217,30 +222,97 @@ public class LocalizacaoFragment extends ListFragment implements
             }
 
             cursor.close();
+            */
+
+            hospitais = new ArrayList<>();
 
             ParseQuery<ParseObject> hospitaisParse = ParseQuery.getQuery("Hospital");
             hospitaisParse.setLimit(10);
+            hospitaisParse.whereWithinKilometers("localizacao", new ParseGeoPoint(LAT_USUARIO, LGN_USUARIO), Helper.getRaioMaximo(getActivity()));
+
             hospitaisParse.findInBackground(new FindCallback<ParseObject>() {
+
                 @Override
                 public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                    ParseGeoPoint geoPoint = new ParseGeoPoint(LAT_USUARIO, LGN_USUARIO);
+                    Coordenada coordAux;
+
                     for (ParseObject p : parseObjects) {
-                        Log.w("Parser", p.toString());
+
+                        ParseGeoPoint pontos = p.getParseGeoPoint("localizacao");
+                        String nomeHospital = p.getString("nome");
+                        Hospital hospAux = new Hospital();
+
+                        coordAux = new Coordenada(pontos.getLatitude(), pontos.getLongitude());
+
+                        hospAux.setLocalizacao(coordAux);
+                        hospAux.setNome(nomeHospital);
+                        hospitais.add(hospAux);
+
+                        Log.w("Parse", geoPoint.distanceInKilometersTo(pontos) + " ");
+
                     }
+
+                    String url = construirUrlMapa(hospitais);
+
+                    mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+                        @Override
+                        public void onResponse(String response) {
+
+                            Log.w("response", response);
+
+                            converterJson(response);
+                            Collections.sort(hospitais);
+
+                            adapter = new ArrayAdapter<>(context, R.layout.rowlayout, R.id.textItem, hospitais);
+                            setListAdapter(adapter);
+
+                            dialogInternet.dismiss();
+
+                        }
+
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            if (error instanceof NetworkError)
+                                Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
+                            else {
+
+                                Log.e("LocalizacaoFragment", error.getMessage());
+                                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                            }
+
+                            dialogInternet.dismiss();
+
+                        }
+
+                    });
+
+                    mRequestQueue.add(mStringRequest);
+
                 }
+
             });
 
-            while (LAT_USUARIO == 0.0 && LGN_USUARIO == 0.0) {
+            return null;
 
-            }
+        }
 
-            url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins="
+        private String construirUrlMapa(List<Hospital> hospitalList) {
+
+            String url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins="
                     + LocalizacaoFragment.LAT_USUARIO
                     + ","
                     + LocalizacaoFragment.LGN_USUARIO
                     + ""
                     + "&destinations=";
 
-            for (Hospital h : hospitais) {
+            for (Hospital h : hospitalList) {
 
                 url = url
                         + h.getLocalizacao().getLat()
@@ -250,48 +322,9 @@ public class LocalizacaoFragment extends ListFragment implements
 
             }
 
-            url = url + "&mode=driving&language=pt-BR&sensor=false";
+            url = url + "&mode=driving&language=pt-BR&sensor=true";
 
-            Log.i(TAG, url);
-
-            mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
-                @Override
-                public void onResponse(String response) {
-
-                    Log.w("response", response);
-
-                    converterJson(response);
-                    Collections.sort(hospitais);
-
-                    adapter = new ArrayAdapter<>(context, R.layout.rowlayout, R.id.textItem, hospitais);
-                    setListAdapter(adapter);
-
-                    dialogInternet.dismiss();
-
-                }
-
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    if (error instanceof NetworkError)
-                        Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
-                    else {
-                        Log.e("LocalizacaoFragment", error.getMessage());
-                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-
-                    dialogInternet.dismiss();
-
-                }
-
-            });
-
-            mRequestQueue.add(mStringRequest);
-
-            return null;
+            return url;
 
         }
 
