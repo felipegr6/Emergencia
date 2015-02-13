@@ -1,38 +1,21 @@
 package br.com.fgr.emergencia.ui.fragments;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.Cache;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.models.directions.DirectionResponse;
 
 public class CaminhoFragment extends MapFragment {
 
@@ -92,8 +75,6 @@ public class CaminhoFragment extends MapFragment {
 
         View view = inflater.inflate(R.layout.fragment_caminho, container, false);
 
-        new DownloadJsonDistance(getActivity()).execute();
-
         iniciarMapa();
 
         MarkerOptions destino = new MarkerOptions()
@@ -106,7 +87,9 @@ public class CaminhoFragment extends MapFragment {
                 .zoom(13)
                 .build();
 
-        googleMap.addMarker(destino);
+        Marker marker = googleMap.addMarker(destino);
+
+        marker.showInfoWindow();
 
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
@@ -130,120 +113,6 @@ public class CaminhoFragment extends MapFragment {
         googleMap.getUiSettings().setZoomControlsEnabled(true); // true to enable
         googleMap.getUiSettings().setCompassEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-    }
-
-    private class DownloadJsonDistance extends AsyncTask<Void, Void, Void> {
-
-        private RequestQueue mRequestQueue;
-        private Cache cache;
-        private URL url;
-        private InputStream is;
-
-        public DownloadJsonDistance(Context context) {
-
-            cache = new DiskBasedCache(context.getCacheDir(), 16 * 1024 * 1024);
-            mRequestQueue = new RequestQueue(cache, new BasicNetwork(new HurlStack()));
-            mRequestQueue.start();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            StringBuffer stringBuffer = new StringBuffer();
-
-            String urlString = "http://maps.googleapis.com/maps/api/directions/json?origin="
-                    + mLatitudeOrigem
-                    + ","
-                    + mLongitudeOrigem
-                    + "&destination="
-                    + mLatitudeDestino
-                    + ","
-                    + mLongitudeDestino
-                    + "&sensor=false&units=metric&mode=driving";
-
-            Log.w(TAG, urlString);
-
-            HttpURLConnection urlConnection = null;
-
-            try {
-
-                url = new URL(urlString);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.setDoOutput(true);
-                urlConnection.setDoInput(true);
-                is = urlConnection.getInputStream();
-                urlConnection.connect();
-
-                InputStreamReader inputStream = new InputStreamReader(is);
-                BufferedReader bufferedReader = new BufferedReader(inputStream);
-
-                String line = null;
-
-                line = bufferedReader.readLine();
-
-                while (line != null) {
-
-                    Log.w("Result", line);
-
-                    stringBuffer.append(line);
-                    line = bufferedReader.readLine();
-
-                }
-
-                Log.w("Result", stringBuffer.toString());
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            // DirectionResponse directionResponse = converterJson(stringBuffer.toString());
-
-            /*
-
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
-                @Override
-                public void onResponse(String response) {
-
-                    Log.w("ResponseCaminhoFragment", response);
-                    Log.w("Tamanho", response.toString().length() + "");
-                    // JsonResponse jsonResponse = converterJson(response);
-
-                }
-
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    Log.e(TAG, error.getMessage());
-
-                }
-
-            });
-
-            mRequestQueue.add(stringRequest);
-            */
-
-            return null;
-
-        }
-
-        private DirectionResponse converterJson(String jsonConteudo) {
-
-            Gson conteudos = new Gson();
-
-            DirectionResponse respostas = conteudos.fromJson(jsonConteudo,
-                    DirectionResponse.class);
-
-            return respostas;
-
-        }
 
     }
 

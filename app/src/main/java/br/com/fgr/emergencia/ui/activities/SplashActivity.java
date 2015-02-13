@@ -82,7 +82,6 @@ public class SplashActivity extends Activity {
                 regId = gcm.register(getResources().getString(R.string.sender_id));
                 Helper.setRegistrationGCM(context, regId);
 
-
             } catch (IOException e) {
 
                 e.printStackTrace();

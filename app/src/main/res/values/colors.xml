@@ -5,7 +5,10 @@
     <color name="mycolorprimarydark">#c12e2b</color>
     <color name="vermelho_rescuee">#c12e2b</color>
     <color name="branco">#ffffff</color>
+    <color name="cinza">#eeeeee</color>
+    <color name="hint">#cccccc</color>
     <color name="windowBackgroundColor">#333333</color>
+    <color name="grafite">#555555</color>
     <color name="black_translucent">#80000000</color>
 
 </resources>
