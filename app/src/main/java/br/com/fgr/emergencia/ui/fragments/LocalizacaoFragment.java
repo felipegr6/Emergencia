@@ -282,7 +282,7 @@ public class LocalizacaoFragment extends ListFragment implements
                                 Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
                             else {
 
-                                Log.e("LocalizacaoFragment", error.getMessage());
+                                Log.e("LocalizacaoFragment", error.getMessage() + " ");
                                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
 
                             }

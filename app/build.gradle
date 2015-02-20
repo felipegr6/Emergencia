@@ -23,6 +23,8 @@ android {
         applicationId "br.com.fgr.emergencia"
         minSdkVersion 15
         targetSdkVersion 21
+        versionCode 0
+        versionName "0.1.0"
     }
 
     signingConfigs {

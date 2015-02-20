@@ -36,7 +36,7 @@ public class Helper {
         raio = preferences.getFloat(RAIO_MAXIMO, -1);
 
         if (raio == -1)
-            raio = 6;
+            raio = 5;
 
         return raio;
 

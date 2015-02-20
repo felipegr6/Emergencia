@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.fgr.emergencia"
-    android:versionCode="1"
-    android:versionName="1.0">
+    package="br.com.fgr.emergencia">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -21,7 +19,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission
         android:name="br.com.fgr.emergencia.permission.C2D_MESSAGE"
