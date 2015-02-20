@@ -13,7 +13,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.ui.activities.FormularioActivity;
+import br.com.fgr.emergencia.ui.activities.LoginActivity;
 
 public class GcmIntentService extends IntentService {
 
@@ -84,7 +84,7 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, FormularioActivity.class), 0);
+                new Intent(this, LoginActivity.class), 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)

@@ -33,5 +33,7 @@
     <string name="email">E-mail:</string>
     <string name="hint_email">Seu e-mail aqui.</string>
     <string name="senha">Senha:</string>
+    <string name="hint_senha">Sua senha aqui</string>
+    <string name="texto_botao_logar">Logar</string>
 
 </resources>

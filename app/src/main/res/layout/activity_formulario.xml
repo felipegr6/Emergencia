@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cinza"
-    tools:context="br.com.fgr.emergencia.ui.activities.FormularioActivity">
+    tools:context="br.com.fgr.emergencia.ui.activities.LoginActivity">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
@@ -11,66 +11,82 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/layout_conteudo"
-        android:padding="20dp"
         android:layout_below="@+id/toolbar">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/grafite"
-            android:enabled="false"
-            android:focusable="false"
-            android:id="@+id/textEmail" />
-
-        <EditText
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="@string/hint_email"
-            android:inputType="textEmailAddress"
-            android:textColorHint="@color/hint"
-            android:textColor="@color/grafite"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_alignBottom="@+id/textEmail"
-            android:layout_toRightOf="@+id/textEmail"
-            android:layout_toEndOf="@+id/textEmail"
-            android:id="@+id/editEmail" />
+            android:layout_height="match_parent"
+            android:id="@+id/layout_conteudo"
+            android:padding="20dp">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/senha"
-            android:id="@+id/textSenha"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/grafite"
-            android:layout_marginTop="7dp"
-            android:enabled="false"
-            android:focusable="false"
-            android:layout_below="@+id/textEmail" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/grafite"
+                android:enabled="false"
+                android:focusable="false"
+                android:id="@+id/text_email" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint=""
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:inputType="textPassword"
-            android:textColorHint="@color/hint"
-            android:textColor="@color/grafite"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_alignBottom="@+id/textSenha"
-            android:layout_toRightOf="@+id/textSenha"
-            android:layout_toEndOf="@+id/textSenha"
-            android:id="@+id/editSenha" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/hint"
+                android:textColor="@color/grafite"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_alignBottom="@+id/text_email"
+                android:layout_toRightOf="@+id/text_email"
+                android:layout_toEndOf="@+id/text_email"
+                android:id="@+id/edit_email" />
 
-    </RelativeLayout>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/senha"
+                android:id="@+id/text_senha"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/grafite"
+                android:layout_marginTop="7dp"
+                android:enabled="false"
+                android:focusable="false"
+                android:layout_below="@+id/text_email" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_senha"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:inputType="textPassword"
+                android:textColorHint="@color/hint"
+                android:textColor="@color/grafite"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_alignBottom="@+id/text_senha"
+                android:layout_toRightOf="@+id/text_senha"
+                android:layout_toEndOf="@+id/text_senha"
+                android:id="@+id/edit_senha" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_below="@+id/text_senha"
+                android:layout_marginTop="20dp"
+                android:id="@+id/button_logar"
+                android:layout_centerHorizontal="true"
+                android:text="@string/texto_botao_logar" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity {
 
                 case 0:
                     Intent i0 = new Intent(MainActivity.this,
-                            FormularioActivity.class);
+                            LoginActivity.class);
                     startActivity(i0);
                     break;
                 case 1:

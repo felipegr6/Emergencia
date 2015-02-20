@@ -55,7 +55,7 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activities.FormularioActivity"
+            android:name=".ui.activities.LoginActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_formulario"
             android:screenOrientation="portrait">
