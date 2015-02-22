@@ -1,18 +1,23 @@
 package br.com.fgr.emergencia.ui.fragments;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -42,17 +47,20 @@ import br.com.fgr.emergencia.models.distancematrix.Elementos;
 import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
 import br.com.fgr.emergencia.utils.Helper;
+import br.com.fgr.emergencia.utils.HospitalAdapter;
 
-public class LocalizacaoFragment extends ListFragment implements
+public class ListaHospitaisFragment extends Fragment implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static double LAT_USUARIO = 0.0;
     public static double LGN_USUARIO = 0.0;
     private final String TAG = this.getClass().getSimpleName();
     protected GoogleApiClient mGoogleApiClient;
+    protected RecyclerView recyclerView;
+    protected GestureDetectorCompat detector;
     private List<Hospital> hospitais;
 
-    public LocalizacaoFragment() {
+    public ListaHospitaisFragment() {
 
     }
 
@@ -69,6 +77,30 @@ public class LocalizacaoFragment extends ListFragment implements
 
         View view = inflater.inflate(R.layout.fragment_localizacao,
                 container, false);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(llm);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        detector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
+
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+
+                detector.onTouchEvent(motionEvent);
+
+                return false;
+
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+
+            }
+
+        });
 
         buildGoogleApiClient();
 
@@ -97,24 +129,6 @@ public class LocalizacaoFragment extends ListFragment implements
 
         if (mGoogleApiClient.isConnected())
             mGoogleApiClient.disconnect();
-
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-
-        super.onListItemClick(l, v, position, id);
-
-        Hospital hosp = (Hospital) getListAdapter().getItem(position);
-
-        CaminhoFragment mCaminhoFragment = CaminhoFragment.newInstance(LAT_USUARIO,
-                LGN_USUARIO,
-                hosp.getLocalizacao().getLat(),
-                hosp.getLocalizacao().getLgn());
-
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.loc_fragment_container, mCaminhoFragment);
-        fragmentTransaction.commit();
 
     }
 
@@ -157,6 +171,42 @@ public class LocalizacaoFragment extends ListFragment implements
 
     }
 
+    private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            int position = recyclerView.getChildPosition(view);
+
+            Hospital hosp = hospitais.get(position);
+
+            MapaFragment mCaminhoFragment = MapaFragment.newInstance(LAT_USUARIO,
+                    LGN_USUARIO,
+                    hosp.getLocalizacao().getLat(),
+                    hosp.getLocalizacao().getLgn());
+
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.loc_fragment_container, mCaminhoFragment);
+            fragmentTransaction.commit();
+
+            return super.onSingleTapConfirmed(e);
+
+        }
+
+        public void onLongPress(MotionEvent e) {
+
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            int position = recyclerView.getChildPosition(view);
+
+            // handle long press
+
+            super.onLongPress(e);
+
+        }
+
+    }
+
     private class DownloadJson extends AsyncTask<Void, Void, Void> {
 
         private ProgressDialog dialogInternet;
@@ -164,6 +214,7 @@ public class LocalizacaoFragment extends ListFragment implements
         private RequestQueue mRequestQueue;
         private StringRequest mStringRequest;
         private ArrayAdapter<Hospital> adapter;
+        private HospitalAdapter hospitalAdapter;
 
         public DownloadJson(Context context) {
 
@@ -226,7 +277,7 @@ public class LocalizacaoFragment extends ListFragment implements
 
             hospitais = new ArrayList<>();
 
-            ParseQuery<ParseObject> hospitaisParse = ParseQuery.getQuery("Hospital");
+            final ParseQuery<ParseObject> hospitaisParse = ParseQuery.getQuery("Hospital");
             hospitaisParse.setLimit(10);
             hospitaisParse.whereWithinKilometers("localizacao", new ParseGeoPoint(LAT_USUARIO, LGN_USUARIO), Helper.getRaioMaximo(getActivity()));
 
@@ -266,8 +317,11 @@ public class LocalizacaoFragment extends ListFragment implements
                             converterJson(response);
                             Collections.sort(hospitais);
 
-                            adapter = new ArrayAdapter<>(context, R.layout.rowlayout, R.id.textItem, hospitais);
-                            setListAdapter(adapter);
+                            hospitalAdapter = new HospitalAdapter(hospitais, R.layout.new_row_layout);
+                            recyclerView.setAdapter(hospitalAdapter);
+
+                            // adapter = new ArrayAdapter<>(context, R.layout.row_layout, R.id.textItem, hospitais);
+                            // setListAdapter(adapter);
 
                             dialogInternet.dismiss();
 
@@ -306,9 +360,9 @@ public class LocalizacaoFragment extends ListFragment implements
         private String construirUrlMapa(List<Hospital> hospitalList) {
 
             String url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins="
-                    + LocalizacaoFragment.LAT_USUARIO
+                    + ListaHospitaisFragment.LAT_USUARIO
                     + ","
-                    + LocalizacaoFragment.LGN_USUARIO
+                    + ListaHospitaisFragment.LGN_USUARIO
                     + ""
                     + "&destinations=";
 

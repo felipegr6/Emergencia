@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.activities.LocalizacaoActivity;
 
 public class PrincipalFragment extends Fragment {
 
-    private ImageButton btnEmergencia;
+    private Button btnEmergencia;
 
     public PrincipalFragment() {
 
@@ -33,7 +33,7 @@ public class PrincipalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_principal,
                 container, false);
 
-        btnEmergencia = (ImageButton) view.findViewById(R.id.btnEmergencia);
+        btnEmergencia = (Button) view.findViewById(R.id.btnEmergencia);
 
         btnEmergencia.setOnClickListener(new View.OnClickListener() {
 

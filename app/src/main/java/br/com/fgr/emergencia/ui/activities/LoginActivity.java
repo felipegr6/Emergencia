@@ -1,15 +1,22 @@
 package br.com.fgr.emergencia.ui.activities;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.utils.Helper;
@@ -35,6 +42,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
+                hideKeyboard();
+
                 String usuario = editEmail.getText().toString();
                 String senha = editSenha.getText().toString();
                 String marujo;
@@ -54,14 +63,25 @@ public class LoginActivity extends BaseActivity {
                         senhaUsual = registroUnico.getString("senha");
 
                         if (Helper.validatePassword(senha, marujo, senhaUsual))
-                            Toast.makeText(LoginActivity.this, "Usuário e senha corretos.", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.info_valida), Toast.LENGTH_SHORT).show();
                         else
-                            Toast.makeText(LoginActivity.this, "Usuário e/ou senha incorretos.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.info_invalida), Toast.LENGTH_SHORT).show();
 
-                    } catch (Exception e) {
-                        Toast.makeText(LoginActivity.this, "Não foi possível logar, tente novamente.", Toast.LENGTH_LONG).show();
+                    } catch (ParseException e) {
+
+                        Toast.makeText(LoginActivity.this, getResources().getString(R.string.erro_comum), Toast.LENGTH_LONG).show();
+                        Log.e("ParseException", e.toString());
+
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+
+                        Toast.makeText(LoginActivity.this, getResources().getString(R.string.erro_comum), Toast.LENGTH_LONG).show();
+                        Log.e("SecurityException", e.toString());
+
                     }
+
+                } else {
+
+                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.formato_invalido), Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -100,6 +120,19 @@ public class LoginActivity extends BaseActivity {
     protected int getLayoutResource() {
 
         return R.layout.activity_formulario;
+
+    }
+
+    private void hideKeyboard() {
+
+        View view = this.getCurrentFocus();
+
+        if (view != null) {
+
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        }
 
     }
 

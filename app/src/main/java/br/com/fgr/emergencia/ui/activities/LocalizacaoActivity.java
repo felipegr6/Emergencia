@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.ui.fragments.LocalizacaoFragment;
+import br.com.fgr.emergencia.ui.fragments.ListaHospitaisFragment;
 
 public class LocalizacaoActivity extends BaseActivity {
 
@@ -18,7 +18,7 @@ public class LocalizacaoActivity extends BaseActivity {
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.loc_fragment_container, new LocalizacaoFragment());
+        ft.add(R.id.loc_fragment_container, new ListaHospitaisFragment());
         ft.commit();
 
     }

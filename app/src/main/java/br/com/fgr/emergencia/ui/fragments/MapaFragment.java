@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import br.com.fgr.emergencia.R;
 
-public class CaminhoFragment extends MapFragment {
+public class MapaFragment extends MapFragment {
 
     protected static final String TAG = "CaminhoFragment";
     private static final String LAT_ORIGEM = "latitude_origem";
@@ -30,12 +30,12 @@ public class CaminhoFragment extends MapFragment {
     protected double mLongitudeDestino;
     private GoogleMap googleMap;
 
-    public CaminhoFragment() {
+    public MapaFragment() {
     }
 
-    public static CaminhoFragment newInstance(double param1, double param2, double param3, double param4) {
+    public static MapaFragment newInstance(double param1, double param2, double param3, double param4) {
 
-        CaminhoFragment fragment = new CaminhoFragment();
+        MapaFragment fragment = new MapaFragment();
         Bundle args = new Bundle();
 
         args.putDouble(LAT_ORIGEM, param1);
@@ -73,7 +73,7 @@ public class CaminhoFragment extends MapFragment {
         double latMedia = (mLatitudeOrigem + mLatitudeDestino) / 2;
         double lgnMedia = (mLongitudeOrigem + mLongitudeDestino) / 2;
 
-        View view = inflater.inflate(R.layout.fragment_caminho, container, false);
+        View view = inflater.inflate(R.layout.fragment_mapa, container, false);
 
         iniciarMapa();
 

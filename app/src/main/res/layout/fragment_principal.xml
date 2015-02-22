@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}">
 
-    <ImageButton
+    <Button
         android:id="@+id/btnEmergencia"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp"
-        android:background="@drawable/roundcorner"
-        android:src="@drawable/log_urg2" />
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:background="@color/grafite"
+        android:text="@string/botao_hospitais_proximos" />
 
 </RelativeLayout>

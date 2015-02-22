@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vermelho_rescuee"
+    android:background="@color/branco"
     android:fitsSystemWindows="true"
     tools:context="br.com.fgr.emergencia.ui.activities.MainActivity">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
+        android:background="@color/vermelho_rescuee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

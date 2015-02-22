@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.fgr.emergencia">
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="21" />
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />

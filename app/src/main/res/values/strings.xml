@@ -6,6 +6,7 @@
     <string name="icone_description">Rescuee</string>
     <string name="action_settings">Configurações</string>
     <string name="btnEmergencia">Emergência!</string>
+    <string name="botao_hospitais_proximos">Buscar Hospitais Próximos</string>
     <string name="title_activity_localizacao">Lista de Hospitais</string>
     <string name="latitude">Latitude: </string>
     <string name="longitude">Longitude: </string>
@@ -31,9 +32,15 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="sender_id">547482222385</string>
     <string name="email">E-mail:</string>
-    <string name="hint_email">Seu e-mail aqui.</string>
+    <string name="hint_email">seu_nome@provedor.com.br</string>
     <string name="senha">Senha:</string>
-    <string name="hint_senha">Sua senha aqui</string>
+    <string name="hint_senha">Seis dígitos ou mais</string>
     <string name="texto_botao_logar">Logar</string>
+
+    <!--Mensagens-->
+    <string name="erro_comum">Não foi possível logar, tente novamente.</string>
+    <string name="formato_invalido">Usuário e/ou senha com formato inválido.</string>
+    <string name="info_invalida">Usuário e/ou senha incorretos.</string>
+    <string name="info_valida">Usuário e senha corretos.</string>
 
 </resources>
