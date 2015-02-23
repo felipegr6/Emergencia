@@ -14,12 +14,12 @@ import br.com.fgr.emergencia.models.general.Hospital;
 
 public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHolder> {
 
-    private List<Hospital> hospitals;
+    private List<Hospital> hospitais;
     private int rowLayout;
 
-    public HospitalAdapter(List<Hospital> hospitals, int rowLayout) {
+    public HospitalAdapter(List<Hospital> hospitais, int rowLayout) {
 
-        this.hospitals = hospitals;
+        this.hospitais = hospitais;
         this.rowLayout = rowLayout;
 
     }
@@ -36,7 +36,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        Hospital hospital = hospitals.get(i);
+        Hospital hospital = hospitais.get(i);
 
         viewHolder.getCountryName().setText(hospital.getNome());
         viewHolder.getCountryImage().setBackgroundResource(R.drawable.cruz);
@@ -45,7 +45,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return hospitals == null ? 0 : hospitals.size();
+        return hospitais == null ? 0 : hospitais.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

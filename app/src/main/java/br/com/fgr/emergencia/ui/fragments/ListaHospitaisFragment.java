@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -81,11 +80,13 @@ public class ListaHospitaisFragment extends Fragment implements
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+
         recyclerView.setLayoutManager(llm);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         detector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
 
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
             @Override
             public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
 
@@ -174,9 +175,9 @@ public class ListaHospitaisFragment extends Fragment implements
     private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
+        public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
 
-            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            View view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
             int position = recyclerView.getChildPosition(view);
 
             Hospital hosp = hospitais.get(position);
@@ -190,18 +191,18 @@ public class ListaHospitaisFragment extends Fragment implements
             fragmentTransaction.replace(R.id.loc_fragment_container, mCaminhoFragment);
             fragmentTransaction.commit();
 
-            return super.onSingleTapConfirmed(e);
+            return super.onSingleTapConfirmed(motionEvent);
 
         }
 
-        public void onLongPress(MotionEvent e) {
+        public void onLongPress(MotionEvent motionEvent) {
 
-            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            View view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
             int position = recyclerView.getChildPosition(view);
 
             // handle long press
 
-            super.onLongPress(e);
+            super.onLongPress(motionEvent);
 
         }
 
@@ -213,7 +214,6 @@ public class ListaHospitaisFragment extends Fragment implements
         private Context context;
         private RequestQueue mRequestQueue;
         private StringRequest mStringRequest;
-        private ArrayAdapter<Hospital> adapter;
         private HospitalAdapter hospitalAdapter;
 
         public DownloadJson(Context context) {
@@ -245,40 +245,19 @@ public class ListaHospitaisFragment extends Fragment implements
         @Override
         protected Void doInBackground(Void... params) {
 
-            while (LAT_USUARIO == 0.0 && LGN_USUARIO == 0.0) {
+            while (true) {
+
+                if (LAT_USUARIO != 0.0 && LGN_USUARIO != 0.0)
+                    break;
 
             }
 
             String url;
 
-            /*
-
-            hospitais = new ArrayList<>();
-
-            Cursor cursor = context.getContentResolver().query(HospitalProvider.CONTENT_URI, BDHospitalHelper.PROJECAO, null, null, null);
-
-            while (cursor.moveToNext()) {
-
-                Hospital hospital = new Hospital();
-                Coordenada localizacao = new Coordenada();
-
-                localizacao.setLat(cursor.getDouble(BDHospitalHelper.NUM_COLUNA_LATITUDE));
-                localizacao.setLgn(cursor.getDouble(BDHospitalHelper.NUM_COLUNA_LONGITUDE));
-
-                hospital.setNome(cursor.getString(BDHospitalHelper.NUM_COLUNA_NOME));
-                hospital.setLocalizacao(localizacao);
-
-                hospitais.add(hospital);
-
-            }
-
-            cursor.close();
-            */
-
             hospitais = new ArrayList<>();
 
             final ParseQuery<ParseObject> hospitaisParse = ParseQuery.getQuery("Hospital");
-            hospitaisParse.setLimit(10);
+            hospitaisParse.setLimit(5);
             hospitaisParse.whereWithinKilometers("localizacao", new ParseGeoPoint(LAT_USUARIO, LGN_USUARIO), Helper.getRaioMaximo(getActivity()));
 
             hospitaisParse.findInBackground(new FindCallback<ParseObject>() {
@@ -289,65 +268,71 @@ public class ListaHospitaisFragment extends Fragment implements
                     ParseGeoPoint geoPoint = new ParseGeoPoint(LAT_USUARIO, LGN_USUARIO);
                     Coordenada coordAux;
 
-                    for (ParseObject p : parseObjects) {
+                    if (parseObjects != null) {
 
-                        ParseGeoPoint pontos = p.getParseGeoPoint("localizacao");
-                        String nomeHospital = p.getString("nome");
-                        Hospital hospAux = new Hospital();
+                        for (ParseObject p : parseObjects) {
 
-                        coordAux = new Coordenada(pontos.getLatitude(), pontos.getLongitude());
+                            ParseGeoPoint pontos = p.getParseGeoPoint("localizacao");
+                            String nomeHospital = p.getString("nome");
+                            Hospital hospAux = new Hospital();
 
-                        hospAux.setLocalizacao(coordAux);
-                        hospAux.setNome(nomeHospital);
-                        hospitais.add(hospAux);
+                            coordAux = new Coordenada(pontos.getLatitude(), pontos.getLongitude());
 
-                        Log.w("Parse", geoPoint.distanceInKilometersTo(pontos) + " ");
+                            hospAux.setLocalizacao(coordAux);
+                            hospAux.setNome(nomeHospital);
 
-                    }
+                            hospitais.add(hospAux);
 
-                    String url = construirUrlMapa(hospitais);
-
-                    mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
-                        @Override
-                        public void onResponse(String response) {
-
-                            Log.w("response", response);
-
-                            converterJson(response);
-                            Collections.sort(hospitais);
-
-                            hospitalAdapter = new HospitalAdapter(hospitais, R.layout.new_row_layout);
-                            recyclerView.setAdapter(hospitalAdapter);
-
-                            // adapter = new ArrayAdapter<>(context, R.layout.row_layout, R.id.textItem, hospitais);
-                            // setListAdapter(adapter);
-
-                            dialogInternet.dismiss();
+                            Log.w("Parse", geoPoint.distanceInKilometersTo(pontos) + " ");
 
                         }
 
-                    }, new Response.ErrorListener() {
+                        String url = construirUrlMapa(hospitais);
 
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
+                        mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
-                            if (error instanceof NetworkError)
-                                Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
-                            else {
+                            @Override
+                            public void onResponse(String response) {
 
-                                Log.e("LocalizacaoFragment", error.getMessage() + " ");
-                                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                                Log.w("response", response);
+
+                                if (converterJson(response)) {
+
+                                    Collections.sort(hospitais);
+
+                                    hospitalAdapter = new HospitalAdapter(hospitais, R.layout.new_row_layout);
+                                    recyclerView.setAdapter(hospitalAdapter);
+
+                                } else
+                                    Toast.makeText(getActivity(), "Deu ruim, tente novamente.", Toast.LENGTH_SHORT).show();
+
+                                dialogInternet.dismiss();
 
                             }
 
-                            dialogInternet.dismiss();
+                        }, new Response.ErrorListener() {
 
-                        }
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
 
-                    });
+                                if (error instanceof NetworkError)
+                                    Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
+                                else {
 
-                    mRequestQueue.add(mStringRequest);
+                                    Log.e("LocalizacaoFragment", error.getMessage() + " ");
+                                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                                }
+
+                                dialogInternet.dismiss();
+
+                            }
+
+                        });
+
+                        mRequestQueue.add(mStringRequest);
+
+                    }
 
                 }
 
@@ -359,55 +344,67 @@ public class ListaHospitaisFragment extends Fragment implements
 
         private String construirUrlMapa(List<Hospital> hospitalList) {
 
-            String url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins="
-                    + ListaHospitaisFragment.LAT_USUARIO
-                    + ","
-                    + ListaHospitaisFragment.LGN_USUARIO
-                    + ""
-                    + "&destinations=";
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.append("http://maps.googleapis.com/maps/api/distancematrix/json?origins=");
+            stringBuilder.append(ListaHospitaisFragment.LAT_USUARIO);
+            stringBuilder.append(",");
+            stringBuilder.append(ListaHospitaisFragment.LGN_USUARIO);
+            stringBuilder.append("&destinations=");
 
             for (Hospital h : hospitalList) {
 
-                url = url
-                        + h.getLocalizacao().getLat()
-                        + ","
-                        + h.getLocalizacao().getLgn()
-                        + "|";
+                stringBuilder.append(h.getLocalizacao().getLat());
+                stringBuilder.append(",");
+                stringBuilder.append(h.getLocalizacao().getLgn());
+                stringBuilder.append("|");
 
             }
 
-            url = url + "&mode=driving&language=pt-BR&sensor=true";
+            stringBuilder.append("&mode=driving&language=pt-BR&sensor=true");
 
-            return url;
+            return stringBuilder.toString();
 
         }
 
-        private void converterJson(String jsonConteudo) {
+        private boolean converterJson(String jsonConteudo) {
 
             List<Elementos> elementos;
+            boolean resposta;
 
             Gson conteudos = new Gson();
 
             DistanceMatrixResponse respostas = conteudos.fromJson(jsonConteudo,
                     DistanceMatrixResponse.class);
 
-            if (respostas != null)
+            if (respostas.getStatus().equals("OK")) {
+
                 elementos = respostas.getLinhas().get(0).getElementos();
-            else
-                elementos = new ArrayList<>();
 
-            for (int k = 0; k < hospitais.size(); k++) {
+                if (elementos.get(0).getStatus().equals("OK")) {
 
-                hospitais.get(k).setDistancia(
-                        elementos.get(k).getDistancia().getTexto());
-                hospitais.get(k).setValorDistancia(
-                        elementos.get(k).getDistancia().getValor());
-                hospitais.get(k).setTempo(
-                        elementos.get(k).getDuracao().getTexto());
-                hospitais.get(k).setValorTempo(
-                        elementos.get(k).getDuracao().getValor());
+                    for (int k = 0; k < hospitais.size(); k++) {
 
-            }
+                        hospitais.get(k).setDistancia(
+                                elementos.get(k).getDistancia().getTexto());
+                        hospitais.get(k).setValorDistancia(
+                                elementos.get(k).getDistancia().getValor());
+                        hospitais.get(k).setTempo(
+                                elementos.get(k).getDuracao().getTexto());
+                        hospitais.get(k).setValorTempo(
+                                elementos.get(k).getDuracao().getValor());
+
+                    }
+
+                    resposta = true;
+
+                } else
+                    resposta = false;
+
+            } else
+                resposta = false;
+
+            return resposta;
 
         }
 

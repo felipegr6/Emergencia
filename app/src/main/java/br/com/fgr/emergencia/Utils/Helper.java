@@ -2,6 +2,8 @@ package br.com.fgr.emergencia.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
@@ -13,7 +15,7 @@ import java.util.regex.Pattern;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-public class Helper {
+public final class Helper {
 
     private static final String RESCUEE_PREFERENCES = "rescuee_preferences";
     private static final String GCM_REGID = "gcmRegId";
@@ -28,6 +30,19 @@ public class Helper {
     public static final int ITERATION_INDEX = 0;
     public static final int SALT_INDEX = 1;
     public static final int PBKDF2_INDEX = 2;
+
+    private Helper() {
+
+    }
+
+    public static boolean isOnline(Context context) {
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+
+    }
 
     public static String getRegistrationGCM(Context context) {
 

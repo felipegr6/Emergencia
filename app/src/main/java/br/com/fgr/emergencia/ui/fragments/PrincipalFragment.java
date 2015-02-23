@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.activities.LocalizacaoActivity;
+import br.com.fgr.emergencia.utils.Helper;
 
 public class PrincipalFragment extends Fragment {
 
@@ -40,9 +42,14 @@ public class PrincipalFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(),
-                        LocalizacaoActivity.class);
-                startActivity(intent);
+                if (Helper.isOnline(getActivity())) {
+
+                    Intent intent = new Intent(getActivity(),
+                            LocalizacaoActivity.class);
+                    startActivity(intent);
+
+                } else
+                    Toast.makeText(getActivity(), getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_SHORT).show();
 
             }
 

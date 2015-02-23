@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -82,16 +82,13 @@ public class MapaFragment extends MapFragment {
                 .title("Destino")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(latMedia, lgnMedia))
-                .zoom(13)
-                .build();
+        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(latMedia, lgnMedia), 15);
 
         Marker marker = googleMap.addMarker(destino);
 
         marker.showInfoWindow();
 
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        googleMap.moveCamera(center);
 
         return view;
 

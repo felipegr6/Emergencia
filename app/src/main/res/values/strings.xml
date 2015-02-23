@@ -19,9 +19,7 @@
     <string name="title_activity_principal_fragment">PrincipalFragment</string>
     <string name="drawer_open">Abrir</string>
     <string name="drawer_close">Fechar</string>
-    <string name="titulo_dialog_hospitais">Recuperando Informações</string>
-    <string name="descricao_dialog_hospitais">Esperando informações de GPS e dados.</string>
-    <string name="erro_sem_conexao">Sem conexão</string>
+    <string name="facebook_app_id">1564863630421264</string>
 
     <string-array name="lista_nav_drawer">
         <item>Meu Cadastro</item>
@@ -42,5 +40,8 @@
     <string name="formato_invalido">Usuário e/ou senha com formato inválido.</string>
     <string name="info_invalida">Usuário e/ou senha incorretos.</string>
     <string name="info_valida">Usuário e senha corretos.</string>
+    <string name="titulo_dialog_hospitais">Recuperando Informações</string>
+    <string name="descricao_dialog_hospitais">Esperando informações de GPS e dados.</string>
+    <string name="erro_sem_conexao">Sem conexão com a Internet.</string>
 
 </resources>
