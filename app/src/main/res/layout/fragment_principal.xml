@@ -9,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:background="@color/grafite"
-        android:text="@string/botao_hospitais_proximos" />
+        android:padding="10dp"
+        android:text="@string/botao_hospitais_proximos"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

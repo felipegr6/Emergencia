@@ -29,12 +29,11 @@ import br.com.fgr.emergencia.utils.Helper;
 
 public class LoginActivity extends BaseActivity {
 
+    private static final String TAG = "LoginActivity";
     protected EditText editEmail;
     protected EditText editSenha;
     protected Button buttonLogar;
     protected LoginButton fbLoginButton;
-    private static final String TAG = "LoginActivity";
-
     private UiLifecycleHelper uiHelper;
     private Session.StatusCallback callback = new Session.StatusCallback() {
 

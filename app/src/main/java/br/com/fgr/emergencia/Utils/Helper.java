@@ -17,19 +17,17 @@ import javax.crypto.spec.PBEKeySpec;
 
 public final class Helper {
 
+    public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
+    public static final int SALT_BYTE_SIZE = 32;
+    public static final int HASH_BYTE_SIZE = 32;
+    public static final int PBKDF2_ITERATIONS = 1000;
+    public static final int ITERATION_INDEX = 0;
+    public static final int SALT_INDEX = 1;
+    public static final int PBKDF2_INDEX = 2;
     private static final String RESCUEE_PREFERENCES = "rescuee_preferences";
     private static final String GCM_REGID = "gcmRegId";
     private static final String RAIO_MAXIMO = "raio_maximo";
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
-
-    public static final int SALT_BYTE_SIZE = 32;
-    public static final int HASH_BYTE_SIZE = 32;
-    public static final int PBKDF2_ITERATIONS = 1000;
-
-    public static final int ITERATION_INDEX = 0;
-    public static final int SALT_INDEX = 1;
-    public static final int PBKDF2_INDEX = 2;
 
     private Helper() {
 

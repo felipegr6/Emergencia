@@ -14,15 +14,15 @@
 
         <TextView
             android:id="@+id/countryName"
-            android:gravity="center"
-            android:background="?android:selectableItemBackground"
-            android:focusable="true"
-            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:textColor="@color/grafite"
+            android:layout_centerInParent="true"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_centerInParent="true" />
+            android:textColor="@color/grafite" />
 
     </RelativeLayout>
 

@@ -48,7 +48,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         return hospitais == null ? 0 : hospitais.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    protected static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView countryName;
         public ImageView countryImage;

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.parse.ParseObject;
 
 import java.io.IOException;
 

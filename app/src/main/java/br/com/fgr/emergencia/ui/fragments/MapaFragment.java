@@ -1,5 +1,6 @@
 package br.com.fgr.emergencia.ui.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,7 +99,10 @@ public class MapaFragment extends MapFragment {
 
         if (googleMap == null) {
 
-            googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                googleMap = ((MapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+            else
+                googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
             // check if map is created successfully or not
             if (googleMap == null)
