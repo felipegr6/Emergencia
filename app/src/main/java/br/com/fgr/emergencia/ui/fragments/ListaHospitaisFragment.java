@@ -39,7 +39,6 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import br.com.fgr.emergencia.R;
