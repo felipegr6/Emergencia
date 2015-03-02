@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -24,37 +25,25 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        Handler handler = new Handler();
+
         if (Helper.getRegistrationGCM(this).equals(""))
             new CadastroGCM(this).execute();
         else
             Log.w("RegId", Helper.getRegistrationGCM(this));
 
-        Thread background = new Thread() {
+        handler.postDelayed(new Runnable() {
 
+            @Override
             public void run() {
 
-                try {
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
 
-                    sleep(3000);
-
-                    Intent intent = new Intent(SplashActivity.this,
-                            MainActivity.class);
-
-                    startActivity(intent);
-
-                    finish();
-
-                } catch (InterruptedException e) {
-
-                    e.printStackTrace();
-
-                }
+                finish();
 
             }
-
-        };
-
-        background.start();
+        }, 3000);
 
     }
 
