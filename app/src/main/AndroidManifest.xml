@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.fgr.emergencia">
+    package="br.com.fgr.emergencia" >
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -19,6 +19,7 @@
     <permission
         android:name="br.com.fgr.emergencia.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="br.com.fgr.emergencia.permission.C2D_MESSAGE" />
 
     <application
@@ -26,16 +27,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCbKzAd_MdPPoPly_B1MkbquvMHMOnsHds" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -53,7 +51,7 @@
             android:name=".ui.activities.LocalizacaoActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_localizacao"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
@@ -62,7 +60,7 @@
             android:name=".ui.activities.LoginActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_formulario"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
@@ -71,7 +69,7 @@
             android:name=".ui.activities.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -80,13 +78,13 @@
         </activity>
 
         <provider
-            android:name="br.com.fgr.emergencia.db.HospitalProvider"
+            android:name=".db.HospitalProvider"
             android:authorities="@string/authority"
             android:exported="false" />
 
         <receiver
             android:name=".services.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -100,6 +98,15 @@
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="ba90b4689d4bbea770bf29d7aa2687434014f50a" />
+
+        <activity
+            android:name=".ui.activities.ConfiguracaoActivity"
+            android:label="@string/title_activity_configuracao"
+            android:parentActivityName=".ui.activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.fgr.emergencia.ui.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

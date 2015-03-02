@@ -70,16 +70,21 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        Intent intent;
+
         switch (item.getItemId()) {
 
             case android.R.id.home:
                 mDrawerLayout.openDrawer(Gravity.START);
-
                 return true;
+            case R.id.action_configuration:
+                intent = new Intent(MainActivity.this, ConfiguracaoActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
 
         }
-
-        return super.onOptionsItemSelected(item);
 
     }
 
@@ -111,12 +116,12 @@ public class MainActivity extends BaseActivity {
     private class AcaoNavDrawer implements ListView.OnItemClickListener {
 
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             switch (position) {
 
                 case 0:
+                    mDrawerLayout.closeDrawers();
                     Intent i0 = new Intent(MainActivity.this,
                             LoginActivity.class);
                     startActivity(i0);

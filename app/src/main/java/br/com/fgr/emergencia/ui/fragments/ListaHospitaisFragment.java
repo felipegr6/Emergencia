@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
@@ -38,6 +39,7 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.fgr.emergencia.R;
@@ -49,7 +51,7 @@ import br.com.fgr.emergencia.utils.Helper;
 import br.com.fgr.emergencia.utils.HospitalAdapter;
 
 public class ListaHospitaisFragment extends Fragment implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     public static double LAT_USUARIO = 0.0;
     public static double LGN_USUARIO = 0.0;
@@ -169,6 +171,29 @@ public class ListaHospitaisFragment extends Fragment implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        LAT_USUARIO = location.getLatitude();
+        LGN_USUARIO = location.getLongitude();
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
 
     }
 
@@ -329,6 +354,7 @@ public class ListaHospitaisFragment extends Fragment implements
                             }
 
                         });
+
 
                         mRequestQueue.add(mStringRequest);
 

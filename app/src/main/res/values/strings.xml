@@ -20,6 +20,8 @@
     <string name="drawer_open">Abrir</string>
     <string name="drawer_close">Fechar</string>
     <string name="facebook_app_id">1564863630421264</string>
+    <string name="title_activity_configuracao">Configurações</string>
+    <string name="title_fragment_map">Mapa</string>
 
     <string-array name="lista_nav_drawer">
         <item>Meu Cadastro</item>

@@ -64,6 +64,8 @@ public class MapaFragment extends MapFragment {
 
         }
 
+        getActivity().setTitle(getResources().getString(R.string.title_fragment_map));
+
     }
 
     @Override
