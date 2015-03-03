@@ -2,51 +2,47 @@ package br.com.fgr.emergencia.ui.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.fgr.emergencia.R;
+import br.com.fgr.emergencia.models.general.Configuracao;
+import br.com.fgr.emergencia.utils.Helper;
 
 public class ConfiguracaoActivity extends BaseActivity {
 
-    private SeekBar seekBar;
-    private TextView textView;
+    private SeekBar seekRaio;
+    private SeekBar seekHospitais;
+    private Button buttonGravar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         setActionBarIcon(R.drawable.ic_action_back);
-        seekBar = (SeekBar) findViewById(R.id.seekBar1);
-        textView = (TextView) findViewById(R.id.textoTeste);
 
-        textView.setText("Covered: " + seekBar.getProgress() + "/" + seekBar.getMax());
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        Configuracao configuracao = Helper.getConfiguracoes(getApplicationContext());
 
-            int prog = 0;
+        seekRaio = (SeekBar) findViewById(R.id.seek_raio);
+        seekHospitais = (SeekBar) findViewById(R.id.seek_hospitais);
+        buttonGravar = (Button) findViewById(R.id.button_gravar);
 
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        seekRaio.setProgress(configuracao.getRaio());
+        seekHospitais.setProgress(configuracao.getHospitais());
 
-                prog = progress;
-                Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
-
-            }
+        buttonGravar.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onClick(View v) {
 
-                Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
+                Configuracao config = new Configuracao(seekRaio.getProgress(), seekHospitais.getProgress());
 
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-                textView.setText("Covered: " + prog + "/" + seekBar.getMax());
-                Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+                if (Helper.setConfiguracoes(getApplicationContext(), config))
+                    Toast.makeText(getApplicationContext(), "Salvo com sucesso.", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Houve problemas, tente novamente", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -56,20 +52,22 @@ public class ConfiguracaoActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResource() {
+
         return R.layout.activity_configuracao;
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
             return true;
-        }
 
         return super.onOptionsItemSelected(item);
 

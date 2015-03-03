@@ -25,6 +25,7 @@
 
     <string-array name="lista_nav_drawer">
         <item>Meu Cadastro</item>
+        <item>Configurações</item>
         <!--<item>Meus Hospitais</item>-->
         <!--<item>Sair</item>-->
     </string-array>
@@ -36,6 +37,9 @@
     <string name="senha">Senha:</string>
     <string name="hint_senha">Seis dígitos ou mais</string>
     <string name="texto_botao_logar">Logar</string>
+    <string name="text_raio">Raio:</string>
+    <string name="text_hospitais">Hospitais:</string>
+    <string name="button_gravar">Gravar</string>
 
     <!--Mensagens-->
     <string name="erro_comum">Não foi possível logar, tente novamente.</string>

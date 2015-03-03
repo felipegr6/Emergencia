@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import br.com.fgr.emergencia.models.general.Configuracao;
+
 public final class Helper {
 
     public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
@@ -24,9 +26,13 @@ public final class Helper {
     public static final int ITERATION_INDEX = 0;
     public static final int SALT_INDEX = 1;
     public static final int PBKDF2_INDEX = 2;
+    public static final int OFFSET_RAIO = 5;
+    public static final int OFFSET_HOSPITAIS = 5;
     private static final String RESCUEE_PREFERENCES = "rescuee_preferences";
     private static final String GCM_REGID = "gcmRegId";
     private static final String RAIO_MAXIMO = "raio_maximo";
+    private static final String RAIO = "raio";
+    private static final String HOSPITAIS = "hospitais";
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     private Helper() {
@@ -39,6 +45,27 @@ public final class Helper {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
 
         return netInfo != null && netInfo.isConnectedOrConnecting();
+
+    }
+
+    public static boolean setConfiguracoes(Context context, Configuracao config) {
+
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+
+        final SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(RAIO, config.getRaio());
+        editor.putInt(HOSPITAIS, config.getHospitais());
+
+        return editor.commit();
+
+
+    }
+
+    public static Configuracao getConfiguracoes(Context context) {
+
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+
+        return new Configuracao(preferences.getInt(RAIO, 0), preferences.getInt(HOSPITAIS, 0));
 
     }
 

@@ -12,21 +12,57 @@
         android:layout_height="wrap_content"
         android:background="@color/vermelho_rescuee" />
 
-    <SeekBar
-        android:id="@+id/seekBar1"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/text_raio"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/text_raio"
         android:layout_below="@+id/toolbar"
         android:layout_margin="10dp"
-        android:max="10" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/grafite"
+        android:enabled="false" />
 
-    <TextView
-        android:id="@+id/textoTeste"
+    <SeekBar
+        android:id="@+id/seek_raio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/text_raio"
+        android:layout_toEndOf="@+id/text_raio"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="10dp"
+        android:max="5" />
+
+    <EditText
+        android:id="@+id/text_hospitais"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/seekBar1"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_raio"
+        android:text="@string/text_hospitais"
         android:layout_margin="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/grafite" />
+        android:textColor="@color/grafite"
+        android:enabled="false" />
+
+    <SeekBar
+        android:id="@+id/seek_hospitais"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/text_hospitais"
+        android:layout_toEndOf="@+id/text_hospitais"
+        android:layout_below="@+id/text_raio"
+        android:layout_margin="10dp"
+        android:max="5" />
+
+    <Button
+        android:id="@+id/button_gravar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_hospitais"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="@string/button_gravar"
+        android:background="@color/grafite"
+        android:textColor="@color/branco" />
 
 </RelativeLayout>
