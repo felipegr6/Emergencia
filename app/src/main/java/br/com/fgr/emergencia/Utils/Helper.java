@@ -33,7 +33,7 @@ public final class Helper {
     private static final String RAIO_MAXIMO = "raio_maximo";
     private static final String RAIO = "raio";
     private static final String HOSPITAIS = "hospitais";
-    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final String EMAIL_PATTERN = "\\b[a-z0-9._%+-]+@(?:[a-z0-9-]+\\.)+[a-z]{2,4}\\b";
 
     private Helper() {
 
@@ -57,7 +57,6 @@ public final class Helper {
         editor.putInt(HOSPITAIS, config.getHospitais());
 
         return editor.commit();
-
 
     }
 
@@ -116,7 +115,7 @@ public final class Helper {
     public static boolean validarEmail(String email) {
 
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(email);
+        Matcher matcher = pattern.matcher(email.toLowerCase());
 
         return matcher.matches();
 
