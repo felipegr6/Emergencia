@@ -122,11 +122,13 @@ public class MainActivity extends BaseActivity {
 
                 case 0:
                     mDrawerLayout.closeDrawers();
-                    Intent i0 = new Intent(MainActivity.this,
-                            LoginActivity.class);
+                    Intent i0 = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(i0);
                     break;
                 case 1:
+                    mDrawerLayout.closeDrawers();
+                    Intent i1 = new Intent(MainActivity.this, ConfiguracaoActivity.class);
+                    startActivity(i1);
                     break;
                 case 2:
                     break;

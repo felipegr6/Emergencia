@@ -3,8 +3,11 @@ package br.com.fgr.emergencia.ui.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import br.com.fgr.emergencia.R;
@@ -15,6 +18,9 @@ public class ConfiguracaoActivity extends BaseActivity {
 
     private SeekBar seekRaio;
     private SeekBar seekHospitais;
+    private EditText textRaio;
+    private EditText textHospitais;
+    private Spinner spinnerTransporte;
     private Button buttonGravar;
 
     @Override
@@ -27,10 +33,57 @@ public class ConfiguracaoActivity extends BaseActivity {
 
         seekRaio = (SeekBar) findViewById(R.id.seek_raio);
         seekHospitais = (SeekBar) findViewById(R.id.seek_hospitais);
+        textRaio = (EditText) findViewById(R.id.text_mostra_raio);
+        textHospitais = (EditText) findViewById(R.id.text_mostra_hospitais);
+        spinnerTransporte = (Spinner) findViewById(R.id.spinner_transporte);
         buttonGravar = (Button) findViewById(R.id.button_gravar);
 
         seekRaio.setProgress(configuracao.getRaio());
         seekHospitais.setProgress(configuracao.getHospitais());
+        textRaio.setText(Helper.formatarInformacao(Helper.CONST_RAIO, seekRaio.getProgress(), true));
+        textHospitais.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, seekHospitais.getProgress(), true));
+
+        seekRaio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                textRaio.setText(Helper.formatarInformacao(Helper.CONST_RAIO, progress, true));
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+        });
+
+        seekHospitais.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                textHospitais.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, progress, true));
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+        });
 
         buttonGravar.setOnClickListener(new View.OnClickListener() {
 

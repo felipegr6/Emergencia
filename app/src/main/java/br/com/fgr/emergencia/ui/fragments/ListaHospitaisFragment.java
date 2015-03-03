@@ -44,6 +44,7 @@ import java.util.List;
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.models.distancematrix.DistanceMatrixResponse;
 import br.com.fgr.emergencia.models.distancematrix.Elementos;
+import br.com.fgr.emergencia.models.general.Configuracao;
 import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
 import br.com.fgr.emergencia.utils.Helper;
@@ -269,6 +270,11 @@ public class ListaHospitaisFragment extends Fragment implements
         @Override
         protected Void doInBackground(Void... params) {
 
+            Configuracao config = Helper.getConfiguracoes(getActivity().getApplicationContext());
+
+            int qtdeHospitais = Integer.parseInt(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, config.getHospitais(), false));
+            float raioAlcance = Float.parseFloat(Helper.formatarInformacao(Helper.CONST_RAIO, config.getRaio(), false));
+
             while (true) {
 
                 if (LAT_USUARIO != 0.0 && LGN_USUARIO != 0.0)
@@ -281,8 +287,8 @@ public class ListaHospitaisFragment extends Fragment implements
             hospitais = new ArrayList<>();
 
             final ParseQuery<ParseObject> hospitaisParse = ParseQuery.getQuery("Hospital");
-            hospitaisParse.setLimit(5);
-            hospitaisParse.whereWithinKilometers("localizacao", new ParseGeoPoint(LAT_USUARIO, LGN_USUARIO), Helper.getRaioMaximo(getActivity()));
+            hospitaisParse.setLimit(qtdeHospitais);
+            hospitaisParse.whereWithinKilometers("localizacao", new ParseGeoPoint(LAT_USUARIO, LGN_USUARIO), raioAlcance);
 
             hospitaisParse.findInBackground(new FindCallback<ParseObject>() {
 

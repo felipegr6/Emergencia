@@ -50,4 +50,11 @@
     <string name="descricao_dialog_hospitais">Esperando informações de GPS e dados.</string>
     <string name="erro_sem_conexao">Sem conexão com a Internet.</string>
 
+    <!-- SpinnerAdapter -->
+    <string name="transporte_prompt">Escolha um transporte</string>
+    <string-array name="transportes_array">
+        <item>Carro</item>
+        <item>A Pé</item>
+    </string-array>
+
 </resources>

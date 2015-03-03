@@ -35,6 +35,12 @@ public final class Helper {
     private static final String HOSPITAIS = "hospitais";
     private static final String EMAIL_PATTERN = "\\b[a-z0-9._%+-]+@(?:[a-z0-9-]+\\.)+[a-z]{2,4}\\b";
 
+    private static final int offsetRaio = 2;
+    private static final int offsetHospitais = 5;
+
+    public static final int CONST_RAIO = 1;
+    public static final int CONST_HOSPITAIS = 2;
+
     private Helper() {
 
     }
@@ -68,14 +74,6 @@ public final class Helper {
 
     }
 
-    public static String getRegistrationGCM(Context context) {
-
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
-
-        return preferences.getString(GCM_REGID, "");
-
-    }
-
     public static boolean setRegistrationGCM(Context context, String registrationID) {
 
         SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
@@ -87,28 +85,11 @@ public final class Helper {
 
     }
 
-    public static float getRaioMaximo(Context context) {
-
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
-        float raio;
-
-        raio = preferences.getFloat(RAIO_MAXIMO, -1);
-
-        if (raio == -1)
-            raio = 5;
-
-        return raio;
-
-    }
-
-    public static boolean setRaioMaximo(Context context, float raioMaximo) {
+    public static String getRegistrationGCM(Context context) {
 
         SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
 
-        final SharedPreferences.Editor editor = preferences.edit();
-        editor.putFloat(RAIO_MAXIMO, raioMaximo);
-
-        return editor.commit();
+        return preferences.getString(GCM_REGID, "");
 
     }
 
@@ -212,6 +193,29 @@ public final class Helper {
             return String.format("%0" + paddingLength + "d", 0) + hex;
         else
             return hex;
+
+    }
+
+    public static String formatarInformacao(int constante, int progress, boolean isExibicao) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        switch (constante) {
+
+            case CONST_RAIO:
+                stringBuilder.append((offsetRaio * progress + 1));
+                if (isExibicao)
+                    stringBuilder.append("km");
+                break;
+            case CONST_HOSPITAIS:
+                stringBuilder.append(offsetHospitais * progress + offsetHospitais + "");
+                break;
+            default:
+                return null;
+
+        }
+
+        return stringBuilder.toString();
 
     }
 
