@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/infoPrincipal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,6 +24,22 @@
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
+
+        <RelativeLayout
+            android:id="@+id/infoDetalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/countryName">
+
+            <EditText
+                android:id="@+id/labelDistancia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/grafite"
+                android:enabled="false"
+                android:text="Distância"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 

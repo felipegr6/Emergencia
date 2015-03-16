@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -199,10 +203,12 @@ public class ListaHospitaisFragment extends Fragment implements
 
     private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
 
+        public View view;
+
         @Override
         public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
 
-            View view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+            view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
             int position = recyclerView.getChildPosition(view);
 
             Hospital hosp = hospitais.get(position);
@@ -220,14 +226,92 @@ public class ListaHospitaisFragment extends Fragment implements
 
         }
 
-        public void onLongPress(MotionEvent motionEvent) {
+        public void onLongPress(final MotionEvent motionEvent) {
 
-            View view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+            view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
             int position = recyclerView.getChildPosition(view);
 
-            // handle long press
+            collapse(view.findViewById(R.id.infoDetalhe));
+            Handler h = new Handler();
+
+            h.postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    expand(view.findViewById(R.id.infoDetalhe));
+                }
+
+            }, 3000);
 
             super.onLongPress(motionEvent);
+
+        }
+
+        public void expand(final View v) {
+
+            v.measure(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            final int targetHeight = v.getMeasuredHeight();
+
+            v.getLayoutParams().height = 0;
+            v.setVisibility(View.VISIBLE);
+
+            Animation a = new Animation() {
+
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+
+                    v.getLayoutParams().height = interpolatedTime == 1
+                            ? RelativeLayout.LayoutParams.WRAP_CONTENT
+                            : (int) (targetHeight * interpolatedTime);
+                    v.requestLayout();
+
+                }
+
+                @Override
+                public boolean willChangeBounds() {
+
+                    return true;
+
+                }
+
+            };
+
+            // 1dp/ms
+            a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+            v.startAnimation(a);
+
+        }
+
+        public void collapse(final View v) {
+
+            final int initialHeight = v.getMeasuredHeight();
+
+            Animation a = new Animation() {
+
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+
+                    if (interpolatedTime == 1)
+                        v.setVisibility(View.GONE);
+                    else {
+
+                        v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
+                        v.requestLayout();
+
+                    }
+
+                }
+
+                @Override
+                public boolean willChangeBounds() {
+                    return true;
+                }
+
+            };
+
+            // 1dp/ms
+            a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+            v.startAnimation(a);
 
         }
 
