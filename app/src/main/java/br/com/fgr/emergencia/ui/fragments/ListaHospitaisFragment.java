@@ -313,6 +313,8 @@ public class ListaHospitaisFragment extends Fragment implements
             a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
             v.startAnimation(a);
 
+            //
+
         }
 
     }
