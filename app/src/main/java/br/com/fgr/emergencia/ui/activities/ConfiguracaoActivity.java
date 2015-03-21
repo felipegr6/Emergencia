@@ -101,6 +101,11 @@ public class ConfiguracaoActivity extends BaseActivity {
 
         });
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.transportes_array, R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+
+        spinnerTransporte.setAdapter(adapter);
+
     }
 
     @Override

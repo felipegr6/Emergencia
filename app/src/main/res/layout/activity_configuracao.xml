@@ -92,24 +92,37 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/grafite" />
 
+    <EditText
+        android:id="@+id/label_modo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_hospitais"
+        android:textColor="@color/grafite"
+        android:focusable="false"
+        android:enabled="false"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Modo: "/>
+
     <Spinner
         android:id="@+id/spinner_transporte"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/label_modo"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        style="@android:style/Widget.Spinner"
+        android:layout_alignBaseline="@+id/label_modo"
+        android:spinnerMode="dialog"
         android:prompt="@string/transporte_prompt"
-        android:entries="@array/transportes_array"
         android:layout_below="@+id/text_hospitais" />
 
     <Button
         android:id="@+id/button_gravar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_transporte"
+        android:layout_below="@+id/label_modo"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:background="@color/grafite"
