@@ -5,6 +5,7 @@
 
     <RelativeLayout
         android:id="@+id/infoPrincipal"
+        android:background="@drawable/download"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

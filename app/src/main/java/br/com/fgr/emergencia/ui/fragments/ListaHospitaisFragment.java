@@ -161,6 +161,7 @@ public class ListaHospitaisFragment extends Fragment {
             int position = recyclerView.getChildPosition(view);
 
             collapse(view.findViewById(R.id.infoDetalhe));
+            view.findViewById(R.id.infoPrincipal).setBackgroundResource(0);
             Handler h = new Handler();
 
             h.postDelayed(new Runnable() {
@@ -168,6 +169,7 @@ public class ListaHospitaisFragment extends Fragment {
                 @Override
                 public void run() {
                     expand(view.findViewById(R.id.infoDetalhe));
+                    view.findViewById(R.id.infoPrincipal).setBackgroundResource(R.drawable.download);
                 }
 
             }, 3000);
@@ -208,7 +210,6 @@ public class ListaHospitaisFragment extends Fragment {
             // 1dp/ms
             a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
             v.startAnimation(a);
-
         }
 
         public void collapse(final View v) {
@@ -241,8 +242,6 @@ public class ListaHospitaisFragment extends Fragment {
             // 1dp/ms
             a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
             v.startAnimation(a);
-
-            //
 
         }
 
