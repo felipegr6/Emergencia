@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
@@ -27,7 +26,6 @@ public class ConfiguracaoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setActionBarIcon(R.drawable.ic_action_back);
 
         Configuracao configuracao = Helper.getConfiguracoes(getApplicationContext());
 
@@ -88,9 +86,12 @@ public class ConfiguracaoActivity extends BaseActivity {
 
                 Configuracao config = new Configuracao(seekRaio.getProgress(), seekHospitais.getProgress());
 
-                if (Helper.setConfiguracoes(getApplicationContext(), config))
+                if (Helper.setConfiguracoes(getApplicationContext(), config)) {
+
                     Toast.makeText(getApplicationContext(), "Salvo com sucesso.", Toast.LENGTH_SHORT).show();
-                else
+                    finish();
+
+                } else
                     Toast.makeText(getApplicationContext(), "Houve problemas, tente novamente", Toast.LENGTH_SHORT).show();
 
             }
@@ -106,21 +107,7 @@ public class ConfiguracaoActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResource() {
-
         return R.layout.activity_configuracao;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings)
-            return true;
-
-        return super.onOptionsItemSelected(item);
-
     }
 
 }

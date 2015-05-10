@@ -13,6 +13,7 @@
     <string name="unknow">Desconhecido</string>
     <string name="hospital">Hospital: </string>
     <string name="distancia">Distância: </string>
+    <string name="tempo">Tempo: </string>
     <string name="meus_hospitais">Meus Hospitais</string>
     <string name="title_activity_formulario">Meu Cadastro</string>
     <string name="title_activity_recuperar_informacoes">Coletando Informações</string>
@@ -25,7 +26,7 @@
     <string name="label_modo">Modo: </string>
 
     <string-array name="lista_nav_drawer">
-        <item>Meu Cadastro</item>
+        <!-- <item>Meu Cadastro</item> -->
         <item>Configurações</item>
         <!--<item>Meus Hospitais</item>-->
         <!--<item>Sair</item>-->

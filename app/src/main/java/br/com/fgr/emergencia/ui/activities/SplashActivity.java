@@ -52,9 +52,7 @@ public class SplashActivity extends Activity {
         private Context context;
 
         public CadastroGCM(Context context) {
-
             this.context = context;
-
         }
 
         @Override
@@ -71,13 +69,9 @@ public class SplashActivity extends Activity {
                 Helper.setRegistrationGCM(context, regId);
 
             } catch (IOException e) {
-
                 e.printStackTrace();
-
             } finally {
-
                 Log.w("RegistrationID", regId);
-
             }
 
             return null;

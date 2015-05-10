@@ -19,10 +19,10 @@
         <RelativeLayout
             android:id="@+id/layout_conteudo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="20dp">
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/text_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/grafite" />
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/edit_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 android:textColor="@color/grafite"
                 android:textColorHint="@color/hint" />
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/text_senha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/grafite" />
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/edit_senha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,11 +71,12 @@
                 android:layout_toRightOf="@+id/text_senha"
                 android:hint="@string/hint_senha"
                 android:inputType="textPassword"
+                android:fontFamily="sans-serif"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/grafite"
                 android:textColorHint="@color/hint" />
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/button_logar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,6 +84,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@color/grafite"
+                android:textAppearance="?android:attr/textAppearanceButton"
                 android:text="@string/texto_botao_logar" />
 
             <com.facebook.widget.LoginButton

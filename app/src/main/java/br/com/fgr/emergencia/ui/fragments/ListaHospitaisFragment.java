@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,9 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -156,93 +152,7 @@ public class ListaHospitaisFragment extends Fragment {
         }
 
         public void onLongPress(final MotionEvent motionEvent) {
-
-            view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-            int position = recyclerView.getChildPosition(view);
-
-            collapse(view.findViewById(R.id.infoDetalhe));
-            view.findViewById(R.id.infoPrincipal).setBackgroundResource(0);
-            Handler h = new Handler();
-
-            h.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    expand(view.findViewById(R.id.infoDetalhe));
-                    view.findViewById(R.id.infoPrincipal).setBackgroundResource(R.drawable.download);
-                }
-
-            }, 3000);
-
             super.onLongPress(motionEvent);
-
-        }
-
-        public void expand(final View v) {
-
-            v.measure(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            final int targetHeight = v.getMeasuredHeight();
-
-            v.getLayoutParams().height = 0;
-            v.setVisibility(View.VISIBLE);
-
-            Animation a = new Animation() {
-
-                @Override
-                protected void applyTransformation(float interpolatedTime, Transformation t) {
-
-                    v.getLayoutParams().height = interpolatedTime == 1
-                            ? RelativeLayout.LayoutParams.WRAP_CONTENT
-                            : (int) (targetHeight * interpolatedTime);
-                    v.requestLayout();
-
-                }
-
-                @Override
-                public boolean willChangeBounds() {
-
-                    return true;
-
-                }
-
-            };
-
-            // 1dp/ms
-            a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
-            v.startAnimation(a);
-        }
-
-        public void collapse(final View v) {
-
-            final int initialHeight = v.getMeasuredHeight();
-
-            Animation a = new Animation() {
-
-                @Override
-                protected void applyTransformation(float interpolatedTime, Transformation t) {
-
-                    if (interpolatedTime == 1)
-                        v.setVisibility(View.GONE);
-                    else {
-
-                        v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
-                        v.requestLayout();
-
-                    }
-
-                }
-
-                @Override
-                public boolean willChangeBounds() {
-                    return true;
-                }
-
-            };
-
-            // 1dp/ms
-            a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
-            v.startAnimation(a);
-
         }
 
     }
@@ -345,7 +255,7 @@ public class ListaHospitaisFragment extends Fragment {
 
                                     Collections.sort(hospitais);
 
-                                    hospitalAdapter = new HospitalAdapter(hospitais, R.layout.new_row_layout);
+                                    hospitalAdapter = new HospitalAdapter(hospitais, R.layout.row_hospital);
                                     recyclerView.setAdapter(hospitalAdapter);
 
                                 } else

@@ -3,13 +3,13 @@ package br.com.fgr.emergencia.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.Session;
@@ -30,9 +30,10 @@ import br.com.fgr.emergencia.utils.Helper;
 public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
-    protected EditText editEmail;
-    protected EditText editSenha;
-    protected Button buttonLogar;
+
+    protected AppCompatEditText editEmail;
+    protected AppCompatEditText editSenha;
+    protected AppCompatButton buttonLogar;
     protected LoginButton fbLoginButton;
     private UiLifecycleHelper uiHelper;
 
@@ -49,11 +50,10 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setActionBarIcon(R.drawable.ic_action_back);
 
-        editEmail = (EditText) findViewById(R.id.edit_email);
-        editSenha = (EditText) findViewById(R.id.edit_senha);
-        buttonLogar = (Button) findViewById(R.id.button_logar);
+        editEmail = (AppCompatEditText) findViewById(R.id.edit_email);
+        editSenha = (AppCompatEditText) findViewById(R.id.edit_senha);
+        buttonLogar = (AppCompatButton) findViewById(R.id.button_logar);
 
         fbLoginButton = (LoginButton) findViewById(R.id.authButton);
         uiHelper = new UiLifecycleHelper(this, callback);
@@ -183,7 +183,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected int getLayoutResource() {
 
-        return R.layout.activity_formulario;
+        return R.layout.activity_login;
 
     }
 

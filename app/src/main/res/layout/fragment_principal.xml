@@ -12,7 +12,7 @@
         android:background="@color/grafite"
         android:padding="10dp"
         android:text="@string/botao_hospitais_proximos"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceButton"
         android:textColor="@color/branco" />
 
 </RelativeLayout>

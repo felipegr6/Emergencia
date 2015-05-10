@@ -123,7 +123,7 @@
         android:background="@color/grafite"
         android:padding="10dp"
         android:text="@string/button_gravar"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceButton"
         android:textColor="@color/branco" />
 
 </RelativeLayout>

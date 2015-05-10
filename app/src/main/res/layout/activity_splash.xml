@@ -2,13 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vermelho_rescuee"
+    android:background="@drawable/bg_splash"
     tools:context="${relativePackage}.${activityClass}">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/icone_description"
-        android:src="@drawable/iconefundo" />
 </RelativeLayout>
