@@ -28,6 +28,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -37,6 +38,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="ba90b4689d4bbea770bf29d7aa2687434014f50a" />
 
         <activity
             android:name="com.facebook.LoginActivity"
@@ -76,6 +80,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activities.ConfiguracaoActivity"
+            android:label="@string/title_activity_configuracao"
+            android:parentActivityName=".ui.activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.fgr.emergencia.ui.activities.MainActivity" />
+        </activity>
 
         <provider
             android:name=".db.HospitalProvider"
@@ -95,18 +107,6 @@
 
         <service android:name=".services.GcmIntentService" />
 
-        <meta-data
-            android:name="com.crashlytics.ApiKey"
-            android:value="ba90b4689d4bbea770bf29d7aa2687434014f50a" />
-
-        <activity
-            android:name=".ui.activities.ConfiguracaoActivity"
-            android:label="@string/title_activity_configuracao"
-            android:parentActivityName=".ui.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.fgr.emergencia.ui.activities.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

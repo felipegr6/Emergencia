@@ -24,7 +24,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 0
-        versionName "0.3.0"
+        versionName "0.4.0"
     }
 
     signingConfigs {
@@ -61,7 +61,7 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.10'
     compile 'com.google.code.gson:gson:2.3'
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
-    compile('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }
     compile 'com.parse.bolts:bolts-android:1.1.4'

@@ -13,17 +13,17 @@
             android:id="@+id/label_nome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:maxLines="2"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/grafite" />
+            android:textColor="@color/grafite"
+            android:textStyle="bold" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/label_distancia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_below="@+id/label_nome"
+            android:layout_marginTop="10dp"
             android:text="@string/distancia"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
@@ -32,10 +32,10 @@
             android:id="@+id/label_valor_distancia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_below="@+id/label_nome"
-            android:layout_toRightOf="@+id/label_distancia"
             android:layout_marginLeft="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/label_distancia"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
 
@@ -46,17 +46,17 @@
             android:layout_below="@+id/label_distancia"
             android:text="@string/tempo"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/grafite"/>
+            android:textColor="@color/grafite" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/label_valor_tempo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/label_distancia"
-            android:layout_toRightOf="@+id/label_tempo"
             android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@+id/label_tempo"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/grafite"/>
+            android:textColor="@color/grafite" />
 
     </RelativeLayout>
 

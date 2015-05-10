@@ -67,11 +67,11 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             return nome;
         }
 
-        public AppCompatTextView getDistancia(){
+        public AppCompatTextView getDistancia() {
             return distancia;
         }
 
-        public AppCompatTextView getTempo(){
+        public AppCompatTextView getTempo() {
             return tempo;
         }
 
