@@ -5,9 +5,9 @@
 
     <RelativeLayout
         android:id="@+id/infoPrincipal"
-        android:background="@drawable/download"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/download">
 
         <ImageView
             android:id="@+id/countryImage"
@@ -36,10 +36,10 @@
                 android:id="@+id/labelDistancia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/grafite"
                 android:enabled="false"
-                android:text="Distância"/>
+                android:text="Distância"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/grafite" />
         </RelativeLayout>
 
     </RelativeLayout>

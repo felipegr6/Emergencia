@@ -22,10 +22,10 @@ import br.com.fgr.emergencia.ui.fragments.ListaHospitaisFragment;
 
 public class LocalizacaoActivity extends BaseActivity implements ConnectionCallbacks, OnConnectionFailedListener {
 
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

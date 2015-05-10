@@ -13,7 +13,7 @@
     <string name="unknow">Desconhecido</string>
     <string name="hospital">Hospital: </string>
     <string name="distancia">Distância: </string>
-    <string name="meushospitais">Meus Hospitais</string>
+    <string name="meus_hospitais">Meus Hospitais</string>
     <string name="title_activity_formulario">Meu Cadastro</string>
     <string name="title_activity_recuperar_informacoes">Coletando Informações</string>
     <string name="title_activity_principal_fragment">PrincipalFragment</string>
@@ -22,6 +22,7 @@
     <string name="facebook_app_id">1564863630421264</string>
     <string name="title_activity_configuracao">Configurações</string>
     <string name="title_fragment_map">Mapa</string>
+    <string name="label_modo">Modo: </string>
 
     <string-array name="lista_nav_drawer">
         <item>Meu Cadastro</item>
@@ -51,7 +52,7 @@
     <string name="erro_sem_conexao">Sem conexão com a Internet.</string>
 
     <!-- SpinnerAdapter -->
-    <string name="transporte_prompt">Escolha um transporte</string>
+    <string name="transporte_prompt">Escolha um meio de transporte</string>
     <string-array name="transportes_array">
         <item>Carro</item>
         <item>A Pé</item>

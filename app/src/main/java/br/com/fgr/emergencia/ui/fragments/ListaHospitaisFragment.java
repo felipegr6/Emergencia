@@ -51,13 +51,17 @@ import br.com.fgr.emergencia.utils.HospitalAdapter;
 
 public class ListaHospitaisFragment extends Fragment {
 
-    public double latUsuario;
-    public double lgnUsuario;
     public final static String TAG_LATITUDE = "LATITUDE";
     public final static String TAG_LONGITUDE = "LONGITUDE";
+    public double latUsuario;
+    public double lgnUsuario;
     protected RecyclerView recyclerView;
     protected GestureDetectorCompat detector;
     private List<Hospital> hospitais;
+
+    public ListaHospitaisFragment() {
+
+    }
 
     public static ListaHospitaisFragment newInstance(double latitude, double longitude) {
 
@@ -70,10 +74,6 @@ public class ListaHospitaisFragment extends Fragment {
         fragment.setArguments(bundle);
 
         return fragment;
-
-    }
-
-    public ListaHospitaisFragment() {
 
     }
 

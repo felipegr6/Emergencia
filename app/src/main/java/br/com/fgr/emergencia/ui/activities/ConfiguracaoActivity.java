@@ -1,13 +1,13 @@
 package br.com.fgr.emergencia.ui.activities;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import br.com.fgr.emergencia.R;
@@ -18,10 +18,10 @@ public class ConfiguracaoActivity extends BaseActivity {
 
     private SeekBar seekRaio;
     private SeekBar seekHospitais;
-    private EditText textRaio;
-    private EditText textHospitais;
-    private Spinner spinnerTransporte;
-    private Button buttonGravar;
+    private AppCompatEditText textRaio;
+    private AppCompatEditText textHospitais;
+    private AppCompatSpinner spinnerTransporte;
+    private AppCompatButton buttonGravar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +33,10 @@ public class ConfiguracaoActivity extends BaseActivity {
 
         seekRaio = (SeekBar) findViewById(R.id.seek_raio);
         seekHospitais = (SeekBar) findViewById(R.id.seek_hospitais);
-        textRaio = (EditText) findViewById(R.id.text_mostra_raio);
-        textHospitais = (EditText) findViewById(R.id.text_mostra_hospitais);
-        spinnerTransporte = (Spinner) findViewById(R.id.spinner_transporte);
-        buttonGravar = (Button) findViewById(R.id.button_gravar);
+        textRaio = (AppCompatEditText) findViewById(R.id.text_mostra_raio);
+        textHospitais = (AppCompatEditText) findViewById(R.id.text_mostra_hospitais);
+        spinnerTransporte = (AppCompatSpinner) findViewById(R.id.spinner_transporte);
+        buttonGravar = (AppCompatButton) findViewById(R.id.button_gravar);
 
         seekRaio.setProgress(configuracao.getRaio());
         seekHospitais.setProgress(configuracao.getHospitais());
@@ -47,9 +47,7 @@ public class ConfiguracaoActivity extends BaseActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
                 textRaio.setText(Helper.formatarInformacao(Helper.CONST_RAIO, progress, true));
-
             }
 
             @Override
@@ -68,9 +66,7 @@ public class ConfiguracaoActivity extends BaseActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
                 textHospitais.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, progress, true));
-
             }
 
             @Override
@@ -118,12 +114,8 @@ public class ConfiguracaoActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings)
             return true;
 

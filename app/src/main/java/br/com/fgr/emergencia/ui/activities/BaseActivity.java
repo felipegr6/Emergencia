@@ -1,12 +1,12 @@
 package br.com.fgr.emergencia.ui.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import br.com.fgr.emergencia.R;
 
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
@@ -38,9 +38,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     }
 
     protected Toolbar getToolbar() {
-
         return toolbar;
-
     }
 
 }
