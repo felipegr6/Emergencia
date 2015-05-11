@@ -15,21 +15,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.mopub.mobileads.MoPubView;
+
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.fragments.PrincipalFragment;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String MOPUB_BANNER_AD_UNIT_ID = "cfb1d11b4942442582b5ed69cf94937f";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private String[] navListValues;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mTitle;
+    private MoPubView moPubView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
+        moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
+        moPubView.loadAd();
 
         mTitle = getTitle();
 
@@ -109,6 +117,14 @@ public class MainActivity extends BaseActivity {
     protected int getLayoutResource() {
 
         return R.layout.activity_main;
+
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        moPubView.destroy();
+        super.onDestroy();
 
     }
 

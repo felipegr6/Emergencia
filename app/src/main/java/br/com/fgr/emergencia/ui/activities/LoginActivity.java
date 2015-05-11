@@ -6,23 +6,16 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.LoginButton;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.utils.Helper;
@@ -34,8 +27,10 @@ public class LoginActivity extends BaseActivity {
     protected AppCompatEditText editEmail;
     protected AppCompatEditText editSenha;
     protected AppCompatButton buttonLogar;
-    protected LoginButton fbLoginButton;
-    private UiLifecycleHelper uiHelper;
+
+    /*
+     protected LoginButton fbLoginButton;
+     private UiLifecycleHelper uiHelper;
 
     private Session.StatusCallback callback = new Session.StatusCallback() {
 
@@ -45,6 +40,7 @@ public class LoginActivity extends BaseActivity {
         }
 
     };
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +51,12 @@ public class LoginActivity extends BaseActivity {
         editSenha = (AppCompatEditText) findViewById(R.id.edit_senha);
         buttonLogar = (AppCompatButton) findViewById(R.id.button_logar);
 
+        /*
         fbLoginButton = (LoginButton) findViewById(R.id.authButton);
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
         fbLoginButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
+        */
 
         buttonLogar.setOnClickListener(new View.OnClickListener() {
 
@@ -119,7 +117,7 @@ public class LoginActivity extends BaseActivity {
 
         super.onResume();
 
-        uiHelper.onResume();
+        // uiHelper.onResume();
 
     }
 
@@ -128,7 +126,7 @@ public class LoginActivity extends BaseActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        uiHelper.onActivityResult(requestCode, resultCode, data);
+        // uiHelper.onActivityResult(requestCode, resultCode, data);
 
     }
 
@@ -137,46 +135,16 @@ public class LoginActivity extends BaseActivity {
 
         super.onPause();
 
-        uiHelper.onPause();
+        // uiHelper.onPause();
 
     }
 
     @Override
     public void onDestroy() {
 
+        // uiHelper.onDestroy();
+
         super.onDestroy();
-
-        uiHelper.onDestroy();
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-
-        super.onSaveInstanceState(outState);
-
-        uiHelper.onSaveInstanceState(outState);
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.formulario, menu);
-
-        return true;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings)
-            return true;
-
-        return super.onOptionsItemSelected(item);
 
     }
 
@@ -187,6 +155,7 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    /*
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 
         if (state.isOpened())
@@ -195,6 +164,7 @@ public class LoginActivity extends BaseActivity {
             Log.i(TAG, "Logged out...");
 
     }
+    */
 
     private void hideKeyboard() {
 
