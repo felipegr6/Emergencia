@@ -26,11 +26,15 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private boolean pesquisado;
+    private final String tagPesquisado = "PESQUISADO";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        pesquisado = false;
 
         if (checkPlayServices())
             buildGoogleApiClient();
@@ -94,7 +98,10 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
     @Override
     public void onConnected(Bundle bundle) {
-        listarHospitais();
+
+        if (!pesquisado)
+            listarHospitais();
+
     }
 
     @Override
@@ -117,7 +124,7 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             else {
 
-                Toast.makeText(getApplicationContext(), "This device is not supported.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Seu dispositivo não suporta esta funcionallidade.", Toast.LENGTH_LONG).show();
                 finish();
 
             }
@@ -143,9 +150,16 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
+        pesquisado = true;
+
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+
+        if (mLastLocation != null)
+            ft.add(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+        else
+            ft.add(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(-23.552133, -46.6331418));
+
         ft.commit();
 
     }

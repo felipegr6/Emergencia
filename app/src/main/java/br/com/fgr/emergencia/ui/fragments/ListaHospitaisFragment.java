@@ -54,6 +54,9 @@ public class ListaHospitaisFragment extends Fragment {
     protected RecyclerView recyclerView;
     protected GestureDetectorCompat detector;
     private List<Hospital> hospitais;
+    private HospitalAdapter hospitalAdapter;
+    private StringRequest mStringRequest;
+    private RequestQueue mRequestQueue;
 
     public ListaHospitaisFragment() {
 
@@ -88,11 +91,9 @@ public class ListaHospitaisFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_localizacao,
-                container, false);
+        View view = inflater.inflate(R.layout.fragment_localizacao, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setHasFixedSize(true);
@@ -120,9 +121,188 @@ public class ListaHospitaisFragment extends Fragment {
 
         });
 
-        new DownloadJson(getActivity(), latUsuario, lgnUsuario).execute();
+        // new DownloadJson(getActivity(), latUsuario, lgnUsuario).execute();
+
+        if (isAdded())
+            realizarChamada(getActivity(), latUsuario, lgnUsuario);
 
         return view;
+
+    }
+
+    private void realizarChamada(final Context context, final double latitude, final double longitude) {
+
+        final ProgressDialog dialogInternet;
+
+        dialogInternet = new ProgressDialog(context);
+        mRequestQueue = Volley.newRequestQueue(context);
+        mRequestQueue.getCache().clear();
+
+        String title = getResources().getString(R.string.titulo_dialog_hospitais);
+        String message = getResources().getString(R.string.descricao_dialog_hospitais);
+
+        dialogInternet.setTitle(title);
+        dialogInternet.setMessage(message);
+        dialogInternet.setCancelable(false);
+        dialogInternet.setIndeterminate(true);
+
+        dialogInternet.show();
+
+        Configuracao config = Helper.getConfiguracoes(context.getApplicationContext());
+
+        int qtdeHospitais = Integer.parseInt(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, config.getHospitais(), false));
+        float raioAlcance = Float.parseFloat(Helper.formatarInformacao(Helper.CONST_RAIO, config.getRaio(), false));
+
+        hospitais = new ArrayList<>();
+
+        final ParseQuery<ParseObject> hospitaisParse = ParseQuery.getQuery("Hospital");
+        hospitaisParse.setLimit(qtdeHospitais);
+        hospitaisParse.whereWithinKilometers("localizacao", new ParseGeoPoint(latUsuario, lgnUsuario), raioAlcance);
+
+        hospitaisParse.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                ParseGeoPoint geoPoint = new ParseGeoPoint(latUsuario, lgnUsuario);
+                Coordenada coordAux;
+
+                if (parseObjects != null) {
+
+                    for (ParseObject p : parseObjects) {
+
+                        ParseGeoPoint pontos = p.getParseGeoPoint("localizacao");
+                        String nomeHospital = p.getString("nome");
+                        Hospital hospAux = new Hospital();
+
+                        coordAux = new Coordenada(pontos.getLatitude(), pontos.getLongitude());
+
+                        hospAux.setLocalizacao(coordAux);
+                        hospAux.setNome(nomeHospital);
+
+                        hospitais.add(hospAux);
+
+                        Log.w("Parse", geoPoint.distanceInKilometersTo(pontos) + " ");
+
+                    }
+
+                    String url = construirUrlMapa(hospitais, latitude, longitude);
+
+                    mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+                        @Override
+                        public void onResponse(String response) {
+
+                            Log.w("response", response);
+
+                            if (converterJson(response)) {
+
+                                Collections.sort(hospitais);
+
+                                hospitalAdapter = new HospitalAdapter(hospitais, R.layout.row_hospital);
+                                recyclerView.setAdapter(hospitalAdapter);
+
+                            } else
+                                Toast.makeText(getActivity(), "Deu ruim, tente novamente.", Toast.LENGTH_SHORT).show();
+
+                            dialogInternet.dismiss();
+
+                        }
+
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            if (error instanceof NetworkError)
+                                Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
+                            else {
+
+                                Log.e("LocalizacaoFragment", error.getMessage() + " ");
+                                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                            }
+
+                            if (dialogInternet.isShowing())
+                                dialogInternet.dismiss();
+
+                        }
+
+                    });
+
+                    mRequestQueue.add(mStringRequest);
+
+                }
+
+            }
+
+        });
+
+    }
+
+    private String construirUrlMapa(List<Hospital> hospitalList, double latitude, double longitude) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("http://maps.googleapis.com/maps/api/distancematrix/json?origins=");
+        stringBuilder.append(latitude);
+        stringBuilder.append(",");
+        stringBuilder.append(longitude);
+        stringBuilder.append("&destinations=");
+
+        for (Hospital h : hospitalList) {
+
+            stringBuilder.append(h.getLocalizacao().getLat());
+            stringBuilder.append(",");
+            stringBuilder.append(h.getLocalizacao().getLgn());
+            stringBuilder.append("|");
+
+        }
+
+        stringBuilder.append("&mode=driving&language=pt-BR&sensor=true");
+
+        return stringBuilder.toString();
+
+    }
+
+    private boolean converterJson(String jsonConteudo) {
+
+        List<Elementos> elementos;
+        boolean resposta;
+
+        Gson conteudos = new Gson();
+
+        DistanceMatrixResponse respostas = conteudos.fromJson(jsonConteudo,
+                DistanceMatrixResponse.class);
+
+        if (respostas.getStatus().equals("OK")) {
+
+            elementos = respostas.getLinhas().get(0).getElementos();
+
+            if (elementos.get(0).getStatus().equals("OK")) {
+
+                for (int k = 0; k < hospitais.size(); k++) {
+
+                    hospitais.get(k).setDistancia(
+                            elementos.get(k).getDistancia().getTexto());
+                    hospitais.get(k).setValorDistancia(
+                            elementos.get(k).getDistancia().getValor());
+                    hospitais.get(k).setTempo(
+                            elementos.get(k).getDuracao().getTexto());
+                    hospitais.get(k).setValorTempo(
+                            elementos.get(k).getDuracao().getValor());
+
+                }
+
+                resposta = true;
+
+            } else
+                resposta = false;
+
+        } else
+            resposta = false;
+
+        return resposta;
 
     }
 

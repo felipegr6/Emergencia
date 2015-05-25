@@ -90,11 +90,6 @@
                 android:value="br.com.fgr.emergencia.ui.activities.MainActivity" />
         </activity>
 
-        <provider
-            android:name=".db.HospitalProvider"
-            android:authorities="@string/authority"
-            android:exported="false" />
-
         <receiver
             android:name=".services.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
