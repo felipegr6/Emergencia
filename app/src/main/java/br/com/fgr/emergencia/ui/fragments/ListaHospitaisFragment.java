@@ -4,8 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
@@ -27,9 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -50,18 +45,34 @@ import br.com.fgr.emergencia.models.general.Hospital;
 import br.com.fgr.emergencia.utils.Helper;
 import br.com.fgr.emergencia.utils.HospitalAdapter;
 
-public class ListaHospitaisFragment extends Fragment implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class ListaHospitaisFragment extends Fragment {
 
-    public static double LAT_USUARIO = 0.0;
-    public static double LGN_USUARIO = 0.0;
-    private final String TAG = this.getClass().getSimpleName();
-    protected GoogleApiClient mGoogleApiClient;
+    public final static String TAG_LATITUDE = "LATITUDE";
+    public final static String TAG_LONGITUDE = "LONGITUDE";
+    public double latUsuario;
+    public double lgnUsuario;
     protected RecyclerView recyclerView;
     protected GestureDetectorCompat detector;
     private List<Hospital> hospitais;
+    private HospitalAdapter hospitalAdapter;
+    private StringRequest mStringRequest;
+    private RequestQueue mRequestQueue;
 
     public ListaHospitaisFragment() {
+
+    }
+
+    public static ListaHospitaisFragment newInstance(double latitude, double longitude) {
+
+        Bundle bundle = new Bundle();
+        ListaHospitaisFragment fragment = new ListaHospitaisFragment();
+
+        bundle.putDouble(TAG_LATITUDE, latitude);
+        bundle.putDouble(TAG_LONGITUDE, longitude);
+
+        fragment.setArguments(bundle);
+
+        return fragment;
 
     }
 
@@ -70,14 +81,19 @@ public class ListaHospitaisFragment extends Fragment implements
 
         super.onCreate(savedInstanceState);
 
+        if (getArguments() != null) {
+
+            latUsuario = getArguments().getDouble(TAG_LATITUDE);
+            lgnUsuario = getArguments().getDouble(TAG_LONGITUDE);
+
+        }
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_localizacao,
-                container, false);
+        View view = inflater.inflate(R.layout.fragment_localizacao, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setHasFixedSize(true);
@@ -105,110 +121,205 @@ public class ListaHospitaisFragment extends Fragment implements
 
         });
 
-        buildGoogleApiClient();
+        // new DownloadJson(getActivity(), latUsuario, lgnUsuario).execute();
 
-        new DownloadJson(getActivity()).execute();
+        if (isAdded())
+            realizarChamada(getActivity(), latUsuario, lgnUsuario);
 
         return view;
 
     }
 
-    @Override
-    public void onResume() {
+    private void realizarChamada(final Context context, final double latitude, final double longitude) {
 
-        super.onResume();
+        final ProgressDialog dialogInternet;
 
-        mGoogleApiClient.connect();
+        dialogInternet = new ProgressDialog(context);
+        mRequestQueue = Volley.newRequestQueue(context);
+        mRequestQueue.getCache().clear();
 
-        LAT_USUARIO = 0.0;
-        LGN_USUARIO = 0.0;
+        String title = getResources().getString(R.string.titulo_dialog_hospitais);
+        String message = getResources().getString(R.string.descricao_dialog_hospitais);
+
+        dialogInternet.setTitle(title);
+        dialogInternet.setMessage(message);
+        dialogInternet.setCancelable(false);
+        dialogInternet.setIndeterminate(true);
+
+        dialogInternet.show();
+
+        Configuracao config = Helper.getConfiguracoes(context.getApplicationContext());
+
+        int qtdeHospitais = Integer.parseInt(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, config.getHospitais(), false));
+        float raioAlcance = Float.parseFloat(Helper.formatarInformacao(Helper.CONST_RAIO, config.getRaio(), false));
+
+        hospitais = new ArrayList<>();
+
+        final ParseQuery<ParseObject> hospitaisParse = ParseQuery.getQuery("Hospital");
+        hospitaisParse.setLimit(qtdeHospitais);
+        hospitaisParse.whereWithinKilometers("localizacao", new ParseGeoPoint(latUsuario, lgnUsuario), raioAlcance);
+
+        hospitaisParse.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                ParseGeoPoint geoPoint = new ParseGeoPoint(latUsuario, lgnUsuario);
+                Coordenada coordAux;
+
+                if (parseObjects != null) {
+
+                    for (ParseObject p : parseObjects) {
+
+                        ParseGeoPoint pontos = p.getParseGeoPoint("localizacao");
+                        String nomeHospital = p.getString("nome");
+                        Hospital hospAux = new Hospital();
+
+                        coordAux = new Coordenada(pontos.getLatitude(), pontos.getLongitude());
+
+                        hospAux.setLocalizacao(coordAux);
+                        hospAux.setNome(nomeHospital);
+
+                        hospitais.add(hospAux);
+
+                        Log.w("Parse", geoPoint.distanceInKilometersTo(pontos) + " ");
+
+                    }
+
+                    String url = construirUrlMapa(hospitais, latitude, longitude);
+
+                    mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+                        @Override
+                        public void onResponse(String response) {
+
+                            Log.w("response", response);
+
+                            if (converterJson(response)) {
+
+                                Collections.sort(hospitais);
+
+                                hospitalAdapter = new HospitalAdapter(hospitais, R.layout.row_hospital);
+                                recyclerView.setAdapter(hospitalAdapter);
+
+                            } else
+                                Toast.makeText(getActivity(), "Deu ruim, tente novamente.", Toast.LENGTH_SHORT).show();
+
+                            dialogInternet.dismiss();
+
+                        }
+
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            if (error instanceof NetworkError)
+                                Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
+                            else {
+
+                                Log.e("LocalizacaoFragment", error.getMessage() + " ");
+                                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                            }
+
+                            if (dialogInternet.isShowing())
+                                dialogInternet.dismiss();
+
+                        }
+
+                    });
+
+                    mRequestQueue.add(mStringRequest);
+
+                }
+
+            }
+
+        });
 
     }
 
-    @Override
-    public void onPause() {
+    private String construirUrlMapa(List<Hospital> hospitalList, double latitude, double longitude) {
 
-        super.onPause();
+        StringBuilder stringBuilder = new StringBuilder();
 
-        if (mGoogleApiClient.isConnected())
-            mGoogleApiClient.disconnect();
+        stringBuilder.append("http://maps.googleapis.com/maps/api/distancematrix/json?origins=");
+        stringBuilder.append(latitude);
+        stringBuilder.append(",");
+        stringBuilder.append(longitude);
+        stringBuilder.append("&destinations=");
 
-    }
+        for (Hospital h : hospitalList) {
 
-    @Override
-    public void onConnected(Bundle bundle) {
-
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-        if (mLastLocation != null) {
-
-            LAT_USUARIO = mLastLocation.getLatitude();
-            LGN_USUARIO = mLastLocation.getLongitude();
+            stringBuilder.append(h.getLocalizacao().getLat());
+            stringBuilder.append(",");
+            stringBuilder.append(h.getLocalizacao().getLgn());
+            stringBuilder.append("|");
 
         }
 
-    }
+        stringBuilder.append("&mode=driving&language=pt-BR&sensor=true");
 
-    @Override
-    public void onConnectionSuspended(int i) {
-
-        Log.i(TAG, "Connection suspended");
-        mGoogleApiClient.connect();
+        return stringBuilder.toString();
 
     }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    private boolean converterJson(String jsonConteudo) {
 
-        Log.e(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+        List<Elementos> elementos;
+        boolean resposta;
 
-    }
+        Gson conteudos = new Gson();
 
-    protected synchronized void buildGoogleApiClient() {
+        DistanceMatrixResponse respostas = conteudos.fromJson(jsonConteudo,
+                DistanceMatrixResponse.class);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+        if (respostas.getStatus().equals("OK")) {
 
-    }
+            elementos = respostas.getLinhas().get(0).getElementos();
 
-    @Override
-    public void onLocationChanged(Location location) {
+            if (elementos.get(0).getStatus().equals("OK")) {
 
-        LAT_USUARIO = location.getLatitude();
-        LGN_USUARIO = location.getLongitude();
+                for (int k = 0; k < hospitais.size(); k++) {
 
-    }
+                    hospitais.get(k).setDistancia(
+                            elementos.get(k).getDistancia().getTexto());
+                    hospitais.get(k).setValorDistancia(
+                            elementos.get(k).getDistancia().getValor());
+                    hospitais.get(k).setTempo(
+                            elementos.get(k).getDuracao().getTexto());
+                    hospitais.get(k).setValorTempo(
+                            elementos.get(k).getDuracao().getValor());
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
 
-    }
+                resposta = true;
 
-    @Override
-    public void onProviderEnabled(String provider) {
+            } else
+                resposta = false;
 
-    }
+        } else
+            resposta = false;
 
-    @Override
-    public void onProviderDisabled(String provider) {
+        return resposta;
 
     }
 
     private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
 
+        public View view;
+
         @Override
         public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
 
-            View view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+            view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
             int position = recyclerView.getChildPosition(view);
 
             Hospital hosp = hospitais.get(position);
 
-            MapaFragment mCaminhoFragment = MapaFragment.newInstance(LAT_USUARIO,
-                    LGN_USUARIO,
+            MapaFragment mCaminhoFragment = MapaFragment.newInstance(latUsuario,
+                    lgnUsuario,
                     hosp.getLocalizacao().getLat(),
                     hosp.getLocalizacao().getLgn());
 
@@ -220,15 +331,8 @@ public class ListaHospitaisFragment extends Fragment implements
 
         }
 
-        public void onLongPress(MotionEvent motionEvent) {
-
-            View view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-            int position = recyclerView.getChildPosition(view);
-
-            // handle long press
-
+        public void onLongPress(final MotionEvent motionEvent) {
             super.onLongPress(motionEvent);
-
         }
 
     }
@@ -240,12 +344,16 @@ public class ListaHospitaisFragment extends Fragment implements
         private RequestQueue mRequestQueue;
         private StringRequest mStringRequest;
         private HospitalAdapter hospitalAdapter;
+        private double latitude;
+        private double longitude;
 
-        public DownloadJson(Context context) {
+        public DownloadJson(Context context, double latitude, double longitude) {
 
             this.dialogInternet = new ProgressDialog(context);
             this.context = context;
             this.mRequestQueue = Volley.newRequestQueue(context);
+            this.latitude = latitude;
+            this.longitude = longitude;
 
             mRequestQueue.getCache().clear();
 
@@ -256,12 +364,11 @@ public class ListaHospitaisFragment extends Fragment implements
 
             String title = getResources().getString(R.string.titulo_dialog_hospitais);
             String message = getResources().getString(R.string.descricao_dialog_hospitais);
-            boolean indeterminate = true;
 
             dialogInternet.setTitle(title);
             dialogInternet.setMessage(message);
             dialogInternet.setCancelable(false);
-            dialogInternet.setIndeterminate(indeterminate);
+            dialogInternet.setIndeterminate(true);
 
             dialogInternet.show();
 
@@ -277,25 +384,23 @@ public class ListaHospitaisFragment extends Fragment implements
 
             while (true) {
 
-                if (LAT_USUARIO != 0.0 && LGN_USUARIO != 0.0)
+                if (latUsuario != 0.0 && lgnUsuario != 0.0)
                     break;
 
             }
-
-            String url;
 
             hospitais = new ArrayList<>();
 
             final ParseQuery<ParseObject> hospitaisParse = ParseQuery.getQuery("Hospital");
             hospitaisParse.setLimit(qtdeHospitais);
-            hospitaisParse.whereWithinKilometers("localizacao", new ParseGeoPoint(LAT_USUARIO, LGN_USUARIO), raioAlcance);
+            hospitaisParse.whereWithinKilometers("localizacao", new ParseGeoPoint(latUsuario, lgnUsuario), raioAlcance);
 
             hospitaisParse.findInBackground(new FindCallback<ParseObject>() {
 
                 @Override
                 public void done(List<ParseObject> parseObjects, ParseException e) {
 
-                    ParseGeoPoint geoPoint = new ParseGeoPoint(LAT_USUARIO, LGN_USUARIO);
+                    ParseGeoPoint geoPoint = new ParseGeoPoint(latUsuario, lgnUsuario);
                     Coordenada coordAux;
 
                     if (parseObjects != null) {
@@ -330,7 +435,7 @@ public class ListaHospitaisFragment extends Fragment implements
 
                                     Collections.sort(hospitais);
 
-                                    hospitalAdapter = new HospitalAdapter(hospitais, R.layout.new_row_layout);
+                                    hospitalAdapter = new HospitalAdapter(hospitais, R.layout.row_hospital);
                                     recyclerView.setAdapter(hospitalAdapter);
 
                                 } else
@@ -378,9 +483,9 @@ public class ListaHospitaisFragment extends Fragment implements
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.append("http://maps.googleapis.com/maps/api/distancematrix/json?origins=");
-            stringBuilder.append(ListaHospitaisFragment.LAT_USUARIO);
+            stringBuilder.append(latitude);
             stringBuilder.append(",");
-            stringBuilder.append(ListaHospitaisFragment.LGN_USUARIO);
+            stringBuilder.append(longitude);
             stringBuilder.append("&destinations=");
 
             for (Hospital h : hospitalList) {

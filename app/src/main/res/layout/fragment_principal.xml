@@ -4,14 +4,15 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}">
 
-    <Button
-        android:id="@+id/btnEmergencia"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button_emergencia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:background="@color/grafite"
         android:padding="10dp"
         android:text="@string/botao_hospitais_proximos"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceButton"
+        android:textColor="@color/branco" />
 
 </RelativeLayout>

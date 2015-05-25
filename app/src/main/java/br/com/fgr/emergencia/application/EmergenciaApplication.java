@@ -3,6 +3,7 @@ package br.com.fgr.emergencia.application;
 import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
+import com.mopub.common.MoPub;
 import com.parse.Parse;
 
 import io.fabric.sdk.android.Fabric;
@@ -14,7 +15,7 @@ public class EmergenciaApplication extends Application {
 
         super.onCreate();
 
-        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics(), new MoPub());
 
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);

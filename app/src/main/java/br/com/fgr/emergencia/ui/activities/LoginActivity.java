@@ -3,26 +3,19 @@ package br.com.fgr.emergencia.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.LoginButton;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.utils.Helper;
@@ -30,11 +23,15 @@ import br.com.fgr.emergencia.utils.Helper;
 public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
-    protected EditText editEmail;
-    protected EditText editSenha;
-    protected Button buttonLogar;
-    protected LoginButton fbLoginButton;
-    private UiLifecycleHelper uiHelper;
+
+    protected AppCompatEditText editEmail;
+    protected AppCompatEditText editSenha;
+    protected AppCompatButton buttonLogar;
+
+    /*
+     protected LoginButton fbLoginButton;
+     private UiLifecycleHelper uiHelper;
+
     private Session.StatusCallback callback = new Session.StatusCallback() {
 
         @Override
@@ -43,21 +40,23 @@ public class LoginActivity extends BaseActivity {
         }
 
     };
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setActionBarIcon(R.drawable.ic_action_back);
 
-        editEmail = (EditText) findViewById(R.id.edit_email);
-        editSenha = (EditText) findViewById(R.id.edit_senha);
-        buttonLogar = (Button) findViewById(R.id.button_logar);
+        editEmail = (AppCompatEditText) findViewById(R.id.edit_email);
+        editSenha = (AppCompatEditText) findViewById(R.id.edit_senha);
+        buttonLogar = (AppCompatButton) findViewById(R.id.button_logar);
 
+        /*
         fbLoginButton = (LoginButton) findViewById(R.id.authButton);
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
         fbLoginButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
+        */
 
         buttonLogar.setOnClickListener(new View.OnClickListener() {
 
@@ -118,7 +117,7 @@ public class LoginActivity extends BaseActivity {
 
         super.onResume();
 
-        uiHelper.onResume();
+        // uiHelper.onResume();
 
     }
 
@@ -127,7 +126,7 @@ public class LoginActivity extends BaseActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        uiHelper.onActivityResult(requestCode, resultCode, data);
+        // uiHelper.onActivityResult(requestCode, resultCode, data);
 
     }
 
@@ -136,60 +135,27 @@ public class LoginActivity extends BaseActivity {
 
         super.onPause();
 
-        uiHelper.onPause();
+        // uiHelper.onPause();
 
     }
 
     @Override
     public void onDestroy() {
 
+        // uiHelper.onDestroy();
+
         super.onDestroy();
-
-        uiHelper.onDestroy();
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-
-        super.onSaveInstanceState(outState);
-
-        uiHelper.onSaveInstanceState(outState);
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.formulario, menu);
-
-        return true;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings)
-            return true;
-
-        return super.onOptionsItemSelected(item);
 
     }
 
     @Override
     protected int getLayoutResource() {
 
-        return R.layout.activity_formulario;
+        return R.layout.activity_login;
 
     }
 
+    /*
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 
         if (state.isOpened())
@@ -198,6 +164,7 @@ public class LoginActivity extends BaseActivity {
             Log.i(TAG, "Logged out...");
 
     }
+    */
 
     private void hideKeyboard() {
 

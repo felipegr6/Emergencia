@@ -3,10 +3,10 @@ package br.com.fgr.emergencia.ui.fragments;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import br.com.fgr.emergencia.R;
@@ -15,7 +15,7 @@ import br.com.fgr.emergencia.utils.Helper;
 
 public class PrincipalFragment extends Fragment {
 
-    private Button btnEmergencia;
+    private AppCompatButton btnEmergencia;
 
     public PrincipalFragment() {
 
@@ -23,9 +23,7 @@ public class PrincipalFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -35,7 +33,7 @@ public class PrincipalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_principal,
                 container, false);
 
-        btnEmergencia = (Button) view.findViewById(R.id.btnEmergencia);
+        btnEmergencia = (AppCompatButton) view.findViewById(R.id.button_emergencia);
 
         btnEmergencia.setOnClickListener(new View.OnClickListener() {
 

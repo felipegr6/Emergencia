@@ -15,21 +15,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.mopub.mobileads.MoPubView;
+
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.fragments.PrincipalFragment;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String MOPUB_BANNER_AD_UNIT_ID = "cfb1d11b4942442582b5ed69cf94937f";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private String[] navListValues;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mTitle;
+    private MoPubView moPubView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
+        moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
+        moPubView.loadAd();
 
         mTitle = getTitle();
 
@@ -60,7 +68,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
         return true;
@@ -92,7 +99,7 @@ public class MainActivity extends BaseActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
 
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
+
         mDrawerToggle.syncState();
 
     }
@@ -101,7 +108,7 @@ public class MainActivity extends BaseActivity {
     public void onConfigurationChanged(Configuration newConfig) {
 
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
+
         mDrawerToggle.onConfigurationChanged(newConfig);
 
     }
@@ -113,6 +120,14 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+
+        moPubView.destroy();
+        super.onDestroy();
+
+    }
+
     private class AcaoNavDrawer implements ListView.OnItemClickListener {
 
         @Override
@@ -121,11 +136,6 @@ public class MainActivity extends BaseActivity {
             switch (position) {
 
                 case 0:
-                    mDrawerLayout.closeDrawers();
-                    Intent i0 = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(i0);
-                    break;
-                case 1:
                     mDrawerLayout.closeDrawers();
                     Intent i1 = new Intent(MainActivity.this, ConfiguracaoActivity.class);
                     startActivity(i1);

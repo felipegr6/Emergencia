@@ -32,6 +32,7 @@ public class MapaFragment extends MapFragment {
     private GoogleMap googleMap;
 
     public MapaFragment() {
+
     }
 
     public static MapaFragment newInstance(double param1, double param2, double param3, double param4) {
