@@ -14,7 +14,6 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import br.com.fgr.emergencia.R;
@@ -25,9 +24,8 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+
     private boolean pesquisado;
-    private final String tagPesquisado = "PESQUISADO";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
