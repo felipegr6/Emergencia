@@ -54,6 +54,7 @@
 
     <!-- SpinnerAdapter -->
     <string name="transporte_prompt">Escolha um meio de transporte</string>
+    <string name="menu_filtrar_lista">Filtrar Lista</string>
     <string-array name="transportes_array">
         <item>Carro</item>
         <item>A Pé</item>

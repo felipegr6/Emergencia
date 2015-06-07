@@ -89,6 +89,7 @@ public class ConfiguracaoActivity extends BaseActivity {
                 if (Helper.setConfiguracoes(getApplicationContext(), config)) {
 
                     Toast.makeText(getApplicationContext(), "Salvo com sucesso.", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
                     finish();
 
                 } else

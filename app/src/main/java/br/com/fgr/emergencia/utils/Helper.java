@@ -39,6 +39,8 @@ public final class Helper {
     private static final int offsetRaio = 2;
     private static final int offsetHospitais = 5;
 
+    public static final int REQ_FILTRO_CODE = 1001;
+
     private Helper() {
 
     }
