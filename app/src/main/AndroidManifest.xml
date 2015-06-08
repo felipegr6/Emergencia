@@ -72,7 +72,7 @@
             android:name=".ui.activities.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -88,7 +88,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activities.MapaActivity"
             android:label="@string/title_activity_mapa"
@@ -98,7 +97,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.LocalizacaoActivity" />
         </activity>
-
+        <activity
+            android:name=".ui.activities.AjudaListaActivity"
+            android:label="@string/title_activity_ajuda_lista"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Translucent" />
         <activity
             android:name="com.mopub.mobileads.MoPubActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />

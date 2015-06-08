@@ -1,6 +1,5 @@
 package br.com.fgr.emergencia.ui.activities;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -182,21 +181,6 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
         ft.addToBackStack("Lista");
         ft.commit();
-
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-
-            Fragment fragment = getFragmentManager().findFragmentByTag("Mapa");
-
-            getFragmentManager().beginTransaction().remove(fragment);
-            getFragmentManager().popBackStack();
-
-        } else
-            super.onBackPressed();
 
     }
 

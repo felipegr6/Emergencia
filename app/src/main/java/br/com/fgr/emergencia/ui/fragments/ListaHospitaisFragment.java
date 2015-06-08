@@ -43,6 +43,7 @@ import br.com.fgr.emergencia.models.distancematrix.Elementos;
 import br.com.fgr.emergencia.models.general.Configuracao;
 import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
+import br.com.fgr.emergencia.ui.activities.AjudaListaActivity;
 import br.com.fgr.emergencia.ui.activities.MapaActivity;
 import br.com.fgr.emergencia.utils.Helper;
 import br.com.fgr.emergencia.utils.HospitalAdapter;
@@ -200,6 +201,9 @@ public class ListaHospitaisFragment extends Fragment {
                             Log.w("response", response);
 
                             if (converterJson(response)) {
+
+                                if(isAdded() && Helper.getFirstTimeTutorial(getActivity()))
+                                    startActivity(new Intent(getActivity(), AjudaListaActivity.class));
 
                                 Collections.sort(hospitais);
 
