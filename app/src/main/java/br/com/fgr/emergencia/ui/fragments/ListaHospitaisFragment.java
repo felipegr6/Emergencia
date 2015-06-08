@@ -1,7 +1,6 @@
 package br.com.fgr.emergencia.ui.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -44,6 +43,7 @@ import br.com.fgr.emergencia.models.distancematrix.Elementos;
 import br.com.fgr.emergencia.models.general.Configuracao;
 import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
+import br.com.fgr.emergencia.ui.activities.MapaActivity;
 import br.com.fgr.emergencia.utils.Helper;
 import br.com.fgr.emergencia.utils.HospitalAdapter;
 
@@ -127,8 +127,6 @@ public class ListaHospitaisFragment extends Fragment {
             }
         });
 
-        // new DownloadJson(getActivity(), latUsuario, lgnUsuario).execute();
-
         if (isAdded())
             realizarChamada(getActivity(), latUsuario, lgnUsuario);
 
@@ -211,7 +209,8 @@ public class ListaHospitaisFragment extends Fragment {
                             } else
                                 Toast.makeText(getActivity(), "Deu ruim, tente novamente.", Toast.LENGTH_SHORT).show();
 
-                            dialogInternet.dismiss();
+                            if (dialogInternet.isShowing())
+                                dialogInternet.dismiss();
 
                         }
 
@@ -324,14 +323,14 @@ public class ListaHospitaisFragment extends Fragment {
 
             Hospital hosp = hospitais.get(position);
 
-            MapaFragment mCaminhoFragment = MapaFragment.newInstance(latUsuario,
-                    lgnUsuario,
-                    hosp.getLocalizacao().getLat(),
-                    hosp.getLocalizacao().getLgn());
+            Intent intent = new Intent(getActivity(), MapaActivity.class);
 
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.loc_fragment_container, mCaminhoFragment);
-            fragmentTransaction.commit();
+            intent.putExtra(MapaActivity.LAT_ORIGEM, latUsuario);
+            intent.putExtra(MapaActivity.LGN_ORIGEM, lgnUsuario);
+            intent.putExtra(MapaActivity.LAT_DESTINO, hosp.getLocalizacao().getLat());
+            intent.putExtra(MapaActivity.LGN_DESTINO, hosp.getLocalizacao().getLgn());
+
+            startActivity(intent);
 
             return super.onSingleTapConfirmed(motionEvent);
 

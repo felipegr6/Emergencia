@@ -3,6 +3,7 @@
 
     <string name="authority">br.com.fgr.emergencia.contentprovider</string>
     <string name="app_name">rescu.ee</string>
+    <string name="title_activity_mapa">Mapa</string>
     <string name="icone_description">Rescuee</string>
     <string name="action_settings">Configurações</string>
     <string name="btnEmergencia">Emergência!</string>

@@ -1,5 +1,6 @@
 package br.com.fgr.emergencia.ui.activities;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -159,9 +160,8 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == Helper.REQ_FILTRO_CODE && resultCode == RESULT_OK) {
+        if (requestCode == Helper.REQ_FILTRO_CODE && resultCode == RESULT_OK)
             recreate();
-        }
 
     }
 
@@ -175,11 +175,28 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
         FragmentTransaction ft = fm.beginTransaction();
 
         if (mLastLocation != null)
-            ft.add(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+            ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation.getLatitude(),
+                    mLastLocation.getLongitude()));
         else
-            ft.add(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(-23.552133, -46.6331418));
+            ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(-23.552133, -46.6331418));
 
+        ft.addToBackStack("Lista");
         ft.commit();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+
+            Fragment fragment = getFragmentManager().findFragmentByTag("Mapa");
+
+            getFragmentManager().beginTransaction().remove(fragment);
+            getFragmentManager().popBackStack();
+
+        } else
+            super.onBackPressed();
 
     }
 
