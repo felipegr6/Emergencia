@@ -211,7 +211,8 @@ public class ListaHospitaisFragment extends Fragment {
                                 recyclerView.setAdapter(hospitalAdapter);
 
                             } else
-                                Toast.makeText(getActivity(), "Deu ruim, tente novamente.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), getString(R.string.nao_encontrou_hospitais),
+                                        Toast.LENGTH_SHORT).show();
 
                             if (dialogInternet.isShowing())
                                 dialogInternet.dismiss();

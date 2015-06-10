@@ -53,15 +53,17 @@
     <string name="titulo_dialog_hospitais">Recuperando Informações</string>
     <string name="descricao_dialog_hospitais">Esperando informações de GPS e dados.</string>
     <string name="erro_sem_conexao">Sem conexão com a Internet.</string>
+    <string name="nao_encontrou_hospitais">Não foi possível encontrar hospitais próximos. Ajuste o filtro e tente novamente.</string>
 
     <!-- SpinnerAdapter -->
     <string name="transporte_prompt">Escolha um meio de transporte</string>
     <string name="menu_filtrar_lista">Filtrar Lista</string>
-    <string name="texto_ajuda_1">Ao TOCAR o item uma vez, você será levado ao mapa dos arredores do hospital, sendo mostrada a sua localização.</string>
-    <string name="text_ajuda_2">Porém, ao SEGURAR o item, você será levado ao aplicativo de navegação para chegar ao hospital.</string>
     <string-array name="transportes_array">
         <item>Carro</item>
         <item>A Pé</item>
     </string-array>
+
+    <string name="texto_ajuda_1">Ao TOCAR o item uma vez, você será levado ao mapa dos arredores do hospital, sendo mostrada a sua localização.</string>
+    <string name="text_ajuda_2">Porém, ao SEGURAR o item, você será levado ao aplicativo de navegação para chegar ao hospital.</string>
 
 </resources>
