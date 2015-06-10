@@ -34,10 +34,13 @@ public final class Helper {
     private static final String GCM_REGID = "gcmRegId";
     private static final String RAIO_MAXIMO = "raio_maximo";
     private static final String RAIO = "raio";
+    private static final String TUTORIAL = "tutorial";
     private static final String HOSPITAIS = "hospitais";
     private static final String EMAIL_PATTERN = "\\b[a-z0-9._%+-]+@(?:[a-z0-9-]+\\.)+[a-z]{2,4}\\b";
     private static final int offsetRaio = 2;
     private static final int offsetHospitais = 5;
+
+    public static final int REQ_FILTRO_CODE = 1001;
 
     private Helper() {
 
@@ -88,6 +91,25 @@ public final class Helper {
         SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
 
         return preferences.getString(GCM_REGID, "");
+
+    }
+
+    public static boolean setFirstTimeTutorial(Context context) {
+
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+
+        final SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(TUTORIAL, false);
+
+        return editor.commit();
+
+    }
+
+    public static boolean getFirstTimeTutorial(Context context) {
+
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+
+        return preferences.getBoolean(TUTORIAL, true);
 
     }
 

@@ -1,11 +1,11 @@
 package br.com.fgr.emergencia.ui.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.utils.Helper;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends AppCompatActivity {
 
     protected GoogleCloudMessaging gcm;
 
