@@ -174,8 +174,8 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
         FragmentTransaction ft = fm.beginTransaction();
 
         if (mLastLocation != null)
-            ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation.getLatitude(),
-                    mLastLocation.getLongitude()));
+            ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation
+                    .getLatitude(), mLastLocation.getLongitude()));
         else
             ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(-23.552133, -46.6331418));
 
