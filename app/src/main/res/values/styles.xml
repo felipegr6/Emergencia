@@ -7,7 +7,6 @@
     <style name="AppTheme" parent="Theme.AppCompat">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:background">@color/vermelho_rescuee</item>
     </style>
 
     <style name="spinnerItemStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
