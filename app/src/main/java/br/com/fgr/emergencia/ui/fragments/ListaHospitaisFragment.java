@@ -202,7 +202,7 @@ public class ListaHospitaisFragment extends Fragment {
 
                             if (converterJson(response)) {
 
-                                if(isAdded() && Helper.getFirstTimeTutorial(getActivity()))
+                                if (isAdded() && Helper.getFirstTimeTutorial(getActivity()))
                                     startActivity(new Intent(getActivity(), AjudaListaActivity.class));
 
                                 Collections.sort(hospitais);

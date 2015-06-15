@@ -20,7 +20,8 @@ public class EmergenciaApplication extends Application {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
 
-        Parse.initialize(this, "cHLwj5iphEObLK60BLhIhPYtaoYvUauF2AeLqFKA", "9IKqj8DCTuYCIjUBVBfe07iV4rmUQTw1m53wz0vt");
+        Parse.initialize(this, "cHLwj5iphEObLK60BLhIhPYtaoYvUauF2AeLqFKA",
+                "9IKqj8DCTuYCIjUBVBfe07iV4rmUQTw1m53wz0vt");
 
     }
 

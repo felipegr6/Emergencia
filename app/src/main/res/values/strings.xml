@@ -65,5 +65,9 @@
 
     <string name="texto_ajuda_1">Ao TOCAR o item uma vez, você será levado ao mapa dos arredores do hospital, sendo mostrada a sua localização.</string>
     <string name="text_ajuda_2">Porém, ao SEGURAR o item, você será levado ao aplicativo de navegação para chegar ao hospital.</string>
+    <string name="button_entendi">ENTENDI</string>
+    <string name="lbl_quilometragem_base">5km</string>
+    <string name="lbl_nro_hospitais_base">5</string>
+    <string name="splash_description">Apresentação</string>
 
 </resources>

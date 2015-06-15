@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:focusable="false"
-            android:text="5km"
+            android:text="@string/lbl_quilometragem_base"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
 
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:focusable="false"
-            android:text="5"
+            android:text="@string/lbl_nro_hospitais_base"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
 

@@ -30,15 +30,11 @@ public class Hospital implements Comparable<Hospital> {
     }
 
     public int getId() {
-
         return id;
-
     }
 
     public void setId(int id) {
-
         this.id = id;
-
     }
 
     public long getValorTempo() {
@@ -58,94 +54,64 @@ public class Hospital implements Comparable<Hospital> {
     }
 
     public String getNome() {
-
         return nome;
-
     }
 
     public void setNome(String nome) {
-
         this.nome = nome;
-
     }
 
     public String getEndereco() {
-
         return endereco;
-
     }
 
     public void setEndereco(String endereco) {
-
         this.endereco = endereco;
-
     }
 
     public long getTelefone() {
-
         return telefone;
-
     }
 
     public void setTelefone(long telefone) {
-
         this.telefone = telefone;
-
     }
 
     public Coordenada getLocalizacao() {
-
         return localizacao;
-
     }
 
     public void setLocalizacao(Coordenada localizacao) {
-
         this.localizacao = localizacao;
-
     }
 
     public String getDistancia() {
-
         return distancia;
-
     }
 
     public void setDistancia(String distancia) {
-
         this.distancia = distancia;
-
     }
 
     public String getTempo() {
-
         return tempo;
-
     }
 
     public void setTempo(String tempo) {
-
         this.tempo = tempo;
-
     }
 
     public long getValorDistancia() {
-
         return valorDistancia;
-
     }
 
     public void setValorDistancia(long valorDistancia) {
-
         this.valorDistancia = valorDistancia;
-
     }
 
     @Override
     public String toString() {
-
         return this.nome + " a " + this.distancia + " em " + this.tempo;
-
     }
 
     @Override
