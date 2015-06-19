@@ -2,8 +2,8 @@ package br.com.fgr.emergencia.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
@@ -17,8 +17,8 @@ public class ConfiguracaoActivity extends BaseActivity {
 
     private SeekBar seekRaio;
     private SeekBar seekHospitais;
-    private AppCompatEditText textRaio;
-    private AppCompatEditText textHospitais;
+    private AppCompatTextView textRaio;
+    private AppCompatTextView textHospitais;
     private AppCompatSpinner spinnerTransporte;
     private AppCompatButton buttonGravar;
 
@@ -31,8 +31,8 @@ public class ConfiguracaoActivity extends BaseActivity {
 
         seekRaio = (SeekBar) findViewById(R.id.seek_raio);
         seekHospitais = (SeekBar) findViewById(R.id.seek_hospitais);
-        textRaio = (AppCompatEditText) findViewById(R.id.text_mostra_raio);
-        textHospitais = (AppCompatEditText) findViewById(R.id.text_mostra_hospitais);
+        textRaio = (AppCompatTextView) findViewById(R.id.text_mostra_raio);
+        textHospitais = (AppCompatTextView) findViewById(R.id.text_mostra_hospitais);
         spinnerTransporte = (AppCompatSpinner) findViewById(R.id.spinner_transporte);
         buttonGravar = (AppCompatButton) findViewById(R.id.button_gravar);
 
@@ -100,7 +100,7 @@ public class ConfiguracaoActivity extends BaseActivity {
 
         });
 
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.transportes_array, R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.transportes_array, R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
         spinnerTransporte.setAdapter(adapter);

@@ -10,7 +10,6 @@
     </style>
 
     <style name="spinnerItemStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
-
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
