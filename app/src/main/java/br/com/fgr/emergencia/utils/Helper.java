@@ -9,6 +9,8 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,6 +43,18 @@ public final class Helper {
     private static final int offsetRaio = 2;
     private static final int offsetHospitais = 5;
 
+    private static final String MEIO_TRANSPORTE = "meio";
+    public static Map<Integer, String> MAP_MEIO_TRANSPORTE;
+
+    static {
+
+        MAP_MEIO_TRANSPORTE = new HashMap<>();
+
+        MAP_MEIO_TRANSPORTE.put(0, "driving");
+        MAP_MEIO_TRANSPORTE.put(1, "walking");
+
+    }
+
     private Helper() {
 
     }
@@ -61,6 +75,7 @@ public final class Helper {
         final SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(RAIO, config.getRaio());
         editor.putInt(HOSPITAIS, config.getHospitais());
+        editor.putString(MEIO_TRANSPORTE, config.getModo());
 
         return editor.commit();
 
@@ -68,9 +83,11 @@ public final class Helper {
 
     public static Configuracao getConfiguracoes(Context context) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
+                Context.MODE_MULTI_PROCESS);
 
-        return new Configuracao(preferences.getInt(RAIO, 0), preferences.getInt(HOSPITAIS, 0));
+        return new Configuracao(preferences.getInt(RAIO, 0), preferences.getInt(HOSPITAIS, 0),
+                preferences.getString(MEIO_TRANSPORTE, MAP_MEIO_TRANSPORTE.get(0)));
 
     }
 

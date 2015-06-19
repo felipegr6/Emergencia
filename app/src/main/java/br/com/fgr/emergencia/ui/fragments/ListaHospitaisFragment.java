@@ -61,6 +61,9 @@ public class ListaHospitaisFragment extends Fragment {
     private StringRequest mStringRequest;
     private RequestQueue mRequestQueue;
 
+    private Configuracao config;
+
+
     public ListaHospitaisFragment() {
 
     }
@@ -97,6 +100,9 @@ public class ListaHospitaisFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_localizacao, container, false);
+
+        if (isAdded())
+            config = Helper.getConfiguracoes(getActivity().getApplicationContext());
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setHasFixedSize(true);
@@ -152,8 +158,6 @@ public class ListaHospitaisFragment extends Fragment {
         dialogInternet.setIndeterminate(true);
 
         dialogInternet.show();
-
-        Configuracao config = Helper.getConfiguracoes(context.getApplicationContext());
 
         int qtdeHospitais = Integer.parseInt(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, config.getHospitais(), false));
         float raioAlcance = Float.parseFloat(Helper.formatarInformacao(Helper.CONST_RAIO, config.getRaio(), false));
@@ -269,7 +273,11 @@ public class ListaHospitaisFragment extends Fragment {
 
         }
 
-        stringBuilder.append("&mode=driving&language=pt-BR&sensor=true");
+        stringBuilder.append("&mode=");
+        stringBuilder.append(config.getModo());
+        stringBuilder.append("&language=pt-BR&sensor=true");
+
+        Log.i("URL", stringBuilder.toString());
 
         return stringBuilder.toString();
 

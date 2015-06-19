@@ -84,7 +84,8 @@ public class ConfiguracaoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                Configuracao config = new Configuracao(seekRaio.getProgress(), seekHospitais.getProgress());
+                Configuracao config = new Configuracao(seekRaio.getProgress(), seekHospitais.getProgress(),
+                        Helper.MAP_MEIO_TRANSPORTE.get(spinnerTransporte.getSelectedItemPosition()));
 
                 if (Helper.setConfiguracoes(getApplicationContext(), config)) {
 
@@ -99,10 +100,12 @@ public class ConfiguracaoActivity extends BaseActivity {
 
         });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.transportes_array, R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.transportes_array, R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
         spinnerTransporte.setAdapter(adapter);
+
+        spinnerTransporte.setSelection(configuracao.getModo() == "driving" ? 0 : 1);
 
     }
 
