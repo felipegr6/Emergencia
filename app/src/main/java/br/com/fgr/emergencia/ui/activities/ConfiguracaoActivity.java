@@ -2,8 +2,8 @@ package br.com.fgr.emergencia.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
@@ -17,8 +17,8 @@ public class ConfiguracaoActivity extends BaseActivity {
 
     private SeekBar seekRaio;
     private SeekBar seekHospitais;
-    private AppCompatEditText textRaio;
-    private AppCompatEditText textHospitais;
+    private AppCompatTextView textRaio;
+    private AppCompatTextView textHospitais;
     private AppCompatSpinner spinnerTransporte;
     private AppCompatButton buttonGravar;
 
@@ -31,8 +31,8 @@ public class ConfiguracaoActivity extends BaseActivity {
 
         seekRaio = (SeekBar) findViewById(R.id.seek_raio);
         seekHospitais = (SeekBar) findViewById(R.id.seek_hospitais);
-        textRaio = (AppCompatEditText) findViewById(R.id.text_mostra_raio);
-        textHospitais = (AppCompatEditText) findViewById(R.id.text_mostra_hospitais);
+        textRaio = (AppCompatTextView) findViewById(R.id.text_mostra_raio);
+        textHospitais = (AppCompatTextView) findViewById(R.id.text_mostra_hospitais);
         spinnerTransporte = (AppCompatSpinner) findViewById(R.id.spinner_transporte);
         buttonGravar = (AppCompatButton) findViewById(R.id.button_gravar);
 
@@ -84,11 +84,13 @@ public class ConfiguracaoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                Configuracao config = new Configuracao(seekRaio.getProgress(), seekHospitais.getProgress());
+                Configuracao config = new Configuracao(seekRaio.getProgress(), seekHospitais.getProgress(),
+                        Helper.MAP_MEIO_TRANSPORTE.get(spinnerTransporte.getSelectedItemPosition()));
 
                 if (Helper.setConfiguracoes(getApplicationContext(), config)) {
 
                     Toast.makeText(getApplicationContext(), "Salvo com sucesso.", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
                     finish();
 
                 } else
@@ -102,6 +104,8 @@ public class ConfiguracaoActivity extends BaseActivity {
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
         spinnerTransporte.setAdapter(adapter);
+
+        spinnerTransporte.setSelection(configuracao.getModo() == "driving" ? 0 : 1);
 
     }
 

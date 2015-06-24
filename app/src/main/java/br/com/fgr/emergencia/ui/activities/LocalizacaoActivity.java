@@ -2,6 +2,7 @@ package br.com.fgr.emergencia.ui.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +19,10 @@ import com.google.android.gms.location.LocationServices;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.fragments.ListaHospitaisFragment;
+import br.com.fgr.emergencia.utils.Helper;
 
-public class LocalizacaoActivity extends BaseActivity implements ConnectionCallbacks, OnConnectionFailedListener {
+public class LocalizacaoActivity extends BaseActivity implements ConnectionCallbacks,
+        OnConnectionFailedListener {
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private Location mLastLocation;
@@ -82,8 +85,11 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
         int id = item.getItemId();
 
-        if (id == R.id.action_settings)
+        if (id == R.id.action_filter) {
+            startActivityForResult(new Intent(LocalizacaoActivity.this, ConfiguracaoActivity.class),
+                    Helper.REQ_FILTRO_CODE);
             return true;
+        }
 
         return super.onOptionsItemSelected(item);
 
@@ -109,7 +115,8 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i("LocalizacaoActivity", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+        Log.i("LocalizacaoActivity", "Connection failed: ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
     }
 
     private boolean checkPlayServices() {
@@ -119,10 +126,13 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
         if (resultCode != ConnectionResult.SUCCESS) {
 
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode))
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                GooglePlayServicesUtil.getErrorDialog(resultCode,
+                        this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             else {
 
-                Toast.makeText(getApplicationContext(), "Seu dispositivo não suporta esta funcionallidade.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),
+                        "Seu dispositivo não suporta esta funcionallidade.", Toast.LENGTH_LONG)
+                        .show();
                 finish();
 
             }
@@ -144,6 +154,16 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Helper.REQ_FILTRO_CODE && resultCode == RESULT_OK)
+            recreate();
+
+    }
+
     private void listarHospitais() {
 
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -154,10 +174,12 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
         FragmentTransaction ft = fm.beginTransaction();
 
         if (mLastLocation != null)
-            ft.add(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+            ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation
+                    .getLatitude(), mLastLocation.getLongitude()));
         else
-            ft.add(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(-23.552133, -46.6331418));
+            ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(-23.552133, -46.6331418));
 
+        ft.addToBackStack("Lista");
         ft.commit();
 
     }

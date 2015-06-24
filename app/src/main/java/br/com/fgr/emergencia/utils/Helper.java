@@ -9,6 +9,8 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,14 +32,28 @@ public final class Helper {
     public static final int OFFSET_HOSPITAIS = 5;
     public static final int CONST_RAIO = 1;
     public static final int CONST_HOSPITAIS = 2;
+    public static final int REQ_FILTRO_CODE = 1001;
     private static final String RESCUEE_PREFERENCES = "rescuee_preferences";
     private static final String GCM_REGID = "gcmRegId";
     private static final String RAIO_MAXIMO = "raio_maximo";
     private static final String RAIO = "raio";
+    private static final String TUTORIAL = "tutorial";
     private static final String HOSPITAIS = "hospitais";
     private static final String EMAIL_PATTERN = "\\b[a-z0-9._%+-]+@(?:[a-z0-9-]+\\.)+[a-z]{2,4}\\b";
     private static final int offsetRaio = 2;
     private static final int offsetHospitais = 5;
+
+    private static final String MEIO_TRANSPORTE = "meio";
+    public static Map<Integer, String> MAP_MEIO_TRANSPORTE;
+
+    static {
+
+        MAP_MEIO_TRANSPORTE = new HashMap<>();
+
+        MAP_MEIO_TRANSPORTE.put(0, "driving");
+        MAP_MEIO_TRANSPORTE.put(1, "walking");
+
+    }
 
     private Helper() {
 
@@ -59,6 +75,7 @@ public final class Helper {
         final SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(RAIO, config.getRaio());
         editor.putInt(HOSPITAIS, config.getHospitais());
+        editor.putString(MEIO_TRANSPORTE, config.getModo());
 
         return editor.commit();
 
@@ -66,9 +83,11 @@ public final class Helper {
 
     public static Configuracao getConfiguracoes(Context context) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
+                Context.MODE_MULTI_PROCESS);
 
-        return new Configuracao(preferences.getInt(RAIO, 0), preferences.getInt(HOSPITAIS, 0));
+        return new Configuracao(preferences.getInt(RAIO, 0), preferences.getInt(HOSPITAIS, 0),
+                preferences.getString(MEIO_TRANSPORTE, MAP_MEIO_TRANSPORTE.get(0)));
 
     }
 
@@ -88,6 +107,25 @@ public final class Helper {
         SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
 
         return preferences.getString(GCM_REGID, "");
+
+    }
+
+    public static boolean setFirstTimeTutorial(Context context) {
+
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+
+        final SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(TUTORIAL, false);
+
+        return editor.commit();
+
+    }
+
+    public static boolean getFirstTimeTutorial(Context context) {
+
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+
+        return preferences.getBoolean(TUTORIAL, true);
 
     }
 

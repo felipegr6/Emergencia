@@ -12,21 +12,20 @@
         android:layout_height="wrap_content"
         android:background="@color/vermelho_rescuee" />
 
-    <LinearLayout
-        android:id="@+id/ll_raio"
+    <RelativeLayout
+        android:id="@+id/rl_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:padding="10dp">
 
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/text_raio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:focusable="false"
+            android:layout_alignBottom="@+id/seek_raio"
+            android:layout_alignTop="@+id/seek_raio"
+            android:gravity="center_vertical"
             android:text="@string/text_raio"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
@@ -35,35 +34,34 @@
             android:id="@+id/seek_raio"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/seek_hospitais"
+            android:layout_toEndOf="@+id/text_raio"
+            android:layout_toRightOf="@+id/text_raio"
             android:max="3" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/text_mostra_raio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:focusable="false"
-            android:text="5km"
+            android:layout_alignBottom="@+id/seek_raio"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/seek_raio"
+            android:layout_toEndOf="@+id/seek_raio"
+            android:layout_toRightOf="@+id/seek_raio"
+            android:gravity="center_vertical"
+            android:text="@string/lbl_quilometragem_base"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_hospitais"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_raio"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/text_hospitais"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:focusable="false"
+            android:layout_alignBottom="@+id/seek_hospitais"
+            android:layout_alignTop="@+id/seek_hospitais"
+            android:layout_below="@+id/seek_raio"
+            android:gravity="center_vertical"
             android:text="@string/text_hospitais"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
@@ -72,58 +70,68 @@
             android:id="@+id/seek_hospitais"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/seek_raio"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/text_hospitais"
+            android:layout_toRightOf="@+id/text_hospitais"
             android:max="2" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/text_mostra_hospitais"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:focusable="false"
-            android:text="5"
+            android:layout_alignBottom="@+id/seek_hospitais"
+            android:layout_alignLeft="@+id/text_mostra_raio"
+            android:layout_alignStart="@+id/text_hospitais"
+            android:layout_alignTop="@+id/seek_hospitais"
+            android:layout_below="@+id/seek_raio"
+            android:layout_toEndOf="@+id/seek_hospitais"
+            android:layout_toRightOf="@+id/seek_hospitais"
+            android:gravity="center_vertical"
+            android:text="@string/lbl_nro_hospitais_base"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_modo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_hospitais"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/label_modo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:focusable="false"
+            android:layout_alignBottom="@+id/spinner_transporte"
+            android:layout_alignTop="@+id/spinner_transporte"
+            android:layout_below="@+id/seek_hospitais"
+            android:gravity="center_vertical"
             android:text="@string/label_modo"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spinner_transporte"
+            style="@android:style/Widget.Holo.Light.Spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/seek_hospitais"
+            android:layout_below="@+id/seek_hospitais"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/label_modo"
+            android:layout_toRightOf="@+id/label_modo"
             android:prompt="@string/transporte_prompt"
             android:spinnerMode="dialog" />
-    </LinearLayout>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button_gravar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_modo"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:background="@color/grafite"
-        android:padding="10dp"
-        android:text="@string/button_gravar"
-        android:textAppearance="?android:attr/textAppearanceButton"
-        android:textColor="@color/branco" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_gravar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinner_transporte"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@color/grafite"
+            android:padding="10dp"
+            android:text="@string/button_gravar"
+            android:textAppearance="?android:attr/textAppearanceButton"
+            android:textColor="@color/branco" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

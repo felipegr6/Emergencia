@@ -4,26 +4,24 @@ public class Configuracao {
 
     private int raio;
     private int hospitais;
+    private String modo;
 
-    public Configuracao(int raio, int hospitais) {
+    public Configuracao(int raio, int hospitais, String modo) {
         this.raio = raio;
         this.hospitais = hospitais;
+        this.modo = modo;
     }
 
     public int getRaio() {
         return raio;
     }
 
-    public void setRaio(int raio) {
-        this.raio = raio;
-    }
-
     public int getHospitais() {
         return hospitais;
     }
 
-    public void setHospitais(int hospitais) {
-        this.hospitais = hospitais;
+    public String getModo() {
+        return modo;
     }
 
 }

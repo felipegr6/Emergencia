@@ -1,21 +1,26 @@
 package br.com.fgr.emergencia.ui.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.io.IOException;
+import java.util.List;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.utils.Helper;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends AppCompatActivity {
 
     protected GoogleCloudMessaging gcm;
 
@@ -27,20 +32,23 @@ public class SplashActivity extends Activity {
 
         Handler handler = new Handler();
 
-        if (Helper.getRegistrationGCM(this).equals(""))
-            new CadastroGCM(this).execute();
-        else
-            Log.w("RegId", Helper.getRegistrationGCM(this));
-
         handler.postDelayed(new Runnable() {
 
             @Override
             public void run() {
 
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
+                if (Helper.getRegistrationGCM(SplashActivity.this).equals(""))
+                    new CadastroGCM(SplashActivity.this).execute();
+                else {
 
-                finish();
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+
+                    finish();
+
+                    Log.w("RegId", Helper.getRegistrationGCM(SplashActivity.this));
+
+                }
 
             }
         }, 3000);
@@ -56,22 +64,54 @@ public class SplashActivity extends Activity {
         }
 
         @Override
+        protected void onPostExecute(Void aVoid) {
+
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+
+            finish();
+
+        }
+
+        @Override
         protected Void doInBackground(Void... params) {
 
             if (gcm == null)
                 gcm = GoogleCloudMessaging.getInstance(context);
 
-            String regId = "";
+            final String regId;
 
             try {
 
                 regId = gcm.register(getResources().getString(R.string.sender_id));
                 Helper.setRegistrationGCM(context, regId);
 
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Usuario");
+                query.whereEqualTo("regId", regId);
+
+                query.findInBackground(new FindCallback<ParseObject>() {
+
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+
+                        if (list.isEmpty()) {
+
+                            ParseObject usuario = new ParseObject("Usuario");
+
+                            usuario.put("email", "");
+                            usuario.put("senha", "");
+                            usuario.put("regId", regId);
+
+                            usuario.saveInBackground();
+
+                        }
+
+                    }
+
+                });
+
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                Log.w("RegistrationID", regId);
             }
 
             return null;
