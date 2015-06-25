@@ -1,6 +1,6 @@
-Emergencia
-==========
+# rescu.ee
+## Projeto Emergencia
 
-Rescue App
+Buscar os hospitais próximos dada a geolocalização do dispositivo.
 
-Em desenvolvimento.
+Loja: [Google Play] (https://play.google.com/store/apps/details?id=br.com.fgr.emergencia)
