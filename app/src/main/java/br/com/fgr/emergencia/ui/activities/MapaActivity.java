@@ -93,7 +93,7 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         GoogleServices repo = ServiceGenerator.createService(GoogleServices.class, Helper.URL_GOOGLE_BASE);
 
-        repo.directions(request.getOrigem(), request.getDestino(), new Callback<DirectionResponse>() {
+        repo.directions(request.getOrigem(), request.getDestino(), "pt-BR", true, new Callback<DirectionResponse>() {
 
             @Override
             public void success(DirectionResponse dResp, Response response) {

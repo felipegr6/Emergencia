@@ -19,14 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.NetworkError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -38,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.fgr.emergencia.R;
+import br.com.fgr.emergencia.models.distancematrix.DistanceMatrixRequest;
 import br.com.fgr.emergencia.models.distancematrix.DistanceMatrixResponse;
 import br.com.fgr.emergencia.models.distancematrix.Elementos;
 import br.com.fgr.emergencia.models.general.Configuracao;
@@ -45,24 +38,25 @@ import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
 import br.com.fgr.emergencia.ui.activities.AjudaListaActivity;
 import br.com.fgr.emergencia.ui.activities.MapaActivity;
+import br.com.fgr.emergencia.utils.GoogleServices;
 import br.com.fgr.emergencia.utils.Helper;
 import br.com.fgr.emergencia.utils.HospitalAdapter;
+import br.com.fgr.emergencia.utils.ServiceGenerator;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 
 public class ListaHospitaisFragment extends Fragment {
 
     public final static String TAG_LATITUDE = "LATITUDE";
     public final static String TAG_LONGITUDE = "LONGITUDE";
+
     public double latUsuario;
     public double lgnUsuario;
     protected RecyclerView recyclerView;
     protected GestureDetectorCompat detector;
     private List<Hospital> hospitais;
     private HospitalAdapter hospitalAdapter;
-    private StringRequest mStringRequest;
-    private RequestQueue mRequestQueue;
-
     private Configuracao config;
-
 
     public ListaHospitaisFragment() {
 
@@ -146,8 +140,6 @@ public class ListaHospitaisFragment extends Fragment {
         final ProgressDialog dialogInternet;
 
         dialogInternet = new ProgressDialog(context);
-        mRequestQueue = Volley.newRequestQueue(context);
-        mRequestQueue.getCache().clear();
 
         String title = getResources().getString(R.string.titulo_dialog_hospitais);
         String message = getResources().getString(R.string.descricao_dialog_hospitais);
@@ -195,56 +187,52 @@ public class ListaHospitaisFragment extends Fragment {
 
                     }
 
-                    String url = construirUrlMapa(hospitais, latitude, longitude);
+                    List<Coordenada> destinos = new ArrayList<>();
 
-                    mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    for (Hospital h : hospitais) {
+                        destinos.add(h.getLocalizacao());
+                    }
 
-                        @Override
-                        public void onResponse(String response) {
+                    DistanceMatrixRequest request = new DistanceMatrixRequest(new Coordenada(latitude, longitude),
+                            destinos, config.getModo());
 
-                            Log.w("response", response);
+                    GoogleServices repo = ServiceGenerator.createService(GoogleServices.class, Helper.URL_GOOGLE_BASE);
 
-                            if (converterJson(response)) {
+                    repo.matrix(request.getOrigem(), request.getDestinos(), request.getModo(),
+                            "pt-BR", true, new Callback<DistanceMatrixResponse>() {
 
-                                if (isAdded() && Helper.getFirstTimeTutorial(getActivity()))
-                                    startActivity(new Intent(getActivity(), AjudaListaActivity.class));
+                                @Override
+                                public void success(DistanceMatrixResponse dResp, retrofit.client.Response response) {
 
-                                Collections.sort(hospitais);
+                                    if (isAdded() && Helper.getFirstTimeTutorial(getActivity()))
+                                        startActivity(new Intent(getActivity(), AjudaListaActivity.class));
 
-                                hospitalAdapter = new HospitalAdapter(hospitais, R.layout.row_hospital);
-                                recyclerView.setAdapter(hospitalAdapter);
+                                    popularHospitais(dResp);
 
-                            } else
-                                Toast.makeText(getActivity(), getString(R.string.nao_encontrou_hospitais),
-                                        Toast.LENGTH_SHORT).show();
+                                    Collections.sort(hospitais);
 
-                            if (dialogInternet.isShowing())
-                                dialogInternet.dismiss();
+                                    hospitalAdapter = new HospitalAdapter(hospitais, R.layout.row_hospital);
+                                    recyclerView.setAdapter(hospitalAdapter);
 
-                        }
+                                    if (dialogInternet.isShowing())
+                                        dialogInternet.dismiss();
 
-                    }, new Response.ErrorListener() {
+                                }
 
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
+                                @Override
+                                public void failure(RetrofitError error) {
 
-                            if (error instanceof NetworkError)
-                                Toast.makeText(context, getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_LONG).show();
-                            else {
+                                    if (dialogInternet.isShowing())
+                                        dialogInternet.dismiss();
 
-                                Log.e("LocalizacaoFragment", error.getMessage() + " ");
-                                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), getString(R.string.nao_encontrou_hospitais),
+                                            Toast.LENGTH_SHORT).show();
 
-                            }
+                                    Log.e("ListaHospitais", error.getMessage());
 
-                            if (dialogInternet.isShowing())
-                                dialogInternet.dismiss();
+                                }
 
-                        }
-
-                    });
-
-                    mRequestQueue.add(mStringRequest);
+                            });
 
                 }
 
@@ -254,44 +242,10 @@ public class ListaHospitaisFragment extends Fragment {
 
     }
 
-    private String construirUrlMapa(List<Hospital> hospitalList, double latitude, double longitude) {
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("http://maps.googleapis.com/maps/api/distancematrix/json?origins=");
-        stringBuilder.append(latitude);
-        stringBuilder.append(",");
-        stringBuilder.append(longitude);
-        stringBuilder.append("&destinations=");
-
-        for (Hospital h : hospitalList) {
-
-            stringBuilder.append(h.getLocalizacao().getLat());
-            stringBuilder.append(",");
-            stringBuilder.append(h.getLocalizacao().getLgn());
-            stringBuilder.append("|");
-
-        }
-
-        stringBuilder.append("&mode=");
-        stringBuilder.append(config.getModo());
-        stringBuilder.append("&language=pt-BR&sensor=true");
-
-        Log.i("URL", stringBuilder.toString());
-
-        return stringBuilder.toString();
-
-    }
-
-    private boolean converterJson(String jsonConteudo) {
+    private boolean popularHospitais(DistanceMatrixResponse respostas) {
 
         List<Elementos> elementos;
         boolean resposta;
-
-        Gson conteudos = new Gson();
-
-        DistanceMatrixResponse respostas = conteudos.fromJson(jsonConteudo,
-                DistanceMatrixResponse.class);
 
         if (respostas.getStatus().equals("OK")) {
 

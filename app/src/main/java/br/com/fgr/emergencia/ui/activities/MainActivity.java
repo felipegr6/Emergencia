@@ -14,15 +14,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.fragments.PrincipalFragment;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MoPubView.BannerAdListener {
 
     private static final String MOPUB_BANNER_AD_UNIT_ID = "cfb1d11b4942442582b5ed69cf94937f";
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private String[] navListValues;
@@ -38,6 +41,7 @@ public class MainActivity extends BaseActivity {
         moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
         moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
         moPubView.loadAd();
+        moPubView.setBannerAdListener(this);
 
         mTitle = getTitle();
 
@@ -115,9 +119,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResource() {
-
         return R.layout.activity_main;
-
     }
 
     @Override
@@ -126,6 +128,31 @@ public class MainActivity extends BaseActivity {
         moPubView.destroy();
         super.onDestroy();
 
+    }
+
+    @Override
+    public void onBannerLoaded(MoPubView moPubView) {
+
+    }
+
+    @Override
+    public void onBannerFailed(MoPubView moPubView, MoPubErrorCode moPubErrorCode) {
+        Toast.makeText(this, "onBannerFailed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBannerClicked(MoPubView moPubView) {
+        Toast.makeText(this, "onBannerClicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBannerExpanded(MoPubView moPubView) {
+        Toast.makeText(this, "onBannerExpanded", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBannerCollapsed(MoPubView moPubView) {
+        Toast.makeText(this, "onBannerCollapsed", Toast.LENGTH_SHORT).show();
     }
 
     private class AcaoNavDrawer implements ListView.OnItemClickListener {
