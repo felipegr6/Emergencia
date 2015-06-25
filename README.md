@@ -1,5 +1,5 @@
 # rescu.ee
-## Projeto Emergencia
+## Projeto Emergência
 
 Buscar os hospitais próximos dada a geolocalização do dispositivo.
 
