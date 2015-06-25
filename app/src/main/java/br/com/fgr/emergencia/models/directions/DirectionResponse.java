@@ -2,6 +2,8 @@ package br.com.fgr.emergencia.models.directions;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import br.com.fgr.emergencia.models.commons.JsonResponse;
 
 public class DirectionResponse implements JsonResponse {
@@ -9,9 +11,9 @@ public class DirectionResponse implements JsonResponse {
     @SerializedName("status")
     private String statusTransacao;
     @SerializedName("routes")
-    private Route rota;
+    private List<Route> rota;
 
-    public DirectionResponse(String statusTransacao, Route rota) {
+    public DirectionResponse(String statusTransacao, List<Route> rota) {
         this.statusTransacao = statusTransacao;
         this.rota = rota;
     }
@@ -20,16 +22,8 @@ public class DirectionResponse implements JsonResponse {
         return statusTransacao;
     }
 
-    public void setStatusTransacao(String statusTransacao) {
-        this.statusTransacao = statusTransacao;
-    }
-
-    public Route getRota() {
+    public List<Route> getRota() {
         return rota;
-    }
-
-    public void setRota(Route rota) {
-        this.rota = rota;
     }
 
 }

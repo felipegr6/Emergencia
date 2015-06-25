@@ -15,8 +15,4 @@ public class Polilinha {
         return pontos;
     }
 
-    public void setPontos(String pontos) {
-        this.pontos = pontos;
-    }
-
 }

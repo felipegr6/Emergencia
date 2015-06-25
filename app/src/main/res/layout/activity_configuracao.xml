@@ -35,6 +35,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/seek_hospitais"
+            android:layout_alignStart="@+id/seek_hospitais"
             android:layout_toEndOf="@+id/text_raio"
             android:layout_toRightOf="@+id/text_raio"
             android:max="3" />
@@ -111,7 +112,8 @@
             style="@android:style/Widget.Holo.Light.Spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/seek_hospitais"
+            android:layout_alignLeft="@+id/seek_hospitais"
+            android:layout_alignStart="@+id/seek_hospitais"
             android:layout_below="@+id/seek_hospitais"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/label_modo"

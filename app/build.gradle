@@ -69,4 +69,8 @@ dependencies {
     compile('com.mopub.sdk.android:mopub:3.7.0@aar') {
         transitive = true;
     }
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okio:okio:1.4.0'
+    testCompile 'junit:junit:4.12'
 }

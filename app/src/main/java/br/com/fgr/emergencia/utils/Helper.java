@@ -33,6 +33,7 @@ public final class Helper {
     public static final int CONST_RAIO = 1;
     public static final int CONST_HOSPITAIS = 2;
     public static final int REQ_FILTRO_CODE = 1001;
+    public static final String URL_GOOGLE_BASE = "https://maps.googleapis.com/maps/api";
     private static final String RESCUEE_PREFERENCES = "rescuee_preferences";
     private static final String GCM_REGID = "gcmRegId";
     private static final String RAIO_MAXIMO = "raio_maximo";
@@ -42,7 +43,6 @@ public final class Helper {
     private static final String EMAIL_PATTERN = "\\b[a-z0-9._%+-]+@(?:[a-z0-9-]+\\.)+[a-z]{2,4}\\b";
     private static final int offsetRaio = 2;
     private static final int offsetHospitais = 5;
-
     private static final String MEIO_TRANSPORTE = "meio";
     public static Map<Integer, String> MAP_MEIO_TRANSPORTE;
 

@@ -1,18 +1,22 @@
 package br.com.fgr.emergencia.models.general;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Coordenada {
 
+    @SerializedName("lat")
     private double lat;
-    private double lgn;
+    @SerializedName("lng")
+    private double lng;
 
     public Coordenada() {
 
     }
 
-    public Coordenada(double lat, double lgn) {
+    public Coordenada(double lat, double lng) {
 
         this.lat = lat;
-        this.lgn = lgn;
+        this.lng = lng;
 
     }
 
@@ -25,15 +29,15 @@ public class Coordenada {
     }
 
     public double getLgn() {
-        return lgn;
+        return lng;
     }
 
-    public void setLgn(double lgn) {
-        this.lgn = lgn;
+    public void setLgn(double lng) {
+        this.lng = lng;
     }
 
     public String toString() {
-        return lat + "," + lgn;
+        return lat + "," + lng;
     }
 
 }
