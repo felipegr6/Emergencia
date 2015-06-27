@@ -15,15 +15,20 @@ repositories {
 }
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 'android-MNC'
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "br.com.fgr.emergencia"
-        minSdkVersion 16
-        targetSdkVersion 22
+        minSdkVersion 'MNC'
+        targetSdkVersion 'MNC'
         versionCode 7
         versionName "1.2-beta"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     signingConfigs {

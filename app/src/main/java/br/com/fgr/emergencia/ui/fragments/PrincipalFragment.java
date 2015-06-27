@@ -1,7 +1,10 @@
 package br.com.fgr.emergencia.ui.fragments;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
@@ -40,14 +43,21 @@ public class PrincipalFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (Helper.isOnline(getActivity())) {
+                if (!Build.VERSION.CODENAME.equals("MNC")) {
 
-                    Intent intent = new Intent(getActivity(),
-                            LocalizacaoActivity.class);
-                    startActivity(intent);
+                    if (Helper.isOnline(getActivity())) {
 
-                } else
-                    Toast.makeText(getActivity(), getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(),
+                                LocalizacaoActivity.class);
+                        startActivity(intent);
+
+                    } else
+                        Toast.makeText(getActivity(), getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION}, 2222);
+                }
 
             }
 
@@ -57,4 +67,24 @@ public class PrincipalFragment extends Fragment {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        switch (requestCode) {
+
+            case 2222:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Intent intent = new Intent(getActivity(),
+                            LocalizacaoActivity.class);
+                    startActivity(intent);
+
+                } else {
+
+                }
+                return;
+
+        }
+
+    }
 }
