@@ -2,10 +2,8 @@ package br.com.fgr.emergencia.ui.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -37,7 +35,6 @@ import br.com.fgr.emergencia.models.general.Configuracao;
 import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
 import br.com.fgr.emergencia.ui.activities.AjudaListaActivity;
-import br.com.fgr.emergencia.ui.activities.MapaActivity;
 import br.com.fgr.emergencia.utils.GoogleServices;
 import br.com.fgr.emergencia.utils.Helper;
 import br.com.fgr.emergencia.utils.HospitalAdapter;
@@ -211,7 +208,11 @@ public class ListaHospitaisFragment extends Fragment {
 
                                     Collections.sort(hospitais);
 
-                                    hospitalAdapter = new HospitalAdapter(hospitais, R.layout.row_hospital);
+                                    if (isAdded())
+                                        hospitalAdapter = new HospitalAdapter(getActivity(),
+                                                new Coordenada(latUsuario, lgnUsuario), hospitais,
+                                                R.layout.row_hospital);
+
                                     recyclerView.setAdapter(hospitalAdapter);
 
                                     if (dialogInternet.isShowing())
@@ -288,6 +289,8 @@ public class ListaHospitaisFragment extends Fragment {
             view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
             int position = recyclerView.getChildAdapterPosition(view);
 
+            /*
+
             Hospital hosp = hospitais.get(position);
 
             Intent intent = new Intent(getActivity(), MapaActivity.class);
@@ -298,6 +301,8 @@ public class ListaHospitaisFragment extends Fragment {
             intent.putExtra(MapaActivity.LGN_DESTINO, hosp.getLocalizacao().getLgn());
 
             startActivity(intent);
+
+            */
 
             return super.onSingleTapConfirmed(motionEvent);
 
@@ -312,6 +317,7 @@ public class ListaHospitaisFragment extends Fragment {
 
             Hospital hosp = hospitais.get(position);
 
+            /*
             try {
 
                 String url = "waze://?ll=" + hosp.getLocalizacao().getLat() + ","
@@ -327,6 +333,7 @@ public class ListaHospitaisFragment extends Fragment {
                 startActivity(intent);
 
             }
+            */
 
         }
 

@@ -3,10 +3,13 @@ package br.com.fgr.emergencia.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.parse.FindCallback;
@@ -29,6 +32,16 @@ public class SplashActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            Window window = this.getWindow();
+
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.vermelho_rescuee));
+
+        }
 
         Handler handler = new Handler();
 
@@ -83,32 +96,36 @@ public class SplashActivity extends AppCompatActivity {
 
             try {
 
-                regId = gcm.register(getResources().getString(R.string.sender_id));
-                Helper.setRegistrationGCM(context, regId);
+                if (gcm != null) {
 
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Usuario");
-                query.whereEqualTo("regId", regId);
+                    regId = gcm.register(getResources().getString(R.string.sender_id));
+                    Helper.setRegistrationGCM(context, regId);
 
-                query.findInBackground(new FindCallback<ParseObject>() {
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Usuario");
+                    query.whereEqualTo("regId", regId);
 
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
+                    query.findInBackground(new FindCallback<ParseObject>() {
 
-                        if (list.isEmpty()) {
+                        @Override
+                        public void done(List<ParseObject> list, ParseException e) {
 
-                            ParseObject usuario = new ParseObject("Usuario");
+                            if (list.isEmpty()) {
 
-                            usuario.put("email", "");
-                            usuario.put("senha", "");
-                            usuario.put("regId", regId);
+                                ParseObject usuario = new ParseObject("Usuario");
 
-                            usuario.saveInBackground();
+                                usuario.put("email", "");
+                                usuario.put("senha", "");
+                                usuario.put("regId", regId);
+
+                                usuario.saveInBackground();
+
+                            }
 
                         }
 
-                    }
+                    });
 
-                });
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();

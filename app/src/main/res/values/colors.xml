@@ -11,5 +11,6 @@
     <color name="grafite">#555555</color>
     <color name="black_translucent">#77000000</color>
     <color name="activity_translucent">#DD000000</color>
+    <color name="vermelho_status">#ffb71c1c</color>
 
 </resources>

@@ -47,7 +47,8 @@ public class PrincipalFragment extends Fragment {
                     startActivity(intent);
 
                 } else
-                    Toast.makeText(getActivity(), getResources().getString(R.string.erro_sem_conexao), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.erro_sem_conexao),
+                            Toast.LENGTH_SHORT).show();
 
             }
 

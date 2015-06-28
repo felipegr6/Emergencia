@@ -34,6 +34,7 @@ public final class Helper {
     public static final int CONST_HOSPITAIS = 2;
     public static final int REQ_FILTRO_CODE = 1001;
     public static final String URL_GOOGLE_BASE = "https://maps.googleapis.com/maps/api";
+
     private static final String RESCUEE_PREFERENCES = "rescuee_preferences";
     private static final String GCM_REGID = "gcmRegId";
     private static final String RAIO_MAXIMO = "raio_maximo";
@@ -44,7 +45,9 @@ public final class Helper {
     private static final int offsetRaio = 2;
     private static final int offsetHospitais = 5;
     private static final String MEIO_TRANSPORTE = "meio";
+
     public static Map<Integer, String> MAP_MEIO_TRANSPORTE;
+    public static Configuracao configuracao;
 
     static {
 
@@ -68,16 +71,19 @@ public final class Helper {
 
     }
 
-    public static boolean setConfiguracoes(Context context, Configuracao config) {
+    public static void setConfiguracoes(Context context, Configuracao config) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
+                Context.MODE_MULTI_PROCESS);
+
+        configuracao = config;
 
         final SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(RAIO, config.getRaio());
         editor.putInt(HOSPITAIS, config.getHospitais());
         editor.putString(MEIO_TRANSPORTE, config.getModo());
 
-        return editor.commit();
+        editor.apply();
 
     }
 
@@ -86,14 +92,24 @@ public final class Helper {
         SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
                 Context.MODE_MULTI_PROCESS);
 
-        return new Configuracao(preferences.getInt(RAIO, 0), preferences.getInt(HOSPITAIS, 0),
-                preferences.getString(MEIO_TRANSPORTE, MAP_MEIO_TRANSPORTE.get(0)));
+        if (configuracao != null)
+            return configuracao;
+        else {
+
+            configuracao = new Configuracao(preferences.getInt(RAIO, 0),
+                    preferences.getInt(HOSPITAIS, 0),
+                    preferences.getString(MEIO_TRANSPORTE, MAP_MEIO_TRANSPORTE.get(0)));
+
+            return configuracao;
+
+        }
 
     }
 
     public static boolean setRegistrationGCM(Context context, String registrationID) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
+                Context.MODE_MULTI_PROCESS);
 
         final SharedPreferences.Editor editor = preferences.edit();
         editor.putString(GCM_REGID, registrationID);

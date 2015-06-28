@@ -1,10 +1,13 @@
 package br.com.fgr.emergencia.ui.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -26,6 +29,16 @@ public class ConfiguracaoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            Window window = this.getWindow();
+
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.vermelho_status));
+
+        }
 
         Configuracao configuracao = Helper.getConfiguracoes(getApplicationContext());
 
@@ -87,14 +100,11 @@ public class ConfiguracaoActivity extends BaseActivity {
                 Configuracao config = new Configuracao(seekRaio.getProgress(), seekHospitais.getProgress(),
                         Helper.MAP_MEIO_TRANSPORTE.get(spinnerTransporte.getSelectedItemPosition()));
 
-                if (Helper.setConfiguracoes(getApplicationContext(), config)) {
+                Helper.setConfiguracoes(getApplicationContext(), config);
 
-                    Toast.makeText(getApplicationContext(), "Salvo com sucesso.", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
-                    finish();
-
-                } else
-                    Toast.makeText(getApplicationContext(), "Houve problemas, tente novamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Salvo com sucesso.", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
+                finish();
 
             }
 
