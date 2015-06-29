@@ -11,7 +11,7 @@ public interface GoogleServices {
     @GET("/directions/json")
     void directions(@Query("origin") String origem, @Query("destination") String destino,
                     @Query("language") String lingua, @Query("sensor") boolean sensor,
-                    Callback<DirectionResponse> cb);
+                    @Query("mode") String modo, Callback<DirectionResponse> cb);
 
     @GET("/distancematrix/json")
     void matrix(@Query("origins") String origem, @Query("destinations") String destinos,

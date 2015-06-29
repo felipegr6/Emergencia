@@ -47,7 +47,7 @@ public final class Helper {
     private static final String MEIO_TRANSPORTE = "meio";
 
     public static Map<Integer, String> MAP_MEIO_TRANSPORTE;
-    public static Configuracao configuracao;
+    private static Configuracao configuracao;
 
     static {
 
@@ -120,7 +120,8 @@ public final class Helper {
 
     public static String getRegistrationGCM(Context context) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
+                Context.MODE_MULTI_PROCESS);
 
         return preferences.getString(GCM_REGID, "");
 
@@ -128,7 +129,8 @@ public final class Helper {
 
     public static boolean setFirstTimeTutorial(Context context) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
+                Context.MODE_MULTI_PROCESS);
 
         final SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(TUTORIAL, false);
@@ -139,7 +141,8 @@ public final class Helper {
 
     public static boolean getFirstTimeTutorial(Context context) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES, Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
+                Context.MODE_MULTI_PROCESS);
 
         return preferences.getBoolean(TUTORIAL, true);
 

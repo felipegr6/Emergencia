@@ -93,41 +93,42 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         GoogleServices repo = ServiceGenerator.createService(GoogleServices.class, Helper.URL_GOOGLE_BASE);
 
-        repo.directions(request.getOrigem(), request.getDestino(), "pt-BR", true, new Callback<DirectionResponse>() {
+        repo.directions(request.getOrigem(), request.getDestino(), "pt-BR", true,
+                Helper.getConfiguracoes(this).getModo(), new Callback<DirectionResponse>() {
 
-            @Override
-            public void success(DirectionResponse dResp, Response response) {
+                    @Override
+                    public void success(DirectionResponse dResp, Response response) {
 
-                List<Etapa> etapas = dResp.getRota().get(0).getTrechos().get(0).getEtapas();
-                List<LatLng> coordIniciais = new ArrayList<LatLng>();
+                        List<Etapa> etapas = dResp.getRota().get(0).getTrechos().get(0).getEtapas();
+                        List<LatLng> coordIniciais = new ArrayList<>();
 
-                for (Etapa e : etapas) {
+                        for (Etapa e : etapas) {
 
-                    Coordenada c1 = e.getLocalidadeInicial();
-                    Coordenada c2 = e.getLocalidadeFinal();
+                            Coordenada c1 = e.getLocalidadeInicial();
+                            Coordenada c2 = e.getLocalidadeFinal();
 
-                    coordIniciais.add(new LatLng(c1.getLat(), c1.getLgn()));
-                    coordIniciais.add(new LatLng(c2.getLat(), c2.getLgn()));
+                            coordIniciais.add(new LatLng(c1.getLat(), c1.getLgn()));
+                            coordIniciais.add(new LatLng(c2.getLat(), c2.getLgn()));
 
-                }
+                        }
 
-                googleMap.addPolyline(new PolylineOptions()
-                        .color(0xFFB71C1C)
-                        .geodesic(true)
-                        .addAll(coordIniciais));
+                        googleMap.addPolyline(new PolylineOptions()
+                                .color(0xFFB71C1C)
+                                .geodesic(true)
+                                .addAll(coordIniciais));
 
-            }
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
+                    @Override
+                    public void failure(RetrofitError error) {
 
-                Toast.makeText(MapaActivity.this, getString(R.string.erro_comum), Toast.LENGTH_SHORT)
-                        .show();
-                Log.e("MapaActivity", error.getMessage() + "");
+                        Toast.makeText(MapaActivity.this, getString(R.string.erro_comum), Toast.LENGTH_SHORT)
+                                .show();
+                        Log.e("MapaActivity", error.getMessage() + "");
 
-            }
+                    }
 
-        });
+                });
 
     }
 
