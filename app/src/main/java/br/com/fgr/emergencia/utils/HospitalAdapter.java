@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -107,8 +106,8 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         private AppCompatTextView nome;
         private AppCompatTextView distancia;
         private AppCompatTextView tempo;
-        private AppCompatButton btnMapa;
-        private AppCompatButton btnNavegacao;
+        private AppCompatTextView btnMapa;
+        private AppCompatTextView btnNavegacao;
 
         public ViewHolder(View itemView) {
 
@@ -117,8 +116,8 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             nome = (AppCompatTextView) itemView.findViewById(R.id.label_nome);
             distancia = (AppCompatTextView) itemView.findViewById(R.id.label_valor_distancia);
             tempo = (AppCompatTextView) itemView.findViewById(R.id.label_valor_tempo);
-            btnMapa = (AppCompatButton) itemView.findViewById(R.id.button_mapa);
-            btnNavegacao = (AppCompatButton) itemView.findViewById(R.id.button_navegacao);
+            btnMapa = (AppCompatTextView) itemView.findViewById(R.id.button_mapa);
+            btnNavegacao = (AppCompatTextView) itemView.findViewById(R.id.button_navegacao);
 
         }
 
@@ -134,11 +133,11 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             return tempo;
         }
 
-        public AppCompatButton getBtnMapa() {
+        public AppCompatTextView getBtnMapa() {
             return btnMapa;
         }
 
-        public AppCompatButton getBtnNavegacao() {
+        public AppCompatTextView getBtnNavegacao() {
             return btnNavegacao;
         }
 

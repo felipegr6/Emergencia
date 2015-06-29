@@ -5,14 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -49,8 +46,7 @@ public class ListaHospitaisFragment extends Fragment {
 
     public double latUsuario;
     public double lgnUsuario;
-    protected RecyclerView recyclerView;
-    protected GestureDetectorCompat detector;
+    private RecyclerView recyclerView;
     private List<Hospital> hospitais;
     private HospitalAdapter hospitalAdapter;
     private Configuracao config;
@@ -101,29 +97,6 @@ public class ListaHospitaisFragment extends Fragment {
 
         recyclerView.setLayoutManager(llm);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        detector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
-
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
-
-                detector.onTouchEvent(motionEvent);
-
-                return false;
-
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
-            }
-        });
 
         if (isAdded())
             realizarChamada(getActivity(), latUsuario, lgnUsuario);
@@ -276,66 +249,6 @@ public class ListaHospitaisFragment extends Fragment {
             resposta = false;
 
         return resposta;
-
-    }
-
-    private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        public View view;
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
-
-            view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-            int position = recyclerView.getChildAdapterPosition(view);
-
-            /*
-
-            Hospital hosp = hospitais.get(position);
-
-            Intent intent = new Intent(getActivity(), MapaActivity.class);
-
-            intent.putExtra(MapaActivity.LAT_ORIGEM, latUsuario);
-            intent.putExtra(MapaActivity.LGN_ORIGEM, lgnUsuario);
-            intent.putExtra(MapaActivity.LAT_DESTINO, hosp.getLocalizacao().getLat());
-            intent.putExtra(MapaActivity.LGN_DESTINO, hosp.getLocalizacao().getLgn());
-
-            startActivity(intent);
-
-            */
-
-            return super.onSingleTapConfirmed(motionEvent);
-
-        }
-
-        public void onLongPress(final MotionEvent motionEvent) {
-
-            super.onLongPress(motionEvent);
-
-            view = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-            int position = recyclerView.getChildAdapterPosition(view);
-
-            Hospital hosp = hospitais.get(position);
-
-            /*
-            try {
-
-                String url = "waze://?ll=" + hosp.getLocalizacao().getLat() + ","
-                        + hosp.getLocalizacao().getLgn() + "&navigate=yes";
-
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
-
-            } catch (ActivityNotFoundException ex) {
-
-                Intent intent =
-                        new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.waze"));
-                startActivity(intent);
-
-            }
-            */
-
-        }
 
     }
 
