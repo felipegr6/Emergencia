@@ -27,7 +27,7 @@ import br.com.fgr.emergencia.utils.Helper;
 public class LocalizacaoActivity extends BaseActivity implements ConnectionCallbacks,
         OnConnectionFailedListener {
 
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
 
