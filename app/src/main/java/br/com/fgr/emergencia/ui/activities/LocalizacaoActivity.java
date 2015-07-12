@@ -79,7 +79,7 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
         super.onPause();
 
-        if (mGoogleApiClient.isConnected())
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
             mGoogleApiClient.disconnect();
 
     }

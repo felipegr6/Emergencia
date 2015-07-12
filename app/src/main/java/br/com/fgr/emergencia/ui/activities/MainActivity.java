@@ -17,12 +17,13 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
+import com.parse.ParseObject;
 
 import br.com.fgr.emergencia.R;
+import br.com.fgr.emergencia.models.general.TipoBannerErro;
 import br.com.fgr.emergencia.ui.fragments.PrincipalFragment;
 
 public class MainActivity extends BaseActivity implements MoPubView.BannerAdListener {
@@ -145,27 +146,27 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
     @Override
     public void onBannerLoaded(MoPubView moPubView) {
-
+        gravarEstatisticaBanner(TipoBannerErro.BANNER_LOADED);
     }
 
     @Override
     public void onBannerFailed(MoPubView moPubView, MoPubErrorCode moPubErrorCode) {
-        Toast.makeText(this, "onBannerFailed", Toast.LENGTH_SHORT).show();
+        gravarEstatisticaBanner(TipoBannerErro.BANNER_FAILED);
     }
 
     @Override
     public void onBannerClicked(MoPubView moPubView) {
-        Toast.makeText(this, "onBannerClicked", Toast.LENGTH_SHORT).show();
+        gravarEstatisticaBanner(TipoBannerErro.BANNER_CLICKED);
     }
 
     @Override
     public void onBannerExpanded(MoPubView moPubView) {
-        Toast.makeText(this, "onBannerExpanded", Toast.LENGTH_SHORT).show();
+        gravarEstatisticaBanner(TipoBannerErro.BANNER_EXPANDED);
     }
 
     @Override
     public void onBannerCollapsed(MoPubView moPubView) {
-        Toast.makeText(this, "onBannerCollapsed", Toast.LENGTH_SHORT).show();
+        gravarEstatisticaBanner(TipoBannerErro.BANNER_COLLAPSED);
     }
 
     private class AcaoNavDrawer implements ListView.OnItemClickListener {
@@ -188,6 +189,15 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
             }
 
         }
+
+    }
+
+    private void gravarEstatisticaBanner(TipoBannerErro tipoBannerErro) {
+
+        ParseObject banner = new ParseObject("BannerExibhition");
+
+        banner.put("tipoBanner", tipoBannerErro.getTipoBannerErro());
+        banner.saveInBackground();
 
     }
 
