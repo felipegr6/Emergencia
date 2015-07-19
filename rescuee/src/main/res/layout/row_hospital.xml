@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="1dp"
+    card_view:cardPreventCornerOverlap="false"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/label_nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:textColor="@color/grafite"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/label_distancia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_nome"
+            android:layout_marginTop="10dp"
+            android:text="@string/distancia"
+            android:textColor="@color/grafite"
+            android:textSize="16sp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/label_valor_distancia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_nome"
+            android:layout_marginLeft="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/label_distancia"
+            android:layout_toRightOf="@+id/label_distancia"
+            android:textColor="@color/grafite"
+            android:textSize="16sp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/label_tempo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_distancia"
+            android:text="@string/tempo"
+            android:textColor="@color/grafite"
+            android:textSize="16sp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/label_valor_tempo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_distancia"
+            android:layout_marginLeft="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_toEndOf="@+id/label_tempo"
+            android:layout_toRightOf="@+id/label_tempo"
+            android:textColor="@color/grafite"
+            android:textSize="16sp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/button_mapa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label_nome"
+            android:layout_alignStart="@+id/label_nome"
+            android:layout_below="@+id/label_tempo"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/text_btn_mapa"
+            android:textColor="@color/vermelho_status"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/button_navegacao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_tempo"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/button_mapa"
+            android:layout_toRightOf="@id/button_mapa"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/text_btn_navegacao"
+            android:textColor="@color/vermelho_status"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

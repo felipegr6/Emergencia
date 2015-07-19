@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/branco"
+    android:fitsSystemWindows="true"
+    tools:context="br.com.fgr.emergencia.ui.activities.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/vermelho_rescuee" />
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar">
+
+            <fragment
+                android:id="@+id/main_fragment_container"
+                android:name="br.com.fgr.emergencia.ui.fragments.PrincipalFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="25dp"
+                android:tag="frag" />
+
+            <com.mopub.mobileads.MoPubView
+                android:id="@+id/mopub_sample_ad"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/nav_lista"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:layout_gravity="start"
+            android:background="@color/black_translucent"
+            android:choiceMode="singleChoice"
+            android:divider="@null" />
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>

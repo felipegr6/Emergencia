@@ -31,7 +31,7 @@ Thumbs.db
 .gradle
 build/
 *.iml
-app/*.iml
+rescuee/*.iml
 
 Optional - for older project format, add this section to your gitignore file:
 /*/out
@@ -42,6 +42,6 @@ Optional - for older project format, add this section to your gitignore file:
 *~
 *.swp
 
-app/fabric*
-app/*.keystore
+rescuee/fabric*
+rescuee/*.keystore
 proguard-com.mopub*
