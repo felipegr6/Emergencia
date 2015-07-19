@@ -87,11 +87,20 @@
                 android:text="@string/texto_botao_logar"
                 android:textAppearance="?android:attr/textAppearanceButton" />
 
+            <RelativeLayout
+                android:id="@+id/rl_separacao"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/button_logar"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/black_translucent" />
+
             <com.facebook.widget.LoginButton
                 android:id="@+id/authButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/button_logar"
+                android:layout_below="@+id/rl_separacao"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp" />
 

@@ -3,7 +3,6 @@ package br.com.fgr.emergencia.ui.fragments;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +30,6 @@ import br.com.fgr.emergencia.models.distancematrix.Elementos;
 import br.com.fgr.emergencia.models.general.Configuracao;
 import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
-import br.com.fgr.emergencia.ui.activities.AjudaListaActivity;
 import br.com.fgr.emergencia.utils.GoogleServices;
 import br.com.fgr.emergencia.utils.Helper;
 import br.com.fgr.emergencia.utils.HospitalAdapter;
@@ -121,8 +119,10 @@ public class ListaHospitaisFragment extends Fragment {
 
         dialogInternet.show();
 
-        int qtdeHospitais = Integer.parseInt(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, config.getHospitais(), false));
-        float raioAlcance = Float.parseFloat(Helper.formatarInformacao(Helper.CONST_RAIO, config.getRaio(), false));
+        int qtdeHospitais = Integer.parseInt(Helper.formatarInformacao(Helper.CONST_HOSPITAIS,
+                config.getHospitais(), false));
+        float raioAlcance = Float.parseFloat(Helper.formatarInformacao(Helper.CONST_RAIO,
+                config.getRaio(), false));
 
         hospitais = new ArrayList<>();
 
@@ -159,23 +159,20 @@ public class ListaHospitaisFragment extends Fragment {
 
                     List<Coordenada> destinos = new ArrayList<>();
 
-                    for (Hospital h : hospitais) {
+                    for (Hospital h : hospitais)
                         destinos.add(h.getLocalizacao());
-                    }
 
                     DistanceMatrixRequest request = new DistanceMatrixRequest(new Coordenada(latitude, longitude),
                             destinos, config.getModo());
 
-                    GoogleServices repo = ServiceGenerator.createService(GoogleServices.class, Helper.URL_GOOGLE_BASE);
+                    GoogleServices repo = ServiceGenerator.createService(GoogleServices.class,
+                            Helper.URL_GOOGLE_BASE);
 
-                    repo.matrix(request.getOrigem(), request.getDestinos(), request.getModo(),
-                            "pt-BR", true, new Callback<DistanceMatrixResponse>() {
+                    repo.matrix(request.getOrigem(), request.getDestinos(), request.getModo(), "pt-BR",
+                            true, new Callback<DistanceMatrixResponse>() {
 
                                 @Override
                                 public void success(DistanceMatrixResponse dResp, retrofit.client.Response response) {
-
-                                    if (isAdded() && Helper.getFirstTimeTutorial(getActivity()))
-                                        startActivity(new Intent(getActivity(), AjudaListaActivity.class));
 
                                     popularHospitais(dResp);
 

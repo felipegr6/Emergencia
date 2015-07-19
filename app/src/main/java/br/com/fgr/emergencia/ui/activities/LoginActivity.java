@@ -24,9 +24,9 @@ public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
 
-    protected AppCompatEditText editEmail;
-    protected AppCompatEditText editSenha;
-    protected AppCompatButton buttonLogar;
+    private AppCompatEditText editEmail;
+    private AppCompatEditText editSenha;
+    private AppCompatButton buttonLogar;
 
     /*
      protected LoginButton fbLoginButton;

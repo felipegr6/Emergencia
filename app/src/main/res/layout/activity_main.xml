@@ -23,11 +23,13 @@
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar">
 
-            <FrameLayout
+            <fragment
                 android:id="@+id/main_fragment_container"
+                android:name="br.com.fgr.emergencia.ui.fragments.PrincipalFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="25dp" />
+                android:layout_margin="25dp"
+                android:tag="frag" />
 
             <com.mopub.mobileads.MoPubView
                 android:id="@+id/mopub_sample_ad"

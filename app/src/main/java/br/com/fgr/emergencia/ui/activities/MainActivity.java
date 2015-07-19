@@ -1,15 +1,12 @@
 package br.com.fgr.emergencia.ui.activities;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Build;
-import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Gravity;
-import android.view.Menu;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -22,25 +19,71 @@ import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 import com.parse.ParseObject;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.FragmentById;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
+
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.models.general.TipoBannerErro;
 import br.com.fgr.emergencia.ui.fragments.PrincipalFragment;
 
-public class MainActivity extends BaseActivity implements MoPubView.BannerAdListener {
+@OptionsMenu(R.menu.main)
+@EActivity(R.layout.activity_main)
+public class MainActivity extends AppCompatActivity implements MoPubView.BannerAdListener {
 
     private static final String MOPUB_BANNER_AD_UNIT_ID = "cfb1d11b4942442582b5ed69cf94937f";
 
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private String[] navListValues;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private CharSequence mTitle;
-    private MoPubView moPubView;
+    @ViewById(R.id.drawer)
+    DrawerLayout mDrawerLayout;
+    @ViewById(R.id.nav_lista)
+    ListView mDrawerList;
+    @ViewById(R.id.toolbar)
+    Toolbar toolbar;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @ViewById(R.id.mopub_sample_ad)
+    MoPubView moPubView;
 
-        super.onCreate(savedInstanceState);
+    @FragmentById(R.id.main_fragment_container)
+    PrincipalFragment principalFragment;
+
+    @AfterViews
+    void afterViews() {
+
+        String[] navListValues;
+        ActionBarDrawerToggle mDrawerToggle;
+
+        navListValues = getResources().getStringArray(R.array.lista_nav_drawer);
+
+        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navListValues));
+
+        mDrawerList.setOnItemClickListener(new AcaoNavDrawer());
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                toolbar, R.string.drawer_open, R.string.drawer_close);
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+        moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
+        moPubView.loadAd();
+        moPubView.setBannerAdListener(this);
+
+        if (toolbar != null) {
+
+            setSupportActionBar(toolbar);
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+
+        }
+
+    }
+
+    @UiThread
+    void statusBarColor() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -52,45 +95,62 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
         }
 
-        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
-        moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
-        moPubView.loadAd();
-        moPubView.setBannerAdListener(this);
-
-        mTitle = getTitle();
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-
-        mDrawerList = (ListView) findViewById(R.id.nav_lista);
-        navListValues = getResources().getStringArray(R.array.lista_nav_drawer);
-
-        mDrawerList.setAdapter(new ArrayAdapter<>(this,
-                R.layout.drawer_list_item, navListValues));
-
-        mDrawerList.setOnItemClickListener(new AcaoNavDrawer());
-
-        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,
-                mDrawerLayout, getToolbar(), R.string.drawer_open,
-                R.string.drawer_close);
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.main_fragment_container, new PrincipalFragment());
-        ft.commit();
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//
+//        super.onCreate(savedInstanceState);
+//
+////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+////
+////            Window window = this.getWindow();
+////
+////            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+////            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+////            window.setStatusBarColor(this.getResources().getColor(R.color.vermelho_status));
+////
+////        }
+//
+////        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
+////        moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
+////        moPubView.loadAd();
+////        moPubView.setBannerAdListener(this);
+//
+////        mTitle = getTitle();
+//
+////        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+//
+////        mDrawerList = (ListView) findViewById(R.id.nav_lista);
+////        navListValues = getResources().getStringArray(R.array.lista_nav_drawer);
+////
+////        mDrawerList.setAdapter(new ArrayAdapter<>(this,
+////                R.layout.drawer_list_item, navListValues));
+////
+////        mDrawerList.setOnItemClickListener(new AcaoNavDrawer());
+////
+////        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,
+////                mDrawerLayout, toolbar, R.string.drawer_open,
+////                R.string.drawer_close);
+////
+////        mDrawerToggle.setDrawerIndicatorEnabled(true);
+////        mDrawerLayout.setDrawerListener(mDrawerToggle);
+//
+////        FragmentManager fm = getFragmentManager();
+////        FragmentTransaction ft = fm.beginTransaction();
+////        ft.replace(R.id.main_fragment_container, new PrincipalFragment());
+////        ft.commit();
+//
+//    }
 
-        getMenuInflater().inflate(R.menu.main, menu);
 
-        return true;
-
-    }
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        getMenuInflater().inflate(R.menu.main, menu);
+//
+//        return true;
+//
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -100,7 +160,10 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                mDrawerLayout.openDrawer(Gravity.START);
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                else
+                    mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_configuration:
                 intent = new Intent(MainActivity.this, ConfiguracaoActivity.class);
@@ -113,28 +176,22 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+//    @Override
+//    protected void onPostCreate(Bundle savedInstanceState) {
+//
+//        super.onPostCreate(savedInstanceState);
+//
+//
+//    }
 
-        super.onPostCreate(savedInstanceState);
-
-        mDrawerToggle.syncState();
-
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-
-        super.onConfigurationChanged(newConfig);
-
-        mDrawerToggle.onConfigurationChanged(newConfig);
-
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_main;
-    }
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//
+//        super.onConfigurationChanged(newConfig);
+//
+//        mDrawerToggle.onConfigurationChanged(newConfig);
+//
+//    }
 
     @Override
     protected void onDestroy() {
