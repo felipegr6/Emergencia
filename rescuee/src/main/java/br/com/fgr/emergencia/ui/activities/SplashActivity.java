@@ -43,9 +43,7 @@ public class SplashActivity extends AppCompatActivity {
 
         }
 
-        Handler handler = new Handler();
-
-        handler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
@@ -55,10 +53,9 @@ public class SplashActivity extends AppCompatActivity {
                 else {
 
                     Intent intent = new Intent(SplashActivity.this, MainActivity_.class);
+
                     startActivity(intent);
-
                     finish();
-
                     Log.w("RegId", Helper.getRegistrationGCM(SplashActivity.this));
 
                 }
@@ -80,8 +77,8 @@ public class SplashActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
 
             Intent intent = new Intent(SplashActivity.this, MainActivity_.class);
-            startActivity(intent);
 
+            startActivity(intent);
             finish();
 
         }
@@ -116,7 +113,6 @@ public class SplashActivity extends AppCompatActivity {
                                 usuario.put("email", "");
                                 usuario.put("senha", "");
                                 usuario.put("regId", regId);
-
                                 usuario.saveInBackground();
 
                             }
