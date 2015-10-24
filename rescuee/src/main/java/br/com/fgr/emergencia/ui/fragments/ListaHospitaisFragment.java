@@ -1,9 +1,9 @@
 package br.com.fgr.emergencia.ui.fragments;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +27,7 @@ import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.models.distancematrix.DistanceMatrixRequest;
 import br.com.fgr.emergencia.models.distancematrix.DistanceMatrixResponse;
 import br.com.fgr.emergencia.models.distancematrix.Elementos;
+import br.com.fgr.emergencia.models.events.LoadListEvent;
 import br.com.fgr.emergencia.models.general.Configuracao;
 import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
@@ -34,6 +35,7 @@ import br.com.fgr.emergencia.utils.GoogleServices;
 import br.com.fgr.emergencia.utils.Helper;
 import br.com.fgr.emergencia.utils.HospitalAdapter;
 import br.com.fgr.emergencia.utils.ServiceGenerator;
+import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 
@@ -161,6 +163,10 @@ public class ListaHospitaisFragment extends Fragment {
 
                     for (Hospital h : hospitais)
                         destinos.add(h.getLocalizacao());
+
+                    EventBus.getDefault()
+                            .post(new LoadListEvent(new Coordenada(latUsuario, lgnUsuario),
+                                    destinos));
 
                     DistanceMatrixRequest request = new DistanceMatrixRequest(new Coordenada(latitude, longitude),
                             destinos, config.getModo());

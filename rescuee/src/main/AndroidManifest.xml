@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.fgr.emergencia" >
+    package="br.com.fgr.emergencia">
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -28,7 +28,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -55,7 +55,7 @@
             android:name=".ui.activities.LocalizacaoActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_localizacao"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity_" />
@@ -64,7 +64,7 @@
             android:name=".ui.activities.LoginActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_formulario"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity_" />
@@ -73,7 +73,7 @@
             android:name=".ui.activities.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreen" >
+            android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -84,7 +84,7 @@
             android:name=".ui.activities.ConfiguracaoActivity"
             android:label="@string/title_activity_configuracao"
             android:parentActivityName=".ui.activities.MainActivity_"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity_" />
@@ -93,7 +93,7 @@
             android:name=".ui.activities.MapaActivity"
             android:label="@string/title_activity_mapa"
             android:parentActivityName=".ui.activities.LocalizacaoActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.LocalizacaoActivity" />
@@ -113,7 +113,7 @@
 
         <receiver
             android:name=".services.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -123,6 +123,11 @@
         </receiver>
 
         <service android:name=".services.GcmIntentService" />
+
+        <activity
+            android:name=".ui.activities.LocalizadorActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
 
     </application>
 

@@ -3,7 +3,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.neenbedankt.android-apt'
 
 def AAVersion = '3.3.2'
-def AndroidSupportVersion = '23.0.1'
+def AndroidSupportVersion = '23.1.0'
 def GoogleVersion = '8.1.0'
 
 buildscript {
@@ -84,7 +84,8 @@ dependencies {
     compile "com.google.android.gms:play-services-location:$GoogleVersion"
     compile "com.google.android.gms:play-services-gcm:$GoogleVersion"
     compile "com.google.android.gms:play-services-ads:$GoogleVersion"
-    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile 'com.parse.bolts:bolts-android:1.2.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'

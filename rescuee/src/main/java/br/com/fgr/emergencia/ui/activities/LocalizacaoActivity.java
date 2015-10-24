@@ -1,11 +1,11 @@
 package br.com.fgr.emergencia.ui.activities;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -183,7 +183,7 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
         pesquisado = true;
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         if (mLastLocation != null)

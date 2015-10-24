@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.ui.activities.LocalizacaoActivity;
+import br.com.fgr.emergencia.ui.activities.LocalizadorActivity;
 import br.com.fgr.emergencia.utils.Helper;
 
 public class PrincipalFragment extends Fragment {
@@ -43,7 +43,7 @@ public class PrincipalFragment extends Fragment {
                 if (Helper.isOnline(getActivity())) {
 
                     Intent intent = new Intent(getActivity(),
-                            LocalizacaoActivity.class);
+                            LocalizadorActivity.class);
                     startActivity(intent);
 
                 } else
