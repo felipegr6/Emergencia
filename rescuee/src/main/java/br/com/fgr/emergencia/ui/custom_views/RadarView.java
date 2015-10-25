@@ -93,7 +93,9 @@ public class RadarView extends View implements Runnable {
 
         int resultado = x * (y1 - y2) + y * (x2 - x1) + x1 * y2 - y1 * x2;
 
-        return resultado <= 750 && resultado >= -750;
+        return resultado <= 750 && resultado >= -750 &&
+                (((x >= x1) && (x <= x2)) || ((x >= x2) && (x <= x1)))
+                && (((y >= y1) && (y <= y2)) || ((y >= y2) && (y <= y1)));
 
     }
 
