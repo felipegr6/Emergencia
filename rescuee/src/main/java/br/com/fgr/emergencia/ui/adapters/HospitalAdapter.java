@@ -1,4 +1,4 @@
-package br.com.fgr.emergencia.utils;
+package br.com.fgr.emergencia.ui.adapters;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;

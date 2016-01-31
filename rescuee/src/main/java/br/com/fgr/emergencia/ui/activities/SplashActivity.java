@@ -52,7 +52,7 @@ public class SplashActivity extends AppCompatActivity {
                     new CadastroGCM(SplashActivity.this).execute();
                 else {
 
-                    Intent intent = new Intent(SplashActivity.this, MainActivity_.class);
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
 
                     startActivity(intent);
                     finish();
@@ -76,7 +76,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            Intent intent = new Intent(SplashActivity.this, MainActivity_.class);
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
 
             startActivity(intent);
             finish();

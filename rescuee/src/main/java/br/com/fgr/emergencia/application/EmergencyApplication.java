@@ -9,7 +9,7 @@ import com.parse.Parse;
 import br.com.fgr.emergencia.BuildConfig;
 import io.fabric.sdk.android.Fabric;
 
-public class EmergenciaApplication extends Application {
+public class EmergencyApplication extends Application {
 
     @Override
     public void onCreate() {
@@ -17,7 +17,7 @@ public class EmergenciaApplication extends Application {
         super.onCreate();
 
         if (BuildConfig.CRASH_REPORT)
-            Fabric.with(this, new Crashlytics(), new MoPub());
+            Fabric.with(this, new Crashlytics());
 
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);

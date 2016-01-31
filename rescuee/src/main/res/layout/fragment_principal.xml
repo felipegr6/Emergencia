@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}">
+    tools:context="br.com.fgr.emergencia.ui.fragments.MainFragment">
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@+id/button_emergencia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

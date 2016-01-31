@@ -24,7 +24,7 @@
     <uses-permission android:name="br.com.fgr.emergencia.permission.C2D_MESSAGE" />
 
     <application
-        android:name=".application.EmergenciaApplication"
+        android:name=".application.EmergencyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -47,7 +47,7 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.MainActivity_"
+            android:name=".ui.activities.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
@@ -58,7 +58,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity_" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
             android:name=".ui.activities.LoginActivity"
@@ -67,7 +67,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity_" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
             android:name=".ui.activities.SplashActivity"
@@ -83,11 +83,11 @@
         <activity
             android:name=".ui.activities.ConfiguracaoActivity"
             android:label="@string/title_activity_configuracao"
-            android:parentActivityName=".ui.activities.MainActivity_"
+            android:parentActivityName=".ui.activities.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity_" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
             android:name=".ui.activities.MapaActivity"

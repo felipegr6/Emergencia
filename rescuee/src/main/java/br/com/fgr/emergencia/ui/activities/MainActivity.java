@@ -1,16 +1,17 @@
 package br.com.fgr.emergencia.ui.activities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v4.view.GravityCompat;
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -19,138 +20,66 @@ import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 import com.parse.ParseObject;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.ViewById;
-
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.models.general.TipoBannerErro;
-import br.com.fgr.emergencia.ui.fragments.PrincipalFragment;
+import br.com.fgr.emergencia.ui.fragments.MainFragment;
+import butterknife.Bind;
 
-@OptionsMenu(R.menu.main)
-@EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity implements MoPubView.BannerAdListener {
+public class MainActivity extends BaseActivity implements MoPubView.BannerAdListener {
 
     private static final String MOPUB_BANNER_AD_UNIT_ID = "cfb1d11b4942442582b5ed69cf94937f";
 
-    @ViewById(R.id.drawer)
+    @Bind(R.id.drawer)
     DrawerLayout mDrawerLayout;
-    @ViewById(R.id.nav_lista)
+    @Bind(R.id.nav_lista)
     ListView mDrawerList;
-    @ViewById(R.id.toolbar)
+    @Bind(R.id.mopub_sample_ad)
+    MoPubView moPubView;
+    @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @ViewById(R.id.mopub_sample_ad)
-    MoPubView moPubView;
+    ActionBarDrawerToggle mDrawerToggle;
 
-    @FragmentById(R.id.main_fragment_container)
-    PrincipalFragment principalFragment;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
-    @AfterViews
-    void afterViews() {
+        super.onCreate(savedInstanceState);
 
         String[] navListValues;
-        ActionBarDrawerToggle mDrawerToggle;
+
+        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
+        moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
+        moPubView.loadAd();
 
         navListValues = getResources().getStringArray(R.array.lista_nav_drawer);
 
-        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navListValues));
+        mDrawerList.setAdapter(new ArrayAdapter<>(this,
+                R.layout.drawer_list_item, navListValues));
 
         mDrawerList.setOnItemClickListener(new AcaoNavDrawer());
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                toolbar, R.string.drawer_open, R.string.drawer_close);
+        mDrawerToggle = new ActionBarDrawerToggle(this,
+                mDrawerLayout, toolbar, R.string.drawer_open,
+                R.string.drawer_close);
 
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-        moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
-        moPubView.loadAd();
-        moPubView.setBannerAdListener(this);
 
-        if (toolbar != null) {
-
-            setSupportActionBar(toolbar);
-
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-
-        }
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.main_fragment_container, MainFragment.newInstance());
+        ft.commit();
 
     }
 
-    @UiThread
-    void statusBarColor() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-            Window window = this.getWindow();
+        getMenuInflater().inflate(R.menu.main, menu);
 
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(this.getResources().getColor(R.color.vermelho_status));
-
-        }
+        return true;
 
     }
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//
-//        super.onCreate(savedInstanceState);
-//
-////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-////
-////            Window window = this.getWindow();
-////
-////            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-////            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-////            window.setStatusBarColor(this.getResources().getColor(R.color.vermelho_status));
-////
-////        }
-//
-////        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
-////        moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
-////        moPubView.loadAd();
-////        moPubView.setBannerAdListener(this);
-//
-////        mTitle = getTitle();
-//
-////        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-//
-////        mDrawerList = (ListView) findViewById(R.id.nav_lista);
-////        navListValues = getResources().getStringArray(R.array.lista_nav_drawer);
-////
-////        mDrawerList.setAdapter(new ArrayAdapter<>(this,
-////                R.layout.drawer_list_item, navListValues));
-////
-////        mDrawerList.setOnItemClickListener(new AcaoNavDrawer());
-////
-////        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,
-////                mDrawerLayout, toolbar, R.string.drawer_open,
-////                R.string.drawer_close);
-////
-////        mDrawerToggle.setDrawerIndicatorEnabled(true);
-////        mDrawerLayout.setDrawerListener(mDrawerToggle);
-//
-////        FragmentManager fm = getFragmentManager();
-////        FragmentTransaction ft = fm.beginTransaction();
-////        ft.replace(R.id.main_fragment_container, new PrincipalFragment());
-////        ft.commit();
-//
-//    }
-
-
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        getMenuInflater().inflate(R.menu.main, menu);
-//
-//        return true;
-//
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -160,10 +89,7 @@ public class MainActivity extends AppCompatActivity implements MoPubView.BannerA
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                else
-                    mDrawerLayout.openDrawer(GravityCompat.START);
+                mDrawerLayout.openDrawer(Gravity.START);
                 return true;
             case R.id.action_configuration:
                 intent = new Intent(MainActivity.this, ConfiguracaoActivity.class);
@@ -176,22 +102,15 @@ public class MainActivity extends AppCompatActivity implements MoPubView.BannerA
 
     }
 
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//
-//        super.onPostCreate(savedInstanceState);
-//
-//
-//    }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//
-//        super.onConfigurationChanged(newConfig);
-//
-//        mDrawerToggle.onConfigurationChanged(newConfig);
-//
-//    }
+        super.onPostCreate(savedInstanceState);
+
+        mDrawerToggle.syncState();
+
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -202,28 +121,43 @@ public class MainActivity extends AppCompatActivity implements MoPubView.BannerA
     }
 
     @Override
+    public boolean isMainActivity() {
+        return true;
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
     public void onBannerLoaded(MoPubView moPubView) {
-        gravarEstatisticaBanner(TipoBannerErro.BANNER_LOADED);
+        saveBannerStats(TipoBannerErro.BANNER_LOADED);
     }
 
     @Override
     public void onBannerFailed(MoPubView moPubView, MoPubErrorCode moPubErrorCode) {
-        gravarEstatisticaBanner(TipoBannerErro.BANNER_FAILED);
+        saveBannerStats(TipoBannerErro.BANNER_FAILED);
     }
 
     @Override
     public void onBannerClicked(MoPubView moPubView) {
-        gravarEstatisticaBanner(TipoBannerErro.BANNER_CLICKED);
+        saveBannerStats(TipoBannerErro.BANNER_CLICKED);
     }
 
     @Override
     public void onBannerExpanded(MoPubView moPubView) {
-        gravarEstatisticaBanner(TipoBannerErro.BANNER_EXPANDED);
+        saveBannerStats(TipoBannerErro.BANNER_EXPANDED);
     }
 
     @Override
     public void onBannerCollapsed(MoPubView moPubView) {
-        gravarEstatisticaBanner(TipoBannerErro.BANNER_COLLAPSED);
+        saveBannerStats(TipoBannerErro.BANNER_COLLAPSED);
     }
 
     private class AcaoNavDrawer implements ListView.OnItemClickListener {
@@ -249,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements MoPubView.BannerA
 
     }
 
-    private void gravarEstatisticaBanner(TipoBannerErro tipoBannerErro) {
+    private void saveBannerStats(TipoBannerErro tipoBannerErro) {
 
         ParseObject banner = new ParseObject("BannerExibhition");
 

@@ -33,7 +33,7 @@ import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
 import br.com.fgr.emergencia.utils.GoogleServices;
 import br.com.fgr.emergencia.utils.Helper;
-import br.com.fgr.emergencia.utils.HospitalAdapter;
+import br.com.fgr.emergencia.ui.adapters.HospitalAdapter;
 import br.com.fgr.emergencia.utils.ServiceGenerator;
 import de.greenrobot.event.EventBus;
 import retrofit.Callback;

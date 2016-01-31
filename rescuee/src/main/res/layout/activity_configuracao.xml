@@ -19,7 +19,7 @@
         android:layout_below="@+id/toolbar"
         android:padding="10dp">
 
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/text_raio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             android:layout_toRightOf="@+id/text_raio"
             android:max="3" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/text_mostra_raio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/text_hospitais"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             android:layout_toRightOf="@+id/text_hospitais"
             android:max="2" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/text_mostra_hospitais"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/label_modo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grafite" />
 
-        <android.support.v7.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/spinner_transporte"
             style="@android:style/Widget.Holo.Light.Spinner"
             android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
             android:prompt="@string/transporte_prompt"
             android:spinnerMode="dialog" />
 
-        <android.support.v7.widget.AppCompatButton
+        <Button
             android:id="@+id/button_gravar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

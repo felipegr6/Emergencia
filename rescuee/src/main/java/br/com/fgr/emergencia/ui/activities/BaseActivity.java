@@ -1,15 +1,17 @@
 package br.com.fgr.emergencia.ui.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import br.com.fgr.emergencia.R;
+import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,36 +19,52 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
 
-        if (toolbar != null) {
+        if (getToolbar() != null) {
 
-            setSupportActionBar(toolbar);
+            setSupportActionBar(getToolbar());
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
 
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            if (!isMainActivity())
+                getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
 
-            });
+                });
+
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            Window window = this.getWindow();
+
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.vermelho_status));
 
         }
 
     }
 
+    @Override
+    protected void onDestroy() {
+
+        ButterKnife.unbind(this);
+
+        super.onDestroy();
+
+    }
+
+    public abstract boolean isMainActivity();
+
     protected abstract int getLayoutResource();
 
-    protected void setActionBarIcon(int iconRes) {
-        toolbar.setNavigationIcon(iconRes);
-    }
-
-    protected Toolbar getToolbar() {
-        return toolbar;
-    }
+    protected abstract Toolbar getToolbar();
 
 }

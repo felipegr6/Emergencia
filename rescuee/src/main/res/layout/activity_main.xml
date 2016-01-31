@@ -23,9 +23,9 @@
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar">
 
-            <fragment
+            <FrameLayout
                 android:id="@+id/main_fragment_container"
-                android:name="br.com.fgr.emergencia.ui.fragments.PrincipalFragment"
+                android:name="br.com.fgr.emergencia.ui.fragments.MainFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="25dp"

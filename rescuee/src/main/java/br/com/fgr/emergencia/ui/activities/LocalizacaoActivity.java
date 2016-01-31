@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import com.google.android.gms.location.LocationServices;
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.fragments.ListaHospitaisFragment;
 import br.com.fgr.emergencia.utils.Helper;
+import butterknife.Bind;
 
 public class LocalizacaoActivity extends BaseActivity implements ConnectionCallbacks,
         OnConnectionFailedListener {
@@ -30,6 +32,9 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     private boolean pesquisado;
 
@@ -53,6 +58,11 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
         if (checkPlayServices())
             buildGoogleApiClient();
 
+    }
+
+    @Override
+    public boolean isMainActivity() {
+        return false;
     }
 
     @Override
@@ -111,6 +121,11 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_localizacao;
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override
