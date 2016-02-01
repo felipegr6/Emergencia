@@ -3,37 +3,46 @@ package br.com.fgr.emergencia.ui.activities;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.adapters.ViewPagerAdapter;
 import br.com.fgr.emergencia.ui.fragments.ListaHospitaisFragment;
 import br.com.fgr.emergencia.ui.fragments.RadarFragment;
+import butterknife.Bind;
 
-public class LocalizadorActivity extends AppCompatActivity {
+public class LocatorActivity extends BaseActivity {
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.tabs)
+    TabLayout tabLayout;
+    @Bind(R.id.viewpager)
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_localizador);
 
-        Toolbar toolbar;
-        TabLayout tabLayout;
-        ViewPager viewPager;
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Hospitais");
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
+    public boolean isMainActivity() {
+        return false;
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_localizador;
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     private void setupViewPager(ViewPager viewPager) {

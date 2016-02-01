@@ -14,18 +14,18 @@ import br.com.fgr.emergencia.utils.Helper;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class ConfiguracaoActivity extends BaseActivity {
+public class ConfigurationActivity extends BaseActivity {
 
     @Bind(R.id.seek_raio)
-    SeekBar seekRaio;
+    SeekBar seekRadius;
     @Bind(R.id.seek_hospitais)
-    SeekBar seekHospitais;
+    SeekBar seekHospitals;
     @Bind(R.id.text_mostra_raio)
-    TextView textRaio;
+    TextView lblRadius;
     @Bind(R.id.text_mostra_hospitais)
-    TextView textHospitais;
+    TextView lblHospitals;
     @Bind(R.id.spinner_transporte)
-    Spinner spinnerTransporte;
+    Spinner spinnerTransport;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -37,16 +37,16 @@ public class ConfiguracaoActivity extends BaseActivity {
 
         Configuracao configuracao = Helper.getConfiguracoes(getApplicationContext());
 
-        seekRaio.setProgress(configuracao.getRaio());
-        seekHospitais.setProgress(configuracao.getHospitais());
-        textRaio.setText(Helper.formatarInformacao(Helper.CONST_RAIO, seekRaio.getProgress(), true));
-        textHospitais.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, seekHospitais.getProgress(), true));
+        seekRadius.setProgress(configuracao.getRaio());
+        seekHospitals.setProgress(configuracao.getHospitais());
+        lblRadius.setText(Helper.formatarInformacao(Helper.CONST_RAIO, seekRadius.getProgress(), true));
+        lblHospitals.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, seekHospitals.getProgress(), true));
 
-        seekRaio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textRaio.setText(Helper.formatarInformacao(Helper.CONST_RAIO, progress, true));
+                lblRadius.setText(Helper.formatarInformacao(Helper.CONST_RAIO, progress, true));
             }
 
             @Override
@@ -61,11 +61,11 @@ public class ConfiguracaoActivity extends BaseActivity {
 
         });
 
-        seekHospitais.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekHospitals.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textHospitais.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, progress, true));
+                lblHospitals.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, progress, true));
             }
 
             @Override
@@ -83,9 +83,9 @@ public class ConfiguracaoActivity extends BaseActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.transportes_array, R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
-        spinnerTransporte.setAdapter(adapter);
+        spinnerTransport.setAdapter(adapter);
 
-        spinnerTransporte.setSelection(configuracao.getModo() == "driving" ? 0 : 1);
+        spinnerTransport.setSelection(configuracao.getModo() == "driving" ? 0 : 1);
 
     }
 
@@ -108,8 +108,8 @@ public class ConfiguracaoActivity extends BaseActivity {
     @OnClick(R.id.button_gravar)
     public void savePreferences() {
 
-        Configuracao config = new Configuracao(seekRaio.getProgress(), seekHospitais.getProgress(),
-                Helper.MAP_MEIO_TRANSPORTE.get(spinnerTransporte.getSelectedItemPosition()));
+        Configuracao config = new Configuracao(seekRadius.getProgress(), seekHospitals.getProgress(),
+                Helper.MAP_MEIO_TRANSPORTE.get(spinnerTransport.getSelectedItemPosition()));
 
         Helper.setConfiguracoes(getApplicationContext(), config);
 

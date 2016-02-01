@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.ui.activities.LocalizadorActivity;
+import br.com.fgr.emergencia.ui.activities.LocationActivity;
 import br.com.fgr.emergencia.utils.Helper;
 import butterknife.OnClick;
 
@@ -45,7 +45,7 @@ public class MainFragment extends BaseFragment {
         if (Helper.isOnline(getActivity())) {
 
             Intent intent = new Intent(getActivity(),
-                    LocalizadorActivity.class);
+                    LocationActivity.class);
             startActivity(intent);
 
         } else

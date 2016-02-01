@@ -1,18 +1,18 @@
 package br.com.fgr.emergencia.models.general;
 
-public enum TipoBannerErro {
+public enum ErrorBannerEnum {
 
     BANNER_LOADED("bannerLoaded"), BANNER_FAILED("bannerFailed"), BANNER_CLICKED("bannerClicked"),
     BANNER_EXPANDED("bannerExpanded"), BANNER_COLLAPSED("bannerCollapsed");
 
-    private String tipoBannerErro;
+    private String errorBannerType;
 
-    TipoBannerErro(String tipoBannerErro) {
-        this.tipoBannerErro = tipoBannerErro;
+    ErrorBannerEnum(String errorBannerType) {
+        this.errorBannerType = errorBannerType;
     }
 
-    public String getTipoBannerErro() {
-        return tipoBannerErro;
+    public String getErrorBannerType() {
+        return errorBannerType;
     }
 
 }

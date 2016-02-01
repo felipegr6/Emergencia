@@ -3,7 +3,6 @@ package br.com.fgr.emergencia.ui.activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,7 +20,7 @@ import com.mopub.mobileads.MoPubView;
 import com.parse.ParseObject;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.models.general.TipoBannerErro;
+import br.com.fgr.emergencia.models.general.ErrorBannerEnum;
 import br.com.fgr.emergencia.ui.fragments.MainFragment;
 import butterknife.Bind;
 
@@ -47,7 +46,6 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
         String[] navListValues;
 
-        moPubView = (MoPubView) findViewById(R.id.mopub_sample_ad);
         moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
         moPubView.loadAd();
 
@@ -92,7 +90,7 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
                 mDrawerLayout.openDrawer(Gravity.START);
                 return true;
             case R.id.action_configuration:
-                intent = new Intent(MainActivity.this, ConfiguracaoActivity.class);
+                intent = new Intent(MainActivity.this, ConfigurationActivity.class);
                 startActivity(intent);
                 return true;
             default:
@@ -137,27 +135,27 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
     @Override
     public void onBannerLoaded(MoPubView moPubView) {
-        saveBannerStats(TipoBannerErro.BANNER_LOADED);
+        saveBannerStats(ErrorBannerEnum.BANNER_LOADED);
     }
 
     @Override
     public void onBannerFailed(MoPubView moPubView, MoPubErrorCode moPubErrorCode) {
-        saveBannerStats(TipoBannerErro.BANNER_FAILED);
+        saveBannerStats(ErrorBannerEnum.BANNER_FAILED);
     }
 
     @Override
     public void onBannerClicked(MoPubView moPubView) {
-        saveBannerStats(TipoBannerErro.BANNER_CLICKED);
+        saveBannerStats(ErrorBannerEnum.BANNER_CLICKED);
     }
 
     @Override
     public void onBannerExpanded(MoPubView moPubView) {
-        saveBannerStats(TipoBannerErro.BANNER_EXPANDED);
+        saveBannerStats(ErrorBannerEnum.BANNER_EXPANDED);
     }
 
     @Override
     public void onBannerCollapsed(MoPubView moPubView) {
-        saveBannerStats(TipoBannerErro.BANNER_COLLAPSED);
+        saveBannerStats(ErrorBannerEnum.BANNER_COLLAPSED);
     }
 
     private class AcaoNavDrawer implements ListView.OnItemClickListener {
@@ -169,7 +167,7 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
                 case 0:
                     mDrawerLayout.closeDrawers();
-                    Intent i1 = new Intent(MainActivity.this, ConfiguracaoActivity.class);
+                    Intent i1 = new Intent(MainActivity.this, ConfigurationActivity.class);
                     startActivity(i1);
                     break;
                 case 2:
@@ -183,11 +181,11 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
     }
 
-    private void saveBannerStats(TipoBannerErro tipoBannerErro) {
+    private void saveBannerStats(ErrorBannerEnum tipoBannerErro) {
 
         ParseObject banner = new ParseObject("BannerExibhition");
 
-        banner.put("tipoBanner", tipoBannerErro.getTipoBannerErro());
+        banner.put("tipoBanner", tipoBannerErro.getErrorBannerType());
         banner.saveInBackground();
 
     }

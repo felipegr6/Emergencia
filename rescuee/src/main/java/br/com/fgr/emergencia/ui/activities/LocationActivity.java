@@ -26,7 +26,7 @@ import br.com.fgr.emergencia.ui.fragments.ListaHospitaisFragment;
 import br.com.fgr.emergencia.utils.Helper;
 import butterknife.Bind;
 
-public class LocalizacaoActivity extends BaseActivity implements ConnectionCallbacks,
+public class LocationActivity extends BaseActivity implements ConnectionCallbacks,
         OnConnectionFailedListener {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
@@ -109,7 +109,7 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
         int id = item.getItemId();
 
         if (id == R.id.action_filter) {
-            startActivityForResult(new Intent(LocalizacaoActivity.this, ConfiguracaoActivity.class),
+            startActivityForResult(new Intent(LocationActivity.this, ConfigurationActivity.class),
                     Helper.REQ_FILTRO_CODE);
             return true;
         }
@@ -143,7 +143,7 @@ public class LocalizacaoActivity extends BaseActivity implements ConnectionCallb
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i("LocalizacaoActivity", "Connection failed: ConnectionResult.getErrorCode() = "
+        Log.i("LocationActivity", "Connection failed: ConnectionResult.getErrorCode() = "
                 + connectionResult.getErrorCode());
     }
 

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/cinza"
     android:fitsSystemWindows="true"
-    tools:context="br.com.fgr.emergencia.ui.activities.ConfiguracaoActivity">
+    tools:context=".ui.activities.ConfigurationActivity">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"

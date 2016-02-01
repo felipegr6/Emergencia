@@ -1,4 +1,4 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context="br.com.fgr.emergencia.ui.activities.ConfiguracaoActivity">
+    tools:context=".ui.activities.ConfigurationActivity">
 
 </menu>
