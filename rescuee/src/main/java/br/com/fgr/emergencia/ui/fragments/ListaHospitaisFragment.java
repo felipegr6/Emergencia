@@ -28,12 +28,12 @@ import br.com.fgr.emergencia.models.distancematrix.DistanceMatrixRequest;
 import br.com.fgr.emergencia.models.distancematrix.DistanceMatrixResponse;
 import br.com.fgr.emergencia.models.distancematrix.Elementos;
 import br.com.fgr.emergencia.models.events.LoadListEvent;
-import br.com.fgr.emergencia.models.general.Configuracao;
+import br.com.fgr.emergencia.models.general.Configuration;
 import br.com.fgr.emergencia.models.general.Coordenada;
 import br.com.fgr.emergencia.models.general.Hospital;
+import br.com.fgr.emergencia.ui.adapters.HospitalAdapter;
 import br.com.fgr.emergencia.utils.GoogleServices;
 import br.com.fgr.emergencia.utils.Helper;
-import br.com.fgr.emergencia.ui.adapters.HospitalAdapter;
 import br.com.fgr.emergencia.utils.ServiceGenerator;
 import de.greenrobot.event.EventBus;
 import retrofit.Callback;
@@ -49,7 +49,7 @@ public class ListaHospitaisFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Hospital> hospitais;
     private HospitalAdapter hospitalAdapter;
-    private Configuracao config;
+    private Configuration config;
 
     public ListaHospitaisFragment() {
 
@@ -122,9 +122,9 @@ public class ListaHospitaisFragment extends Fragment {
         dialogInternet.show();
 
         int qtdeHospitais = Integer.parseInt(Helper.formatarInformacao(Helper.CONST_HOSPITAIS,
-                config.getHospitais(), false));
+                config.getHospitals(), false));
         float raioAlcance = Float.parseFloat(Helper.formatarInformacao(Helper.CONST_RAIO,
-                config.getRaio(), false));
+                config.getRadius(), false));
 
         hospitais = new ArrayList<>();
 
@@ -169,7 +169,7 @@ public class ListaHospitaisFragment extends Fragment {
                                     destinos));
 
                     DistanceMatrixRequest request = new DistanceMatrixRequest(new Coordenada(latitude, longitude),
-                            destinos, config.getModo());
+                            destinos, config.getMode());
 
                     GoogleServices repo = ServiceGenerator.createService(GoogleServices.class,
                             Helper.URL_GOOGLE_BASE);

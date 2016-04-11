@@ -12,41 +12,23 @@
         android:layout_height="wrap_content"
         android:background="@color/vermelho_rescuee" />
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar">
 
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/main_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar">
+            android:layout_margin="25dp" />
 
-            <FrameLayout
-                android:id="@+id/main_fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="25dp" />
+        <com.mopub.mobileads.MoPubView
+            android:id="@+id/mopub_sample_ad"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true" />
 
-            <com.mopub.mobileads.MoPubView
-                android:id="@+id/mopub_sample_ad"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignParentBottom="true" />
-
-        </RelativeLayout>
-
-        <ListView
-            android:id="@+id/nav_lista"
-            android:layout_width="240dp"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
-            android:layout_gravity="start"
-            android:background="@color/black_translucent"
-            android:choiceMode="singleChoice"
-            android:divider="@null" />
-
-    </android.support.v4.widget.DrawerLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

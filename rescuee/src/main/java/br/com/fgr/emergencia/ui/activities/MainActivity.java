@@ -4,16 +4,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
@@ -28,40 +21,18 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
     private static final String MOPUB_BANNER_AD_UNIT_ID = "cfb1d11b4942442582b5ed69cf94937f";
 
-    @Bind(R.id.drawer)
-    DrawerLayout mDrawerLayout;
-    @Bind(R.id.nav_lista)
-    ListView mDrawerList;
     @Bind(R.id.mopub_sample_ad)
     MoPubView moPubView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
-    ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        String[] navListValues;
-
         moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
         moPubView.loadAd();
-
-        navListValues = getResources().getStringArray(R.array.lista_nav_drawer);
-
-        mDrawerList.setAdapter(new ArrayAdapter<>(this,
-                R.layout.drawer_list_item, navListValues));
-
-        mDrawerList.setOnItemClickListener(new AcaoNavDrawer());
-
-        mDrawerToggle = new ActionBarDrawerToggle(this,
-                mDrawerLayout, toolbar, R.string.drawer_open,
-                R.string.drawer_close);
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -86,9 +57,6 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
         switch (item.getItemId()) {
 
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(Gravity.START);
-                return true;
             case R.id.action_configuration:
                 intent = new Intent(MainActivity.this, ConfigurationActivity.class);
                 startActivity(intent);
@@ -99,16 +67,6 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
         }
 
     }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-
-        super.onPostCreate(savedInstanceState);
-
-        mDrawerToggle.syncState();
-
-    }
-
 
     @Override
     protected void onDestroy() {
@@ -156,29 +114,6 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
     @Override
     public void onBannerCollapsed(MoPubView moPubView) {
         saveBannerStats(ErrorBannerEnum.BANNER_COLLAPSED);
-    }
-
-    private class AcaoNavDrawer implements ListView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            switch (position) {
-
-                case 0:
-                    mDrawerLayout.closeDrawers();
-                    Intent i1 = new Intent(MainActivity.this, ConfigurationActivity.class);
-                    startActivity(i1);
-                    break;
-                case 2:
-                    break;
-                default:
-                    break;
-
-            }
-
-        }
-
     }
 
     private void saveBannerStats(ErrorBannerEnum tipoBannerErro) {

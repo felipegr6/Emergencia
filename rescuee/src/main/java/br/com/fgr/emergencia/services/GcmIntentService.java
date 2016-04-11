@@ -17,7 +17,6 @@ public class GcmIntentService extends IntentService {
 
     public static final int NOTIFICATION_ID = (int) System.currentTimeMillis();
     private static final String TAG = "GcmIntentService";
-    private NotificationManager mNotificationManager;
 
     public GcmIntentService() {
         super(TAG);
@@ -29,19 +28,20 @@ public class GcmIntentService extends IntentService {
         Log.w("GCMIntentService", "Chegou aqui.");
 
         Bundle extras = intent.getExtras();
-        String titulo = extras.getString("titulo");
-        String mensagem = extras.getString("mensagem");
+        String title = extras.getString("titulo");
+        String message = extras.getString("mensagem");
 
-        if (titulo != null && mensagem != null)
-            sendNotification(titulo, mensagem);
+        if (title != null && message != null)
+            sendNotification(title, message);
+
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
 
     }
 
-    private void sendNotification(String titulo, String msg) {
+    private void sendNotification(String title, String msg) {
 
-        mNotificationManager = (NotificationManager)
+        NotificationManager mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
@@ -50,7 +50,7 @@ public class GcmIntentService extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle(titulo)
+                        .setContentTitle(title)
                         .setColor(0x00c12e2b)
                         .setLights(Color.RED, 1000, 2000)
                         .setVibrate(new long[]{250, 250, 250, 250})

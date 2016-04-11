@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
-def AndroidSupportVersion = '23.1.1'
+def AndroidSupportVersion = '23.3.0'
 def GoogleVersion = '8.4.0'
 
 buildscript {
@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.21.2'
+        classpath 'io.fabric.tools:gradle:1.21.5'
     }
 }
 
@@ -21,7 +21,7 @@ repositories {
 android {
 
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "br.com.fgr.emergencia"
@@ -30,6 +30,10 @@ android {
         versionCode 6
         versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     signingConfigs {
@@ -72,12 +76,13 @@ dependencies {
     compile "com.google.android.gms:play-services-location:$GoogleVersion"
     compile "com.google.android.gms:play-services-gcm:$GoogleVersion"
     compile "com.google.android.gms:play-services-ads:$GoogleVersion"
+    compile "com.google.android.gms:play-services-appindexing:$GoogleVersion"
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.google.code.gson:gson:2.6.2'
     compile 'de.greenrobot:eventbus:2.4.1'
     compile 'com.parse.bolts:bolts-android:1.2.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.okhttp:okhttp:2.7.2'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }

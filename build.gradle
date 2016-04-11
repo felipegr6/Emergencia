@@ -3,14 +3,14 @@ apply plugin: "org.sonarqube"
 
 buildscript {
     repositories {
+        jcenter()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
-        jcenter()
     }
     dependencies {
-        classpath 'org.sonarqube.gradle:gradle-sonarqube-plugin:1.0'
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:1.2'
+        classpath 'com.android.tools.build:gradle:2.1.0-alpha5'
     }
 }
 

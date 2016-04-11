@@ -25,10 +25,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             setSupportActionBar(getToolbar());
 
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
+            if (!isMainActivity()) {
 
-            if (!isMainActivity())
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setHomeButtonEnabled(true);
+
                 getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -37,6 +38,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                     }
 
                 });
+
+            }
 
         }
 

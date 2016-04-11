@@ -63,6 +63,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, 3000);
 
+
     }
 
     private class CadastroGCM extends AsyncTask<Void, Void, Void> {

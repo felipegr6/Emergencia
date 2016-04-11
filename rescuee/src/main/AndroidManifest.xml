@@ -28,6 +28,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
@@ -46,6 +47,7 @@
             android:name="com.facebook.LoginActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activities.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -60,6 +62,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
         </activity>
+
         <activity
             android:name=".ui.activities.LoginActivity"
             android:configChanges="orientation"
@@ -69,6 +72,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
         </activity>
+
         <activity
             android:name=".ui.activities.SplashActivity"
             android:label="@string/app_name"
@@ -76,10 +80,11 @@
             android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
         <activity
             android:name=".ui.activities.ConfigurationActivity"
             android:label="@string/title_activity_configuracao"

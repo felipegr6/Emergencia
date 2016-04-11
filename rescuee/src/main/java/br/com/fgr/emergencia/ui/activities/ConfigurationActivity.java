@@ -9,22 +9,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.models.general.Configuracao;
+import br.com.fgr.emergencia.models.general.Configuration;
+import br.com.fgr.emergencia.models.general.TransportEnum;
 import br.com.fgr.emergencia.utils.Helper;
 import butterknife.Bind;
 import butterknife.OnClick;
 
 public class ConfigurationActivity extends BaseActivity {
 
-    @Bind(R.id.seek_raio)
+    @Bind(R.id.seek_radius)
     SeekBar seekRadius;
-    @Bind(R.id.seek_hospitais)
+    @Bind(R.id.seek_hospitals)
     SeekBar seekHospitals;
-    @Bind(R.id.text_mostra_raio)
+    @Bind(R.id.lbl_info_radius)
     TextView lblRadius;
-    @Bind(R.id.text_mostra_hospitais)
+    @Bind(R.id.lbl_info_hospitals)
     TextView lblHospitals;
-    @Bind(R.id.spinner_transporte)
+    @Bind(R.id.spinner_transport)
     Spinner spinnerTransport;
 
     @Bind(R.id.toolbar)
@@ -35,12 +36,14 @@ public class ConfigurationActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
 
-        Configuracao configuracao = Helper.getConfiguracoes(getApplicationContext());
+        Configuration configuration = Helper.getConfiguracoes(getApplicationContext());
 
-        seekRadius.setProgress(configuracao.getRaio());
-        seekHospitals.setProgress(configuracao.getHospitais());
-        lblRadius.setText(Helper.formatarInformacao(Helper.CONST_RAIO, seekRadius.getProgress(), true));
-        lblHospitals.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, seekHospitals.getProgress(), true));
+        seekRadius.setProgress(configuration.getRadius());
+        seekHospitals.setProgress(configuration.getHospitals());
+        lblRadius.setText(Helper.formatarInformacao(Helper.CONST_RAIO, seekRadius.getProgress(),
+                true));
+        lblHospitals.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS,
+                seekHospitals.getProgress(), true));
 
         seekRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -65,7 +68,8 @@ public class ConfigurationActivity extends BaseActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                lblHospitals.setText(Helper.formatarInformacao(Helper.CONST_HOSPITAIS, progress, true));
+                lblHospitals.setText(
+                        Helper.formatarInformacao(Helper.CONST_HOSPITAIS, progress, true));
             }
 
             @Override
@@ -80,12 +84,16 @@ public class ConfigurationActivity extends BaseActivity {
 
         });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.transportes_array, R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter
+                .createFromResource(this, R.array.transportes_array, R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
         spinnerTransport.setAdapter(adapter);
 
-        spinnerTransport.setSelection(configuracao.getModo() == "driving" ? 0 : 1);
+        spinnerTransport
+                .setSelection(configuration
+                        .getMode()
+                        .equals(TransportEnum.DRIVING.getModeTransport()) ? 0 : 1);
 
     }
 
@@ -105,15 +113,15 @@ public class ConfigurationActivity extends BaseActivity {
     }
 
     @SuppressWarnings("unused")
-    @OnClick(R.id.button_gravar)
+    @OnClick(R.id.btn_save)
     public void savePreferences() {
 
-        Configuracao config = new Configuracao(seekRadius.getProgress(), seekHospitals.getProgress(),
+        Configuration config = new Configuration(seekRadius.getProgress(), seekHospitals.getProgress(),
                 Helper.MAP_MEIO_TRANSPORTE.get(spinnerTransport.getSelectedItemPosition()));
 
         Helper.setConfiguracoes(getApplicationContext(), config);
 
-        Toast.makeText(getApplicationContext(), "Salvo com sucesso.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.msg_success, Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);
         finish();
 

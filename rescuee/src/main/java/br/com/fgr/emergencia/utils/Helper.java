@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-import br.com.fgr.emergencia.models.general.Configuracao;
+import br.com.fgr.emergencia.models.general.Configuration;
 
 public final class Helper {
 
@@ -47,7 +47,7 @@ public final class Helper {
     private static final String MEIO_TRANSPORTE = "meio";
 
     public static Map<Integer, String> MAP_MEIO_TRANSPORTE;
-    private static Configuracao configuracao;
+    private static Configuration configuracao;
 
     static {
 
@@ -71,7 +71,7 @@ public final class Helper {
 
     }
 
-    public static void setConfiguracoes(Context context, Configuracao config) {
+    public static void setConfiguracoes(Context context, Configuration config) {
 
         SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
                 Context.MODE_MULTI_PROCESS);
@@ -79,15 +79,15 @@ public final class Helper {
         configuracao = config;
 
         final SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(RAIO, config.getRaio());
-        editor.putInt(HOSPITAIS, config.getHospitais());
-        editor.putString(MEIO_TRANSPORTE, config.getModo());
+        editor.putInt(RAIO, config.getRadius());
+        editor.putInt(HOSPITAIS, config.getHospitals());
+        editor.putString(MEIO_TRANSPORTE, config.getMode());
 
         editor.apply();
 
     }
 
-    public static Configuracao getConfiguracoes(Context context) {
+    public static Configuration getConfiguracoes(Context context) {
 
         SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
                 Context.MODE_MULTI_PROCESS);
@@ -96,7 +96,7 @@ public final class Helper {
             return configuracao;
         else {
 
-            configuracao = new Configuracao(preferences.getInt(RAIO, 0),
+            configuracao = new Configuration(preferences.getInt(RAIO, 0),
                     preferences.getInt(HOSPITAIS, 0),
                     preferences.getString(MEIO_TRANSPORTE, MAP_MEIO_TRANSPORTE.get(0)));
 
