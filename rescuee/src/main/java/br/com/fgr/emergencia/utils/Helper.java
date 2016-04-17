@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
@@ -34,6 +35,9 @@ public final class Helper {
     public static final int CONST_HOSPITAIS = 2;
     public static final int REQ_FILTRO_CODE = 1001;
     public static final String URL_GOOGLE_BASE = "https://maps.googleapis.com/maps/api";
+
+    public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+    public static final String REGISTRATION_COMPLETE = "registrationComplete";
 
     private static final String RESCUEE_PREFERENCES = "rescuee_preferences";
     private static final String GCM_REGID = "gcmRegId";
@@ -73,8 +77,7 @@ public final class Helper {
 
     public static void setConfiguracoes(Context context, Configuration config) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
-                Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         configuracao = config;
 
@@ -89,27 +92,20 @@ public final class Helper {
 
     public static Configuration getConfiguracoes(Context context) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
-                Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Configuration configuration;
 
-        if (configuracao != null)
-            return configuracao;
-        else {
+        configuration = new Configuration(preferences.getInt(RAIO, 0),
+                preferences.getInt(HOSPITAIS, 0),
+                preferences.getString(MEIO_TRANSPORTE, MAP_MEIO_TRANSPORTE.get(0)));
 
-            configuracao = new Configuration(preferences.getInt(RAIO, 0),
-                    preferences.getInt(HOSPITAIS, 0),
-                    preferences.getString(MEIO_TRANSPORTE, MAP_MEIO_TRANSPORTE.get(0)));
-
-            return configuracao;
-
-        }
+        return configuration;
 
     }
 
     public static boolean setRegistrationGCM(Context context, String registrationID) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
-                Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         final SharedPreferences.Editor editor = preferences.edit();
         editor.putString(GCM_REGID, registrationID);
@@ -120,8 +116,7 @@ public final class Helper {
 
     public static String getRegistrationGCM(Context context) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
-                Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         return preferences.getString(GCM_REGID, "");
 
@@ -129,8 +124,7 @@ public final class Helper {
 
     public static boolean setFirstTimeTutorial(Context context) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
-                Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         final SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(TUTORIAL, false);
@@ -141,10 +135,25 @@ public final class Helper {
 
     public static boolean getFirstTimeTutorial(Context context) {
 
-        SharedPreferences preferences = context.getSharedPreferences(RESCUEE_PREFERENCES,
-                Context.MODE_MULTI_PROCESS);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         return preferences.getBoolean(TUTORIAL, true);
+
+    }
+
+    public static void setSentTokenToServer(Context context, boolean sentToken) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        sharedPreferences.edit().putBoolean(Helper.SENT_TOKEN_TO_SERVER, sentToken).apply();
+
+    }
+
+    public static boolean isSentTokenToServer(Context context) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return sharedPreferences.getBoolean(Helper.SENT_TOKEN_TO_SERVER, false);
 
     }
 

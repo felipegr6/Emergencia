@@ -3,7 +3,6 @@ package br.com.fgr.emergencia.application;
 import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
-import com.mopub.common.MoPub;
 import com.parse.Parse;
 
 import br.com.fgr.emergencia.BuildConfig;

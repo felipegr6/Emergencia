@@ -1,41 +1,43 @@
 package br.com.fgr.emergencia.services;
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import br.com.fgr.emergencia.R;
-import br.com.fgr.emergencia.ui.activities.LoginActivity;
+import com.google.android.gms.gcm.GcmListenerService;
 
-public class GcmIntentService extends IntentService {
+import br.com.fgr.emergencia.R;
+import br.com.fgr.emergencia.ui.activities.MainActivity;
+
+public class GcmIntentService extends GcmListenerService {
 
     public static final int NOTIFICATION_ID = (int) System.currentTimeMillis();
     private static final String TAG = "GcmIntentService";
 
-    public GcmIntentService() {
-        super(TAG);
-    }
-
+    /**
+     * Called when message is received.
+     *
+     * @param from SenderID of the sender.
+     * @param data Data bundle containing message data as key/value pairs.
+     *             For Set of keys use data.keySet().
+     */
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onMessageReceived(String from, Bundle data) {
 
-        Log.w("GCMIntentService", "Chegou aqui.");
+        Log.w(TAG, "Chegou aqui.");
 
-        Bundle extras = intent.getExtras();
-        String title = extras.getString("titulo");
-        String message = extras.getString("mensagem");
+        String title = data.getString("titulo");
+        String message = data.getString("mensagem");
 
         if (title != null && message != null)
             sendNotification(title, message);
-
-        // Release the wake lock provided by the WakefulBroadcastReceiver.
-        GcmBroadcastReceiver.completeWakefulIntent(intent);
 
     }
 
@@ -44,15 +46,20 @@ public class GcmIntentService extends IntentService {
         NotificationManager mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Intent intent1 = new Intent(this, MainActivity.class);
+        intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, LoginActivity.class), 0);
+                intent1, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle(title)
                         .setColor(0x00c12e2b)
+                        .setAutoCancel(true)
                         .setLights(Color.RED, 1000, 2000)
+                        .setSound(defaultSoundUri)
                         .setVibrate(new long[]{250, 250, 250, 250})
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))

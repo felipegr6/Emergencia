@@ -1,31 +1,34 @@
 package br.com.fgr.emergencia.ui.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
-import java.io.IOException;
-import java.util.List;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import br.com.fgr.emergencia.R;
+import br.com.fgr.emergencia.services.RegistrationIntentService;
 import br.com.fgr.emergencia.utils.Helper;
 
 public class SplashActivity extends AppCompatActivity {
 
-    protected GoogleCloudMessaging gcm;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "SplashActivity";
+
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private ProgressBar mRegistrationProgressBar;
+
+    private boolean isReceiverRegistered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,94 +46,95 @@ public class SplashActivity extends AppCompatActivity {
 
         }
 
-        new Handler().postDelayed(new Runnable() {
+        mRegistrationProgressBar = (ProgressBar) findViewById(R.id.progress);
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
 
             @Override
-            public void run() {
+            public void onReceive(Context context, Intent intent) {
 
-                if (Helper.getRegistrationGCM(SplashActivity.this).equals(""))
-                    new CadastroGCM(SplashActivity.this).execute();
-                else {
+                mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
 
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
 
-                    startActivity(intent);
-                    finish();
-                    Log.w("RegId", Helper.getRegistrationGCM(SplashActivity.this));
-
-                }
+                startActivity(mainIntent);
+                finish();
 
             }
-        }, 3000);
 
+        };
+
+        // Registering BroadcastReceiver
+        registerReceiver();
+
+        if (checkPlayServices()) {
+
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+
+        }
 
     }
 
-    private class CadastroGCM extends AsyncTask<Void, Void, Void> {
+    @Override
+    protected void onResume() {
 
-        private Context context;
+        super.onResume();
 
-        public CadastroGCM(Context context) {
-            this.context = context;
+        registerReceiver();
+
+    }
+
+    @Override
+    protected void onPause() {
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        isReceiverRegistered = false;
+
+        super.onPause();
+
+    }
+
+    private void registerReceiver() {
+
+        if (!isReceiverRegistered) {
+
+            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                    new IntentFilter(Helper.REGISTRATION_COMPLETE));
+            isReceiverRegistered = true;
+
         }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
+    }
 
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
 
-            startActivity(intent);
-            finish();
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
 
-        }
+        if (resultCode != ConnectionResult.SUCCESS) {
 
-        @Override
-        protected Void doInBackground(Void... params) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
 
-            if (gcm == null)
-                gcm = GoogleCloudMessaging.getInstance(context);
+                Log.i(TAG, "This device is not supported.");
+                finish();
 
-            final String regId;
-
-            try {
-
-                if (gcm != null) {
-
-                    regId = gcm.register(getResources().getString(R.string.sender_id));
-                    Helper.setRegistrationGCM(context, regId);
-
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Usuario");
-                    query.whereEqualTo("regId", regId);
-
-                    query.findInBackground(new FindCallback<ParseObject>() {
-
-                        @Override
-                        public void done(List<ParseObject> list, ParseException e) {
-
-                            if (list.isEmpty()) {
-
-                                ParseObject usuario = new ParseObject("Usuario");
-
-                                usuario.put("email", "");
-                                usuario.put("senha", "");
-                                usuario.put("regId", regId);
-                                usuario.saveInBackground();
-
-                            }
-
-                        }
-
-                    });
-
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
-            return null;
+            return false;
 
         }
+
+        return true;
 
     }
 

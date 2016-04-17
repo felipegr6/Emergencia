@@ -1,3 +1,5 @@
+package br.com.fgr.emergencia;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
