@@ -1,9 +1,12 @@
 package br.com.fgr.emergencia.ui.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
@@ -12,10 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
@@ -30,6 +32,7 @@ public class LocationActivity extends BaseActivity implements ConnectionCallback
         OnConnectionFailedListener {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
+    private static final String TAG = "LocationActivity";
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
 
@@ -149,18 +152,17 @@ public class LocationActivity extends BaseActivity implements ConnectionCallback
 
     private boolean checkPlayServices() {
 
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
 
         if (resultCode != ConnectionResult.SUCCESS) {
 
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode))
-                GooglePlayServicesUtil.getErrorDialog(resultCode,
-                        this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            else {
-
-                Toast.makeText(getApplicationContext(),
-                        "Seu dispositivo não suporta esta funcionallidade.", Toast.LENGTH_LONG)
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
                         .show();
+            } else {
+
+                Log.i(TAG, "This device is not supported.");
                 finish();
 
             }
@@ -194,21 +196,37 @@ public class LocationActivity extends BaseActivity implements ConnectionCallback
 
     private void listarHospitais() {
 
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-        pesquisado = true;
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+            pesquisado = true;
 
-        if (mLastLocation != null)
-            ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation
-                    .getLatitude(), mLastLocation.getLongitude()));
-        else
-            ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(-23.552133, -46.6331418));
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
-        ft.addToBackStack("Lista");
-        ft.commit();
+            if (mLastLocation != null)
+                ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(mLastLocation
+                        .getLatitude(), mLastLocation.getLongitude()));
+            else
+                ft.replace(R.id.loc_fragment_container, ListaHospitaisFragment.newInstance(-23.552133, -46.6331418));
+
+            ft.commit();
+
+
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+        } else
+            finish();
 
     }
 

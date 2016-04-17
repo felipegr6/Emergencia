@@ -19,6 +19,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.services.RegistrationIntentService;
 import br.com.fgr.emergencia.utils.Helper;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,7 +28,9 @@ public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private ProgressBar mRegistrationProgressBar;
+
+    @Bind(R.id.progress)
+    ProgressBar mRegistrationProgressBar;
 
     private boolean isReceiverRegistered;
 
@@ -35,6 +39,8 @@ public class SplashActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        ButterKnife.bind(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -45,8 +51,6 @@ public class SplashActivity extends AppCompatActivity {
             window.setStatusBarColor(this.getResources().getColor(R.color.vermelho_rescuee));
 
         }
-
-        mRegistrationProgressBar = (ProgressBar) findViewById(R.id.progress);
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
 
