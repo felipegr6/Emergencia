@@ -2,22 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.fgr.emergencia.ui.activities.TabExampleActivity">
+    tools:context="br.com.fgr.emergencia.ui.activities.TabExampleActivity"
+    >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+  <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        style="@style/MyCustomTabLayout"
-        android:layout_below="@+id/toolbar" />
+  <android.support.design.widget.TabLayout
+      android:id="@+id/tab_layout"
+      style="@style/MyCustomTabLayout"
+      android:layout_below="@+id/toolbar"
+      />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tab_layout" />
+  <android.support.v4.view.ViewPager
+      android:id="@+id/view_pager"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/tab_layout"
+      />
 
 </RelativeLayout>

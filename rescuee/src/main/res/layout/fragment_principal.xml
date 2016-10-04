@@ -2,17 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.fgr.emergencia.ui.fragments.MainFragment">
+    tools:context="br.com.fgr.emergencia.ui.fragments.MainFragment"
+    >
 
-    <Button
-        android:id="@+id/button_emergencia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@color/grafite"
-        android:padding="10dp"
-        android:text="@string/botao_hospitais_proximos"
-        android:textAppearance="?android:attr/textAppearanceButton"
-        android:textColor="@color/branco" />
+  <Button
+      android:id="@+id/button_emergencia"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:background="@color/grafite"
+      android:padding="10dp"
+      android:text="@string/botao_hospitais_proximos"
+      android:textAppearance="?android:attr/textAppearanceButton"
+      android:textColor="@color/branco"
+      />
 
 </RelativeLayout>

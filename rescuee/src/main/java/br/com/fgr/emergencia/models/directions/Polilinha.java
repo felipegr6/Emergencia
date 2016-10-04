@@ -4,8 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Polilinha {
 
-    @SerializedName("points")
-    private String pontos;
+    @SerializedName("points") private String pontos;
 
     public Polilinha(String pontos) {
         this.pontos = pontos;
@@ -14,5 +13,4 @@ public class Polilinha {
     public String getPontos() {
         return pontos;
     }
-
 }

@@ -11,7 +11,6 @@ public class DirectionRequest {
 
         this.origem = origem;
         this.destino = destino;
-
     }
 
     public String getOrigem() {
@@ -21,5 +20,4 @@ public class DirectionRequest {
     public String getDestino() {
         return destino.getLat() + "," + destino.getLgn();
     }
-
 }

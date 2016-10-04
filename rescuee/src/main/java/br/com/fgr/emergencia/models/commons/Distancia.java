@@ -4,16 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class Distancia {
 
-    @SerializedName("text")
-    private String texto;
-    @SerializedName("value")
-    private long valor;
+    @SerializedName("text") private String texto;
+    @SerializedName("value") private long valor;
 
     public Distancia(String texto, long valor) {
 
         this.texto = texto;
         this.valor = valor;
-
     }
 
     public String getTexto() {
@@ -31,5 +28,4 @@ public class Distancia {
     public void setValor(long valor) {
         this.valor = valor;
     }
-
 }

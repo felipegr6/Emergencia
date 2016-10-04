@@ -11,5 +11,4 @@ public class PermissionEvent {
     public String getPermission() {
         return permission;
     }
-
 }

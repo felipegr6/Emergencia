@@ -1,25 +1,17 @@
 package br.com.fgr.emergencia.models.directions;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Route {
 
-    @SerializedName("summary")
-    private String descricao;
-    @SerializedName("legs")
-    private List<Trecho> trechos;
-    @SerializedName("waypoint_order")
-    private List<Integer> ordemPontos;
-    @SerializedName("overview_polyline")
-    private Polilinha polilinha;
-    @SerializedName("bounds")
-    private Fronteira fronteira;
-    @SerializedName("copyrights")
-    private String direitosReservados;
-    @SerializedName("warnings")
-    private List<String> pontosAtencao;
+    @SerializedName("summary") private String descricao;
+    @SerializedName("legs") private List<Trecho> trechos;
+    @SerializedName("waypoint_order") private List<Integer> ordemPontos;
+    @SerializedName("overview_polyline") private Polilinha polilinha;
+    @SerializedName("bounds") private Fronteira fronteira;
+    @SerializedName("copyrights") private String direitosReservados;
+    @SerializedName("warnings") private List<String> pontosAtencao;
 
     public String getDescricao() {
         return descricao;
@@ -48,5 +40,4 @@ public class Route {
     public List<String> getPontosAtencao() {
         return pontosAtencao;
     }
-
 }

@@ -6,11 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
-
+import br.com.fgr.emergencia.models.general.Coordenada;
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.fgr.emergencia.models.general.Coordenada;
 
 public class RadarView extends View implements Runnable {
 
@@ -29,8 +27,7 @@ public class RadarView extends View implements Runnable {
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
+    @Override protected void onDraw(Canvas canvas) {
 
         super.onDraw(canvas);
 
@@ -62,27 +59,23 @@ public class RadarView extends View implements Runnable {
             int novoX = (int) (centerX + radius * c.getLat());
             int novoY = (int) (centerY + radius * c.getLgn());
 
-            if (verificarAlinhamento(centerX, centerY, endPointX, endPointY, novoX, novoY))
+            if (verificarAlinhamento(centerX, centerY, endPointX, endPointY, novoX, novoY)) {
                 canvas.drawCircle(novoX, novoY, 20, pontoAcionado);
-            else
+            } else {
                 canvas.drawCircle(novoX, novoY, 10, paintPoint);
-
+            }
         }
 
         postDelayed(this, 1);
-
     }
 
-    @Override
-    public void run() {
+    @Override public void run() {
 
         angle += 0.01;
 
-        if (angle == 6.28)
-            angle = 0.00;
+        if (angle == 6.28) angle = 0.00;
 
         invalidate();
-
     }
 
     public void setList(List<Coordenada> coordenadas) {
@@ -94,9 +87,8 @@ public class RadarView extends View implements Runnable {
         int resultado = x * (y1 - y2) + y * (x2 - x1) + x1 * y2 - y1 * x2;
 
         return resultado <= 750 && resultado >= -750 &&
-                (((x >= x1) && (x <= x2)) || ((x >= x2) && (x <= x1)))
-                && (((y >= y1) && (y <= y2)) || ((y >= y2) && (y <= y1)));
-
+            (((x >= x1) && (x <= x2)) || ((x >= x2) && (x <= x1))) && (((y >= y1) && (y <= y2)) || (
+            (y >= y2)
+                && (y <= y1)));
     }
-
 }

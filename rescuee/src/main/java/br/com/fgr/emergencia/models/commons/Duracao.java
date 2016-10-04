@@ -4,10 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Duracao {
 
-    @SerializedName("text")
-    private String texto;
-    @SerializedName("value")
-    private long valor;
+    @SerializedName("text") private String texto;
+    @SerializedName("value") private long valor;
 
     public Duracao(String texto, long valor) {
         this.texto = texto;
@@ -29,5 +27,4 @@ public class Duracao {
     public void setValor(long valor) {
         this.valor = valor;
     }
-
 }

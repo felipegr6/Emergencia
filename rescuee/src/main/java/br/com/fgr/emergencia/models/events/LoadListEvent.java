@@ -1,8 +1,7 @@
 package br.com.fgr.emergencia.models.events;
 
-import java.util.List;
-
 import br.com.fgr.emergencia.models.general.Coordenada;
+import java.util.List;
 
 public class LoadListEvent {
 
@@ -21,5 +20,4 @@ public class LoadListEvent {
     public List<Coordenada> getCoordenadas() {
         return coordenadas;
     }
-
 }

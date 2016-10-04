@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
@@ -17,26 +16,20 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
 
         View v = inflater.inflate(getLayout(), container, false);
 
         ButterKnife.bind(this, v);
 
         return v;
-
     }
 
-    @Override
-    public void onDestroyView() {
+    @Override public void onDestroyView() {
 
         ButterKnife.unbind(this);
 
         super.onDestroyView();
-
     }
-
 }

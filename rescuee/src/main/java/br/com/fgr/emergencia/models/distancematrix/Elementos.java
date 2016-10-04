@@ -1,27 +1,22 @@
 package br.com.fgr.emergencia.models.distancematrix;
 
-import com.google.gson.annotations.SerializedName;
-
 import br.com.fgr.emergencia.models.commons.Distancia;
 import br.com.fgr.emergencia.models.commons.Duracao;
+import com.google.gson.annotations.SerializedName;
 
 public class Elementos {
 
-    @SerializedName("distance")
-    private Distancia distancia;
+    @SerializedName("distance") private Distancia distancia;
 
-    @SerializedName("duration")
-    private Duracao duracao;
+    @SerializedName("duration") private Duracao duracao;
 
-    @SerializedName("status")
-    private String status;
+    @SerializedName("status") private String status;
 
     public Elementos(Distancia distancia, Duracao duracao, String status) {
 
         this.distancia = distancia;
         this.duracao = duracao;
         this.status = status;
-
     }
 
     public Distancia getDistancia() {
@@ -47,5 +42,4 @@ public class Elementos {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

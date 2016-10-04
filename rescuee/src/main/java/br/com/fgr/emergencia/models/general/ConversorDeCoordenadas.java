@@ -1,11 +1,9 @@
 package br.com.fgr.emergencia.models.general;
 
 import android.support.annotation.NonNull;
-
+import br.com.fgr.emergencia.models.events.LoadListEvent;
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.fgr.emergencia.models.events.LoadListEvent;
 
 public class ConversorDeCoordenadas {
 
@@ -18,7 +16,6 @@ public class ConversorDeCoordenadas {
         this.zoom = zoom;
         this.coordenadaCentral = event.getCoordenadaAtual();
         this.coordenadas = event.getCoordenadas();
-
     }
 
     public List<Coordenada> getCoordenadasPadronizadas() {
@@ -31,11 +28,8 @@ public class ConversorDeCoordenadas {
             double yPadronizado = zoom * (coordenadaCentral.getLgn() - c.getLgn());
 
             novasCoordenadas.add(new Coordenada(xPadronizado, yPadronizado));
-
         }
 
         return novasCoordenadas;
-
     }
-
 }

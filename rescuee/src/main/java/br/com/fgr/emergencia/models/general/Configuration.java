@@ -11,7 +11,6 @@ public class Configuration {
         this.radius = radius;
         this.hospitals = hospitals;
         this.mode = mode;
-
     }
 
     public int getRadius() {
@@ -25,5 +24,4 @@ public class Configuration {
     public String getMode() {
         return mode;
     }
-
 }

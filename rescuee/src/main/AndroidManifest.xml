@@ -2,162 +2,144 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.fgr.emergencia">
 
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
+  <uses-feature
+      android:glEsVersion="0x00020000"
+      android:required="true"/>
 
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+  <uses-permission android:name="android.permission.INTERNET"/>
 
-    <!--<permission
-        android:name="br.com.fgr.emergencia.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" / -->
+  <uses-permission android:name="android.permission.VIBRATE"/>
 
-    <!--<uses-permission android:name="br.com.fgr.emergencia.permission.C2D_MESSAGE" / -->
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
-    <application
-        android:name=".application.EmergencyApplication"
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+  <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+
+  <uses-feature android:name="android.hardware.location.gps"/>
+
+  <application
+      android:name=".application.EmergencyApplication"
+      android:allowBackup="true"
+      android:icon="@drawable/ic_launcher"
+      android:label="@string/app_name"
+      android:supportsRtl="true"
+      android:theme="@style/AppTheme">
+
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version"/>
+    <meta-data
+        android:name="com.google.android.maps.v2.API_KEY"
+        android:value="AIzaSyCbKzAd_MdPPoPly_B1MkbquvMHMOnsHds"/>
+    <meta-data
+        android:name="com.facebook.sdk.ApplicationId"
+        android:value="@string/facebook_app_id"/>
+    <meta-data
+        android:name="com.crashlytics.ApiKey"
+        android:value="ba90b4689d4bbea770bf29d7aa2687434014f50a"/>
+
+    <activity
+        android:name=".ui.activities.SplashActivity"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCbKzAd_MdPPoPly_B1MkbquvMHMOnsHds" />
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.crashlytics.ApiKey"
-            android:value="ba90b4689d4bbea770bf29d7aa2687434014f50a" />
+        android:screenOrientation="portrait"
+        android:theme="@style/FullScreen">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
 
-        <activity
-            android:name=".ui.activities.SplashActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/FullScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+    </activity>
 
-        </activity>
+    <activity
+        android:name=".ui.activities.MainActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"/>
 
-        <activity
-            android:name=".ui.activities.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+    <activity
+        android:name=".ui.activities.LocationActivity"
+        android:configChanges="orientation"
+        android:label="@string/title_activity_localizacao"
+        android:screenOrientation="portrait">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".ui.activities.MainActivity"/>
+    </activity>
 
-        <activity
-            android:name=".ui.activities.LocationActivity"
-            android:configChanges="orientation"
-            android:label="@string/title_activity_localizacao"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
-        </activity>
+    <activity
+        android:name=".ui.activities.LoginActivity"
+        android:configChanges="orientation"
+        android:label="@string/title_activity_formulario"
+        android:screenOrientation="portrait">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".ui.activities.MainActivity"/>
+    </activity>
 
-        <activity
-            android:name=".ui.activities.LoginActivity"
-            android:configChanges="orientation"
-            android:label="@string/title_activity_formulario"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
-        </activity>
+    <activity
+        android:name=".ui.activities.ConfigurationActivity"
+        android:label="@string/title_activity_configuracao"
+        android:parentActivityName=".ui.activities.MainActivity"
+        android:screenOrientation="portrait">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".ui.activities.MainActivity"/>
+    </activity>
 
-        <activity
-            android:name=".ui.activities.ConfigurationActivity"
-            android:label="@string/title_activity_configuracao"
-            android:parentActivityName=".ui.activities.MainActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
-        </activity>
+    <activity
+        android:name=".ui.activities.MapaActivity"
+        android:label="@string/title_activity_mapa"
+        android:parentActivityName=".ui.activities.LocationActivity"
+        android:screenOrientation="portrait">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".ui.activities.LocationActivity"/>
+    </activity>
 
-        <activity
-            android:name=".ui.activities.MapaActivity"
-            android:label="@string/title_activity_mapa"
-            android:parentActivityName=".ui.activities.LocationActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.LocationActivity" />
-        </activity>
+    <activity
+        android:name=".ui.activities.LocatorActivity"
+        android:configChanges="orientation"
+        android:screenOrientation="portrait"/>
 
-        <activity
-            android:name=".ui.activities.LocatorActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait" />
+    <activity
+        android:name="com.mopub.mobileads.MoPubActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity
-            android:name="com.mopub.mobileads.MoPubActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+    <activity
+        android:name="com.mopub.mobileads.MraidActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity
-            android:name="com.mopub.mobileads.MraidActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+    <activity
+        android:name="com.mopub.common.MoPubBrowser"
+        android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity
-            android:name="com.mopub.common.MoPubBrowser"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+    <activity
+        android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity
-            android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+    <service
+        android:name=".services.MyInstanceIDListenerService"
+        android:exported="false">
+      <intent-filter>
+        <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+      </intent-filter>
+    </service>
 
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+    <service
+        android:name=".services.MyFcmListenerService">
+      <intent-filter>
+        <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+      </intent-filter>
+    </service>
 
-                <category android:name="br.com.fgr.emergencia" />
-            </intent-filter>
-        </receiver>
 
-        <!-- [START gcm_listener] -->
-        <service
-            android:name=".services.GcmIntentService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <!-- [END gcm_listener] -->
+    <service
+        android:name=".services.RegistrationIntentService"
+        android:exported="false"/>
 
-        <!-- [START instanceId_listener] -->
-        <service
-            android:name=".services.MyInstanceIDListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
-            </intent-filter>
-        </service>
-        <!-- [END instanceId_listener] -->
-
-        <service
-            android:name=".services.RegistrationIntentService"
-            android:exported="false" />
-
-    </application>
+  </application>
 
 </manifest>

@@ -1,8 +1,7 @@
 package br.com.fgr.emergencia.models.distancematrix;
 
-import java.util.List;
-
 import br.com.fgr.emergencia.models.general.Coordenada;
+import java.util.List;
 
 public class DistanceMatrixRequest {
 
@@ -30,15 +29,12 @@ public class DistanceMatrixRequest {
             sb.append(",");
             sb.append(c.getLgn());
             sb.append("|");
-
         }
 
         return sb.toString();
-
     }
 
     public String getModo() {
         return modo;
     }
-
 }

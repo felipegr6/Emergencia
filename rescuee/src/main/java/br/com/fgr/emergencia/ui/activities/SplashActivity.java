@@ -12,15 +12,13 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.services.RegistrationIntentService;
 import br.com.fgr.emergencia.utils.Helper;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -29,13 +27,11 @@ public class SplashActivity extends AppCompatActivity {
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
-    @Bind(R.id.progress)
-    ProgressBar mRegistrationProgressBar;
+    @Bind(R.id.progress) ProgressBar mRegistrationProgressBar;
 
     private boolean isReceiverRegistered;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
@@ -49,13 +45,11 @@ public class SplashActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.vermelho_rescuee));
-
         }
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
 
-            @Override
-            public void onReceive(Context context, Intent intent) {
+            @Override public void onReceive(Context context, Intent intent) {
 
                 mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
 
@@ -63,9 +57,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 startActivity(mainIntent);
                 finish();
-
             }
-
         };
 
         // Registering BroadcastReceiver
@@ -76,40 +68,33 @@ public class SplashActivity extends AppCompatActivity {
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
-
         }
-
     }
 
-    @Override
-    protected void onResume() {
+    @Override protected void onResume() {
 
         super.onResume();
 
         registerReceiver();
-
     }
 
-    @Override
-    protected void onPause() {
+    @Override protected void onPause() {
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         isReceiverRegistered = false;
 
         super.onPause();
-
     }
 
     private void registerReceiver() {
 
         if (!isReceiverRegistered) {
 
-            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+            LocalBroadcastManager.getInstance(this)
+                .registerReceiver(mRegistrationBroadcastReceiver,
                     new IntentFilter(Helper.REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
-
         }
-
     }
 
     /**
@@ -126,20 +111,16 @@ public class SplashActivity extends AppCompatActivity {
 
             if (apiAvailability.isUserResolvableError(resultCode)) {
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
+                    .show();
             } else {
 
                 Log.i(TAG, "This device is not supported.");
                 finish();
-
             }
 
             return false;
-
         }
 
         return true;
-
     }
-
 }

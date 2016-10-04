@@ -69,5 +69,4 @@ public class Usuario {
     public void setLocalizacao(Coordenada localizacao) {
         this.localizacao = localizacao;
     }
-
 }

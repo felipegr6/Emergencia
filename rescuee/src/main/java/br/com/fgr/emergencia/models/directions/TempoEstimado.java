@@ -17,5 +17,4 @@ public class TempoEstimado {
     public String getTimezone() {
         return timezone;
     }
-
 }

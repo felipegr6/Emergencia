@@ -1,43 +1,43 @@
 <resources>
 
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+  <style name="AppBaseTheme" parent="android:Theme.Light">
 
-    </style>
+  </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+  <style name="AppTheme" parent="Theme.AppCompat">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
 
-    <style name="FullScreen" parent="@style/Theme.AppCompat">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
+  <style name="FullScreen" parent="@style/Theme.AppCompat">
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+  </style>
 
-    <style name="spinnerItemStyle" parent="Widget.AppCompat.TextView.SpinnerItem" />
+  <style name="spinnerItemStyle" parent="Widget.AppCompat.TextView.SpinnerItem"/>
 
-    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+  <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
 
-    </style>
+  </style>
 
-    <style name="Theme.AppCompat.Translucent">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@color/activity_translucent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation</item>
-    </style>
+  <style name="Theme.AppCompat.Translucent">
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowBackground">@color/activity_translucent</item>
+    <item name="android:colorBackgroundCacheHint">@null</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowAnimationStyle">@android:style/Animation</item>
+  </style>
 
-    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <!--<item name="tabIndicatorColor">@android:color/transparent</item>-->
-        <!--<item name="android:layout_alignParentBottom">true</item>-->
-    </style>
+  <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <!--<item name="tabIndicatorColor">@android:color/transparent</item>-->
+    <!--<item name="android:layout_alignParentBottom">true</item>-->
+  </style>
 
 </resources>

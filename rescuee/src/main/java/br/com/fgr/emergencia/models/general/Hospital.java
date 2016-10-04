@@ -17,8 +17,8 @@ public class Hospital implements Comparable<Hospital> {
 
     }
 
-    public Hospital(String nome, String distancia, String tempo,
-                    long valorTempo, Coordenada coord, double espera) {
+    public Hospital(String nome, String distancia, String tempo, long valorTempo, Coordenada coord,
+        double espera) {
 
         this.nome = nome;
         this.distancia = distancia;
@@ -26,7 +26,6 @@ public class Hospital implements Comparable<Hospital> {
         this.valorTempo = valorTempo;
         this.localizacao = coord;
         this.espera = espera;
-
     }
 
     public int getId() {
@@ -109,21 +108,16 @@ public class Hospital implements Comparable<Hospital> {
         this.valorDistancia = valorDistancia;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return this.nome + " a " + this.distancia + " em " + this.tempo;
     }
 
-    @Override
-    public int compareTo(Hospital another) {
+    @Override public int compareTo(Hospital another) {
 
-        if (this.valorTempo < another.valorTempo)
+        if (this.valorTempo < another.valorTempo) {
             return -1;
-        else if (this.valorTempo > another.valorTempo)
-            return 1;
+        } else if (this.valorTempo > another.valorTempo) return 1;
 
         return 0;
-
     }
-
 }

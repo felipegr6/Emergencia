@@ -1,10 +1,9 @@
 package br.com.fgr.emergencia.services;
 
 import android.content.Intent;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
-import com.google.android.gms.iid.InstanceIDListenerService;
-
-public class MyInstanceIDListenerService extends InstanceIDListenerService {
+public class MyInstanceIDListenerService extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyInstanceIDLS";
 
@@ -14,14 +13,11 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
      * InstanceID provider.
      */
     // [START refresh_token]
-    @Override
-    public void onTokenRefresh() {
+    @Override public void onTokenRefresh() {
 
         // Fetch updated Instance ID token and notify our app's server of any changes (if applicable).
         Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
-
     }
     // [END refresh_token]
-
 }

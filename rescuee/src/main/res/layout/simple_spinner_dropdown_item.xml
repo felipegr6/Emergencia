@@ -8,4 +8,5 @@
     android:padding="17dp"
     android:singleLine="true"
     android:textColor="@color/branco"
-    android:textSize="20sp" />
+    android:textSize="20sp"
+    />

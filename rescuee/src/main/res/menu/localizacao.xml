@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activities.LocationActivity">
 
-    <item
-        android:id="@+id/action_filter"
-        android:icon="@drawable/ic_filter_list_white_48dp"
-        android:orderInCategory="1"
-        android:title="@string/menu_filtrar_lista"
-        app:showAsAction="always" />
+  <item
+      android:id="@+id/action_filter"
+      android:icon="@drawable/ic_filter_list_white_48dp"
+      android:orderInCategory="1"
+      android:title="@string/menu_filtrar_lista"
+      app:showAsAction="always"/>
 
 </menu>

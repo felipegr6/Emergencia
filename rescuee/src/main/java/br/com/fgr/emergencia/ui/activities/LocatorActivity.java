@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.adapters.ViewPagerAdapter;
 import br.com.fgr.emergencia.ui.fragments.ListaHospitaisFragment;
@@ -13,35 +12,27 @@ import butterknife.Bind;
 
 public class LocatorActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.tabs)
-    TabLayout tabLayout;
-    @Bind(R.id.viewpager)
-    ViewPager viewPager;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.tabs) TabLayout tabLayout;
+    @Bind(R.id.viewpager) ViewPager viewPager;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
-    @Override
-    public boolean isMainActivity() {
+    @Override public boolean isMainActivity() {
         return false;
     }
 
-    @Override
-    protected int getLayoutResource() {
+    @Override protected int getLayoutResource() {
         return R.layout.activity_localizador;
     }
 
-    @Override
-    protected Toolbar getToolbar() {
+    @Override protected Toolbar getToolbar() {
         return toolbar;
     }
 
@@ -52,7 +43,5 @@ public class LocatorActivity extends BaseActivity {
         adapter.addFragment(ListaHospitaisFragment.newInstance(-23.5489147, -46.6352202), "Lista");
         adapter.addFragment(RadarFragment.newInstance(), "Radar");
         viewPager.setAdapter(adapter);
-
     }
-
 }

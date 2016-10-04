@@ -3,22 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/vermelho_rescuee"
-    tools:context=".ui.activities.SplashActivity">
+    tools:context=".ui.activities.SplashActivity"
+    >
 
-    <ImageView
-        android:id="@+id/img_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/splash_description"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_splash" />
+  <ImageView
+      android:id="@+id/img_logo"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:contentDescription="@string/splash_description"
+      android:scaleType="centerCrop"
+      android:src="@drawable/bg_splash"
+      />
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+  <ProgressBar
+      android:id="@+id/progress"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_centerHorizontal="true"
+      />
 
 </RelativeLayout>

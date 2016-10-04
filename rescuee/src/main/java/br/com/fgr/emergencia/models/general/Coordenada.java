@@ -4,10 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Coordenada {
 
-    @SerializedName("lat")
-    private double lat;
-    @SerializedName("lng")
-    private double lng;
+    @SerializedName("lat") private double lat;
+    @SerializedName("lng") private double lng;
 
     public Coordenada() {
 
@@ -17,7 +15,6 @@ public class Coordenada {
 
         this.lat = lat;
         this.lng = lng;
-
     }
 
     public double getLat() {
@@ -39,5 +36,4 @@ public class Coordenada {
     public String toString() {
         return lat + "," + lng;
     }
-
 }
