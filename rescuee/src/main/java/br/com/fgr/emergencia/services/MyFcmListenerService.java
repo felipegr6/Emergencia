@@ -20,7 +20,6 @@ public class MyFcmListenerService extends FirebaseMessagingService {
     private static final String TAG = "MyFcmListenerService";
 
     @Override public void onMessageReceived(RemoteMessage remoteMessage) {
-
         Log.w(TAG, "Chegou aqui.");
 
         String title = remoteMessage.getData().get("titulo");

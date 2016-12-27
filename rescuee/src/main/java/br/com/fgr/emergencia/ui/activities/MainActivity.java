@@ -28,7 +28,6 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
     @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         moPubView.setAdUnitId(MOPUB_BANNER_AD_UNIT_ID);
@@ -41,18 +40,15 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.main, menu);
 
         return true;
     }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
-
         Intent intent;
 
         switch (item.getItemId()) {
-
             case R.id.action_configuration:
                 intent = new Intent(MainActivity.this, ConfigurationActivity.class);
                 startActivity(intent);
@@ -63,7 +59,6 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
     }
 
     @Override protected void onDestroy() {
-
         moPubView.destroy();
         super.onDestroy();
     }
@@ -101,7 +96,6 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
     }
 
     private void saveBannerStats(ErrorBannerEnum tipoBannerErro) {
-
         ParseObject banner = new ParseObject("BannerExibhition");
 
         banner.put("tipoBanner", tipoBannerErro.getErrorBannerType());
@@ -110,11 +104,8 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
     @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
         @NonNull int[] grantResults) {
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         switch (requestCode) {
-
             case 16:
                 if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

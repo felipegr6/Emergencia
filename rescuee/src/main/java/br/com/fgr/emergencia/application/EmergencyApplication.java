@@ -1,12 +1,12 @@
 package br.com.fgr.emergencia.application;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import br.com.fgr.emergencia.BuildConfig;
 import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import io.fabric.sdk.android.Fabric;
 
-public class EmergencyApplication extends Application {
+public class EmergencyApplication extends MultiDexApplication {
 
     @Override public void onCreate() {
 
