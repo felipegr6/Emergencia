@@ -6,11 +6,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import br.com.fgr.emergencia.utils.Helper;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import java.util.List;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -21,7 +18,6 @@ public class RegistrationIntentService extends IntentService {
     }
 
     @Override protected void onHandleIntent(Intent intent) {
-
         try {
 
             String token = FirebaseInstanceId.getInstance().getToken();
@@ -53,25 +49,19 @@ public class RegistrationIntentService extends IntentService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(final String token) {
-
         // Add custom implementation, as needed.
         Log.e("token", token);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Usuario");
         query.whereEqualTo("regId", token);
 
-        query.findInBackground(new FindCallback<ParseObject>() {
+        query.findInBackground((list, e) -> {
+            if (list.isEmpty()) {
+                ParseObject usuario = new ParseObject("Usuario");
 
-            @Override public void done(List<ParseObject> list, ParseException e) {
-
-                if (list.isEmpty()) {
-
-                    ParseObject usuario = new ParseObject("Usuario");
-
-                    usuario.put("email", "");
-                    usuario.put("senha", "");
-                    usuario.put("regId", token);
-                    usuario.saveInBackground();
-                }
+                usuario.put("email", "");
+                usuario.put("senha", "");
+                usuario.put("regId", token);
+                usuario.saveInBackground();
             }
         });
     }

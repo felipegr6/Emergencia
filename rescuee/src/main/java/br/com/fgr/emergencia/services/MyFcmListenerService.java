@@ -29,7 +29,6 @@ public class MyFcmListenerService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String title, String msg) {
-
         NotificationManager mNotificationManager =
             (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 

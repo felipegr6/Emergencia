@@ -57,7 +57,7 @@ public class RadarView extends View implements Runnable {
         for (Coordenada c : coordenadas) {
 
             int novoX = (int) (centerX + radius * c.getLat());
-            int novoY = (int) (centerY + radius * c.getLgn());
+            int novoY = (int) (centerY + radius * c.getLng());
 
             if (verificarAlinhamento(centerX, centerY, endPointX, endPointY, novoX, novoY)) {
                 canvas.drawCircle(novoX, novoY, 20, pontoAcionado);

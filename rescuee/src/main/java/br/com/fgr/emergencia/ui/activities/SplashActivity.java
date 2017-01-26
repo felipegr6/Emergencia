@@ -15,7 +15,8 @@ import android.widget.ProgressBar;
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.services.RegistrationIntentService;
 import br.com.fgr.emergencia.utils.Helper;
-import butterknife.Bind;
+import br.com.fgr.emergencia.utils.SyncDatabase;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -27,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
-    @Bind(R.id.progress) ProgressBar mRegistrationProgressBar;
+    @BindView(R.id.progress) ProgressBar mRegistrationProgressBar;
 
     private boolean isReceiverRegistered;
 
@@ -38,8 +39,9 @@ public class SplashActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        new SyncDatabase().sync();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
 
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -60,11 +62,9 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
 
-        // Registering BroadcastReceiver
         registerReceiver();
 
         if (checkPlayServices()) {
-
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
@@ -72,7 +72,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     @Override protected void onResume() {
-
         super.onResume();
 
         registerReceiver();
@@ -103,12 +102,10 @@ public class SplashActivity extends AppCompatActivity {
      * the Google Play Store or enable it in the device's system settings.
      */
     private boolean checkPlayServices() {
-
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
 
         if (resultCode != ConnectionResult.SUCCESS) {
-
             if (apiAvailability.isUserResolvableError(resultCode)) {
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
                     .show();

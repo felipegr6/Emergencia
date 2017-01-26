@@ -4,20 +4,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import br.com.fgr.emergencia.R;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    private Unbinder unbinder;
 
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
 
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         if (getToolbar() != null) {
 
@@ -28,17 +29,11 @@ public abstract class BaseActivity extends AppCompatActivity {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setHomeButtonEnabled(true);
 
-                getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-
-                    @Override public void onClick(View v) {
-                        onBackPressed();
-                    }
-                });
+                getToolbar().setNavigationOnClickListener(v -> onBackPressed());
             }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
             Window window = this.getWindow();
 
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -48,8 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override protected void onDestroy() {
-
-        ButterKnife.unbind(this);
+        unbinder.unbind();
 
         super.onDestroy();
     }

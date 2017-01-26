@@ -1,18 +1,17 @@
 package br.com.fgr.emergencia.models.general;
 
-import com.google.gson.annotations.SerializedName;
+import io.realm.RealmModel;
+import io.realm.annotations.RealmClass;
 
-public class Coordenada {
+@RealmClass public class Coordenada implements RealmModel {
 
-    @SerializedName("lat") private double lat;
-    @SerializedName("lng") private double lng;
+    private double lat;
+    private double lng;
 
     public Coordenada() {
-
     }
 
     public Coordenada(double lat, double lng) {
-
         this.lat = lat;
         this.lng = lng;
     }
@@ -25,11 +24,11 @@ public class Coordenada {
         this.lat = lat;
     }
 
-    public double getLgn() {
+    public double getLng() {
         return lng;
     }
 
-    public void setLgn(double lng) {
+    public void setLng(double lng) {
         this.lng = lng;
     }
 

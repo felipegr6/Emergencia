@@ -1,8 +1,12 @@
 package br.com.fgr.emergencia.models.general;
 
-public class Hospital implements Comparable<Hospital> {
+import io.realm.RealmModel;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
-    private int id;
+@RealmClass public class Hospital implements RealmModel, Comparable<Hospital> {
+
+    @PrimaryKey private String objectId;
     private String nome;
     private String endereco;
     private String distancia;
@@ -14,42 +18,29 @@ public class Hospital implements Comparable<Hospital> {
     private double espera;
 
     public Hospital() {
-
     }
 
-    public Hospital(String nome, String distancia, String tempo, long valorTempo, Coordenada coord,
+    public Hospital(String objectId, String nome, String endereco, String distancia,
+        long valorDistancia, long telefone, Coordenada localizacao, String tempo, long valorTempo,
         double espera) {
-
+        this.objectId = objectId;
         this.nome = nome;
+        this.endereco = endereco;
         this.distancia = distancia;
+        this.valorDistancia = valorDistancia;
+        this.telefone = telefone;
+        this.localizacao = localizacao;
         this.tempo = tempo;
         this.valorTempo = valorTempo;
-        this.localizacao = coord;
         this.espera = espera;
     }
 
-    public int getId() {
-        return id;
+    public String getObjectId() {
+        return objectId;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public long getValorTempo() {
-        return valorTempo;
-    }
-
-    public void setValorTempo(long valorTempo) {
-        this.valorTempo = valorTempo;
-    }
-
-    public double getEspera() {
-        return espera;
-    }
-
-    public void setEspera(long espera) {
-        this.espera = espera;
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public String getNome() {
@@ -68,6 +59,22 @@ public class Hospital implements Comparable<Hospital> {
         this.endereco = endereco;
     }
 
+    public String getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(String distancia) {
+        this.distancia = distancia;
+    }
+
+    public long getValorDistancia() {
+        return valorDistancia;
+    }
+
+    public void setValorDistancia(long valorDistancia) {
+        this.valorDistancia = valorDistancia;
+    }
+
     public long getTelefone() {
         return telefone;
     }
@@ -84,14 +91,6 @@ public class Hospital implements Comparable<Hospital> {
         this.localizacao = localizacao;
     }
 
-    public String getDistancia() {
-        return distancia;
-    }
-
-    public void setDistancia(String distancia) {
-        this.distancia = distancia;
-    }
-
     public String getTempo() {
         return tempo;
     }
@@ -100,12 +99,20 @@ public class Hospital implements Comparable<Hospital> {
         this.tempo = tempo;
     }
 
-    public long getValorDistancia() {
-        return valorDistancia;
+    public long getValorTempo() {
+        return valorTempo;
     }
 
-    public void setValorDistancia(long valorDistancia) {
-        this.valorDistancia = valorDistancia;
+    public void setValorTempo(long valorTempo) {
+        this.valorTempo = valorTempo;
+    }
+
+    public double getEspera() {
+        return espera;
+    }
+
+    public void setEspera(double espera) {
+        this.espera = espera;
     }
 
     @Override public String toString() {
@@ -113,7 +120,6 @@ public class Hospital implements Comparable<Hospital> {
     }
 
     @Override public int compareTo(Hospital another) {
-
         if (this.valorTempo < another.valorTempo) {
             return -1;
         } else if (this.valorTempo > another.valorTempo) return 1;

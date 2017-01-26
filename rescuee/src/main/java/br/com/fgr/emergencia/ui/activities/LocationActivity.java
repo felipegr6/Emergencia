@@ -18,7 +18,7 @@ import android.view.WindowManager;
 import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.fragments.ListaHospitaisFragment;
 import br.com.fgr.emergencia.utils.Helper;
-import butterknife.Bind;
+import butterknife.BindView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,7 +34,7 @@ public class LocationActivity extends BaseActivity
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     private boolean pesquisado;
 
@@ -61,14 +61,12 @@ public class LocationActivity extends BaseActivity
     }
 
     @Override protected void onStart() {
-
         super.onStart();
 
         if (mGoogleApiClient != null) mGoogleApiClient.connect();
     }
 
     @Override protected void onResume() {
-
         super.onResume();
 
         checkPlayServices();
@@ -131,12 +129,10 @@ public class LocationActivity extends BaseActivity
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
 
         if (resultCode != ConnectionResult.SUCCESS) {
-
             if (apiAvailability.isUserResolvableError(resultCode)) {
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
                     .show();
             } else {
-
                 Log.i(TAG, "This device is not supported.");
                 finish();
             }
@@ -148,7 +144,6 @@ public class LocationActivity extends BaseActivity
     }
 
     protected synchronized void buildGoogleApiClient() {
-
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
             .addOnConnectionFailedListener(this)
             .addApi(LocationServices.API)
@@ -156,14 +151,12 @@ public class LocationActivity extends BaseActivity
     }
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == Helper.REQ_FILTRO_CODE && resultCode == RESULT_OK) recreate();
     }
 
     private void listarHospitais() {
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
             || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -186,15 +179,6 @@ public class LocationActivity extends BaseActivity
             }
 
             ft.commit();
-
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
         } else {
             finish();
         }

@@ -24,12 +24,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.ArrayList;
 import java.util.List;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MapaActivity extends AppCompatActivity implements OnMapReadyCallback {
-
     public static final String LAT_ORIGEM = "latitude_origem";
     public static final String LGN_ORIGEM = "longitude_origem";
     public static final String LAT_DESTINO = "latitude_destino";
@@ -86,36 +85,40 @@ public class MapaActivity extends AppCompatActivity implements OnMapReadyCallbac
                 new Coordenada(mLatitudeDestino, mLongitudeDestino));
 
         GoogleServices repo =
-            ServiceGenerator.createService(GoogleServices.class, Helper.URL_GOOGLE_BASE);
+            ServiceGenerator.createService(this, GoogleServices.class, Helper.URL_GOOGLE_BASE);
 
         repo.directions(request.getOrigem(), request.getDestino(), "pt-BR", true,
-            Helper.getConfiguracoes(this).getMode(), new Callback<DirectionResponse>() {
-
-                @Override public void success(DirectionResponse dResp, Response response) {
-
-                    List<Etapa> etapas = dResp.getRota().get(0).getTrechos().get(0).getEtapas();
+            Helper.getConfiguracoes(this).getMode()).enqueue(new Callback<DirectionResponse>() {
+            @Override public void onResponse(Call<DirectionResponse> call,
+                Response<DirectionResponse> response) {
+                if (response.isSuccessful()) {
+                    List<Etapa> etapas =
+                        response.body().getRota().get(0).getTrechos().get(0).getEtapas();
                     List<LatLng> coordIniciais = new ArrayList<>();
 
                     for (Etapa e : etapas) {
-
                         Coordenada c1 = e.getLocalidadeInicial();
                         Coordenada c2 = e.getLocalidadeFinal();
 
-                        coordIniciais.add(new LatLng(c1.getLat(), c1.getLgn()));
-                        coordIniciais.add(new LatLng(c2.getLat(), c2.getLgn()));
+                        coordIniciais.add(new LatLng(c1.getLat(), c1.getLng()));
+                        coordIniciais.add(new LatLng(c2.getLat(), c2.getLng()));
                     }
 
                     googleMap.addPolyline(new PolylineOptions().color(0xFFB71C1C)
                         .geodesic(true)
                         .addAll(coordIniciais));
-                }
-
-                @Override public void failure(RetrofitError error) {
-
+                } else {
                     Toast.makeText(MapaActivity.this, getString(R.string.erro_comum),
                         Toast.LENGTH_SHORT).show();
-                    Log.e("MapaActivity", error.getMessage() + "");
+                    Log.e("MapaActivity", "Erro");
                 }
-            });
+            }
+
+            @Override public void onFailure(Call<DirectionResponse> call, Throwable t) {
+                Toast.makeText(MapaActivity.this, getString(R.string.erro_comum),
+                    Toast.LENGTH_SHORT).show();
+                Log.e("MapaActivity", "Error", t);
+            }
+        });
     }
 }

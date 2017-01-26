@@ -24,7 +24,6 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
 
     public HospitalAdapter(Context context, Coordenada coorUsuario, List<Hospital> hospitais,
         int rowLayout) {
-
         this.context = context;
         this.coordUsuario = coorUsuario;
         this.hospitais = hospitais;
@@ -32,54 +31,42 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
     }
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(rowLayout, viewGroup, false);
 
         return new ViewHolder(v);
     }
 
     @Override public void onBindViewHolder(ViewHolder viewHolder, int i) {
-
         final Hospital hospital = hospitais.get(i);
 
         viewHolder.getNome().setText(hospital.getNome());
         viewHolder.getDistancia().setText(hospital.getDistancia());
         viewHolder.getTempo().setText(hospital.getTempo());
-        viewHolder.getBtnMapa().setOnClickListener(new View.OnClickListener() {
+        viewHolder.getBtnMapa().setOnClickListener(v -> {
+            Intent intent = new Intent(context, MapaActivity.class);
 
-            @Override public void onClick(View v) {
+            intent.putExtra(MapaActivity.LAT_ORIGEM, coordUsuario.getLat());
+            intent.putExtra(MapaActivity.LGN_ORIGEM, coordUsuario.getLng());
+            intent.putExtra(MapaActivity.LAT_DESTINO, hospital.getLocalizacao().getLat());
+            intent.putExtra(MapaActivity.LGN_DESTINO, hospital.getLocalizacao().getLng());
 
-                Intent intent = new Intent(context, MapaActivity.class);
-
-                intent.putExtra(MapaActivity.LAT_ORIGEM, coordUsuario.getLat());
-                intent.putExtra(MapaActivity.LGN_ORIGEM, coordUsuario.getLgn());
-                intent.putExtra(MapaActivity.LAT_DESTINO, hospital.getLocalizacao().getLat());
-                intent.putExtra(MapaActivity.LGN_DESTINO, hospital.getLocalizacao().getLgn());
-
-                context.startActivity(intent);
-            }
+            context.startActivity(intent);
         });
 
-        viewHolder.getBtnNavegacao().setOnClickListener(new View.OnClickListener() {
+        viewHolder.getBtnNavegacao().setOnClickListener(v -> {
+            try {
+                String url = "waze://?ll="
+                    + hospital.getLocalizacao().getLat()
+                    + ","
+                    + hospital.getLocalizacao().getLng()
+                    + "&navigate=yes";
 
-            @Override public void onClick(View v) {
-
-                try {
-
-                    String url = "waze://?ll="
-                        + hospital.getLocalizacao().getLat()
-                        + ","
-                        + hospital.getLocalizacao().getLgn()
-                        + "&navigate=yes";
-
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    context.startActivity(intent);
-                } catch (ActivityNotFoundException ex) {
-
-                    Intent intent =
-                        new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.waze"));
-                    context.startActivity(intent);
-                }
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                context.startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                Intent intent =
+                    new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.waze"));
+                context.startActivity(intent);
             }
         });
     }
@@ -97,7 +84,6 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         private TextView btnNavegacao;
 
         public ViewHolder(View itemView) {
-
             super(itemView);
 
             nome = (TextView) itemView.findViewById(R.id.label_nome);

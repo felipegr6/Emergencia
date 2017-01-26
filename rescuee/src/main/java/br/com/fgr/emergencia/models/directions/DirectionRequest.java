@@ -14,10 +14,10 @@ public class DirectionRequest {
     }
 
     public String getOrigem() {
-        return origem.getLat() + "," + origem.getLgn();
+        return origem.getLat() + "," + origem.getLng();
     }
 
     public String getDestino() {
-        return destino.getLat() + "," + destino.getLgn();
+        return destino.getLat() + "," + destino.getLng();
     }
 }

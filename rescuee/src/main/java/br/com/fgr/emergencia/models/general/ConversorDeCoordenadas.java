@@ -25,7 +25,7 @@ public class ConversorDeCoordenadas {
         for (Coordenada c : coordenadas) {
 
             double xPadronizado = zoom * (coordenadaCentral.getLat() - c.getLat());
-            double yPadronizado = zoom * (coordenadaCentral.getLgn() - c.getLgn());
+            double yPadronizado = zoom * (coordenadaCentral.getLng() - c.getLng());
 
             novasCoordenadas.add(new Coordenada(xPadronizado, yPadronizado));
         }

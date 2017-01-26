@@ -18,9 +18,7 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 public class MainFragment extends BaseFragment {
-
     public static Fragment newInstance() {
-
         return new MainFragment();
     }
 
@@ -39,7 +37,6 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override public void onResume() {
-
         super.onResume();
 
         EventBus.getDefault().registerSticky(this);
@@ -53,9 +50,7 @@ public class MainFragment extends BaseFragment {
     }
 
     @SuppressWarnings("unused") @OnClick(R.id.button_emergencia) public void searchHospitals() {
-
         if (Helper.isOnline(getActivity()) && hasAnyLocationPermission()) {
-
             Intent intent = new Intent(getActivity(), LocationActivity.class);
             startActivity(intent);
         } else if (!hasAnyLocationPermission()) {
@@ -83,7 +78,6 @@ public class MainFragment extends BaseFragment {
     }
 
     @SuppressWarnings("unused") public void onEvent(PermissionEvent event) {
-
         Intent intent = new Intent(getActivity(), LocationActivity.class);
         startActivity(intent);
     }

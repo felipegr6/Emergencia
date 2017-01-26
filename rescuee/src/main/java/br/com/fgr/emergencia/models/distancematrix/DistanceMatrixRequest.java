@@ -16,7 +16,7 @@ public class DistanceMatrixRequest {
     }
 
     public String getOrigem() {
-        return origem.getLat() + "," + origem.getLgn();
+        return origem.getLat() + "," + origem.getLng();
     }
 
     public String getDestinos() {
@@ -27,7 +27,7 @@ public class DistanceMatrixRequest {
 
             sb.append(c.getLat());
             sb.append(",");
-            sb.append(c.getLgn());
+            sb.append(c.getLng());
             sb.append("|");
         }
 

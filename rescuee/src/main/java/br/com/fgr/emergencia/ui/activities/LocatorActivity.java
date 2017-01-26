@@ -8,16 +8,15 @@ import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.ui.adapters.ViewPagerAdapter;
 import br.com.fgr.emergencia.ui.fragments.ListaHospitaisFragment;
 import br.com.fgr.emergencia.ui.fragments.RadarFragment;
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class LocatorActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.tabs) TabLayout tabLayout;
-    @Bind(R.id.viewpager) ViewPager viewPager;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.tabs) TabLayout tabLayout;
+    @BindView(R.id.viewpager) ViewPager viewPager;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         setupViewPager(viewPager);
@@ -37,7 +36,6 @@ public class LocatorActivity extends BaseActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFragment(ListaHospitaisFragment.newInstance(-23.5489147, -46.6352202), "Lista");

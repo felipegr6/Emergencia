@@ -18,7 +18,7 @@ public final class Helper {
     public static final int CONST_RAIO = 1;
     public static final int CONST_HOSPITAIS = 2;
     public static final int REQ_FILTRO_CODE = 1001;
-    public static final String URL_GOOGLE_BASE = "https://maps.googleapis.com/maps/api";
+    public static final String URL_GOOGLE_BASE = "https://maps.googleapis.com/maps/api/";
 
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
@@ -50,7 +50,6 @@ public final class Helper {
     }
 
     public static boolean isOnline(Context context) {
-
         ConnectivityManager cm =
             (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -73,7 +72,6 @@ public final class Helper {
     }
 
     public static Configuration getConfiguracoes(Context context) {
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         Configuration configuration;
 
@@ -85,7 +83,6 @@ public final class Helper {
     }
 
     public static boolean setRegistrationGCM(Context context, String registrationID) {
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         final SharedPreferences.Editor editor = preferences.edit();
@@ -147,11 +144,9 @@ public final class Helper {
     }
 
     public static String formatarInformacao(int constante, int progress, boolean isExibicao) {
-
         StringBuilder stringBuilder = new StringBuilder();
 
         switch (constante) {
-
             case CONST_RAIO:
                 stringBuilder.append((offsetRaio * progress + 1));
                 if (isExibicao) stringBuilder.append("km");

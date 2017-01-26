@@ -24,8 +24,6 @@ import br.com.fgr.emergencia.ui.adapters.HospitalAdapter;
 import br.com.fgr.emergencia.utils.GoogleServices;
 import br.com.fgr.emergencia.utils.Helper;
 import br.com.fgr.emergencia.utils.ServiceGenerator;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -33,8 +31,9 @@ import de.greenrobot.event.EventBus;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import retrofit.Callback;
-import retrofit.RetrofitError;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListaHospitaisFragment extends Fragment {
 
@@ -124,85 +123,83 @@ public class ListaHospitaisFragment extends Fragment {
         hospitaisParse.whereWithinKilometers("localizacao",
             new ParseGeoPoint(latUsuario, lgnUsuario), raioAlcance);
 
-        hospitaisParse.findInBackground(new FindCallback<ParseObject>() {
+        hospitaisParse.findInBackground((parseObjects, e) -> {
+            ParseGeoPoint geoPoint = new ParseGeoPoint(latUsuario, lgnUsuario);
+            Coordenada coordAux;
 
-            @Override public void done(List<ParseObject> parseObjects, ParseException e) {
+            if (parseObjects != null) {
+                for (ParseObject p : parseObjects) {
+                    ParseGeoPoint pontos = p.getParseGeoPoint("localizacao");
+                    String nomeHospital = p.getString("nome");
+                    Hospital hospAux = new Hospital();
 
-                ParseGeoPoint geoPoint = new ParseGeoPoint(latUsuario, lgnUsuario);
-                Coordenada coordAux;
+                    coordAux = new Coordenada(pontos.getLatitude(), pontos.getLongitude());
 
-                if (parseObjects != null) {
+                    hospAux.setLocalizacao(coordAux);
+                    hospAux.setNome(nomeHospital);
 
-                    for (ParseObject p : parseObjects) {
+                    hospitais.add(hospAux);
 
-                        ParseGeoPoint pontos = p.getParseGeoPoint("localizacao");
-                        String nomeHospital = p.getString("nome");
-                        Hospital hospAux = new Hospital();
+                    Log.w("Parse", geoPoint.distanceInKilometersTo(pontos) + " ");
+                }
 
-                        coordAux = new Coordenada(pontos.getLatitude(), pontos.getLongitude());
+                List<Coordenada> destinos = new ArrayList<>();
 
-                        hospAux.setLocalizacao(coordAux);
-                        hospAux.setNome(nomeHospital);
+                for (Hospital h : hospitais)
+                    destinos.add(h.getLocalizacao());
 
-                        hospitais.add(hospAux);
+                EventBus.getDefault()
+                    .post(new LoadListEvent(new Coordenada(latUsuario, lgnUsuario), destinos));
 
-                        Log.w("Parse", geoPoint.distanceInKilometersTo(pontos) + " ");
-                    }
+                DistanceMatrixRequest request =
+                    new DistanceMatrixRequest(new Coordenada(latitude, longitude), destinos,
+                        config.getMode());
 
-                    List<Coordenada> destinos = new ArrayList<>();
-
-                    for (Hospital h : hospitais)
-                        destinos.add(h.getLocalizacao());
-
-                    EventBus.getDefault()
-                        .post(new LoadListEvent(new Coordenada(latUsuario, lgnUsuario), destinos));
-
-                    DistanceMatrixRequest request =
-                        new DistanceMatrixRequest(new Coordenada(latitude, longitude), destinos,
-                            config.getMode());
-
-                    GoogleServices repo = ServiceGenerator.createService(GoogleServices.class,
+                GoogleServices repo =
+                    ServiceGenerator.createService(getActivity(), GoogleServices.class,
                         Helper.URL_GOOGLE_BASE);
 
-                    repo.matrix(request.getOrigem(), request.getDestinos(), request.getModo(),
-                        "pt-BR", true, new Callback<DistanceMatrixResponse>() {
+                repo.matrix(request.getOrigem(), request.getDestinos(), request.getModo(), "pt-BR",
+                    true).enqueue(new Callback<DistanceMatrixResponse>() {
+                    @Override public void onResponse(Call<DistanceMatrixResponse> call,
+                        Response<DistanceMatrixResponse> response) {
+                        if (dialogInternet.isShowing()) dialogInternet.dismiss();
+                        if (response.isSuccessful()) {
+                            popularHospitais(response.body());
 
-                            @Override public void success(DistanceMatrixResponse dResp,
-                                retrofit.client.Response response) {
+                            Collections.sort(hospitais);
 
-                                popularHospitais(dResp);
-
-                                Collections.sort(hospitais);
-
-                                if (isAdded()) {
-                                    hospitalAdapter = new HospitalAdapter(getActivity(),
-                                        new Coordenada(latUsuario, lgnUsuario), hospitais,
-                                        R.layout.row_hospital);
-                                }
-
-                                recyclerView.setAdapter(hospitalAdapter);
-
-                                if (dialogInternet.isShowing()) dialogInternet.dismiss();
+                            if (isAdded()) {
+                                hospitalAdapter = new HospitalAdapter(getActivity(),
+                                    new Coordenada(latUsuario, lgnUsuario), hospitais,
+                                    R.layout.row_hospital);
                             }
 
-                            @Override public void failure(RetrofitError error) {
+                            recyclerView.setAdapter(hospitalAdapter);
+                        } else {
+                            if (dialogInternet.isShowing()) dialogInternet.dismiss();
 
-                                if (dialogInternet.isShowing()) dialogInternet.dismiss();
+                            Toast.makeText(getActivity(),
+                                getString(R.string.nao_encontrou_hospitais), Toast.LENGTH_SHORT)
+                                .show();
+                        }
+                    }
 
-                                Toast.makeText(getActivity(),
-                                    getString(R.string.nao_encontrou_hospitais), Toast.LENGTH_SHORT)
-                                    .show();
+                    @Override
+                    public void onFailure(Call<DistanceMatrixResponse> call, Throwable t) {
+                        if (dialogInternet.isShowing()) dialogInternet.dismiss();
 
-                                Log.e("ListaHospitais", error.getMessage());
-                            }
-                        });
-                }
+                        Toast.makeText(getActivity(), getString(R.string.nao_encontrou_hospitais),
+                            Toast.LENGTH_SHORT).show();
+
+                        Log.e("ListaHospitais", "Error", t);
+                    }
+                });
             }
         });
     }
 
     private boolean popularHospitais(DistanceMatrixResponse respostas) {
-
         List<Elementos> elementos;
         boolean resposta;
 
@@ -211,15 +208,12 @@ public class ListaHospitaisFragment extends Fragment {
             elementos = respostas.getLinhas().get(0).getElementos();
 
             if (elementos.get(0).getStatus().equals("OK")) {
-
                 for (int k = 0; k < hospitais.size(); k++) {
-
                     hospitais.get(k).setDistancia(elementos.get(k).getDistancia().getTexto());
                     hospitais.get(k).setValorDistancia(elementos.get(k).getDistancia().getValor());
                     hospitais.get(k).setTempo(elementos.get(k).getDuracao().getTexto());
                     hospitais.get(k).setValorTempo(elementos.get(k).getDuracao().getValor());
                 }
-
                 resposta = true;
             } else {
                 resposta = false;
@@ -227,7 +221,6 @@ public class ListaHospitaisFragment extends Fragment {
         } else {
             resposta = false;
         }
-
         return resposta;
     }
 }

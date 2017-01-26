@@ -11,18 +11,18 @@ import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.models.general.Configuration;
 import br.com.fgr.emergencia.models.general.TransportEnum;
 import br.com.fgr.emergencia.utils.Helper;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ConfigurationActivity extends BaseActivity {
 
-    @Bind(R.id.seek_radius) SeekBar seekRadius;
-    @Bind(R.id.seek_hospitals) SeekBar seekHospitals;
-    @Bind(R.id.lbl_info_radius) TextView lblRadius;
-    @Bind(R.id.lbl_info_hospitals) TextView lblHospitals;
-    @Bind(R.id.spinner_transport) Spinner spinnerTransport;
+    @BindView(R.id.seek_radius) SeekBar seekRadius;
+    @BindView(R.id.seek_hospitals) SeekBar seekHospitals;
+    @BindView(R.id.lbl_info_radius) TextView lblRadius;
+    @BindView(R.id.lbl_info_hospitals) TextView lblHospitals;
+    @BindView(R.id.spinner_transport) Spinner spinnerTransport;
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
 
@@ -94,7 +94,6 @@ public class ConfigurationActivity extends BaseActivity {
     }
 
     @SuppressWarnings("unused") @OnClick(R.id.btn_save) public void savePreferences() {
-
         Configuration config =
             new Configuration(seekRadius.getProgress(), seekHospitals.getProgress(),
                 Helper.MAP_MEIO_TRANSPORTE.get(spinnerTransport.getSelectedItemPosition()));

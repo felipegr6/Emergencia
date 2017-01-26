@@ -14,7 +14,7 @@ import br.com.fgr.emergencia.R;
 import br.com.fgr.emergencia.models.events.PermissionEvent;
 import br.com.fgr.emergencia.models.general.ErrorBannerEnum;
 import br.com.fgr.emergencia.ui.fragments.MainFragment;
-import butterknife.Bind;
+import butterknife.BindView;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 import com.parse.ParseObject;
@@ -24,8 +24,8 @@ public class MainActivity extends BaseActivity implements MoPubView.BannerAdList
 
     private static final String MOPUB_BANNER_AD_UNIT_ID = "cfb1d11b4942442582b5ed69cf94937f";
 
-    @Bind(R.id.mopub_sample_ad) MoPubView moPubView;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.mopub_sample_ad) MoPubView moPubView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
